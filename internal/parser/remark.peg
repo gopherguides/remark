@@ -1,0 +1,31 @@
+{
+  package parser
+
+  import (
+      "fmt"
+      "unicode"
+      "io"
+  )
+}
+
+DOC <- stmts:(_ HEADER _)+ EOF {
+fmt.Println(stmts)
+  return nil, nil
+}
+
+HEADER <- "#"+ _ text:(.+ nl) {
+fmt.Println(text)
+return text, nil
+}
+
+nl "new line" ← [\r\n]* {
+  return nil, nil
+}
+
+_ "whitespace" ← [ \t]* {
+  return nil, nil
+}
+
+EOF <- !. {
+  return nil, nil
+}
