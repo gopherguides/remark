@@ -8,17 +8,19 @@
   )
 }
 
-DOC <- stmts:(_ HEADER _)+ EOF {
-fmt.Println(stmts)
-  return nil, nil
+DOC <- EOL stmts:( HEADER / PARAGRAPH )+ EOF {
+  return newNodes(c, stmts)
 }
 
-HEADER <- "#"+ _ text:(.+ nl) {
-fmt.Println(text)
-return text, nil
+HEADER <- level:("#"+) _ text:([^\n]+) EOL {
+  return newHeader(c, level, text)
 }
 
-nl "new line" ← [\r\n]* {
+PARAGRAPH <- text:([^#^ ^\t]+) EOL {
+  return newParagraph(c, text)
+}
+
+EOL ← _ [\n]* {
   return nil, nil
 }
 

@@ -23,32 +23,32 @@ var g = &grammar{
 				expr: &seqExpr{
 					pos: position{line: 11, col: 8, offset: 84},
 					exprs: []interface{}{
+						&ruleRefExpr{
+							pos:  position{line: 11, col: 8, offset: 84},
+							name: "EOL",
+						},
 						&labeledExpr{
-							pos:   position{line: 11, col: 8, offset: 84},
+							pos:   position{line: 11, col: 12, offset: 88},
 							label: "stmts",
 							expr: &oneOrMoreExpr{
-								pos: position{line: 11, col: 14, offset: 90},
-								expr: &seqExpr{
-									pos: position{line: 11, col: 15, offset: 91},
-									exprs: []interface{}{
+								pos: position{line: 11, col: 18, offset: 94},
+								expr: &choiceExpr{
+									pos: position{line: 11, col: 20, offset: 96},
+									alternatives: []interface{}{
 										&ruleRefExpr{
-											pos:  position{line: 11, col: 15, offset: 91},
-											name: "_",
-										},
-										&ruleRefExpr{
-											pos:  position{line: 11, col: 17, offset: 93},
+											pos:  position{line: 11, col: 20, offset: 96},
 											name: "HEADER",
 										},
 										&ruleRefExpr{
-											pos:  position{line: 11, col: 24, offset: 100},
-											name: "_",
+											pos:  position{line: 11, col: 29, offset: 105},
+											name: "PARAGRAPH",
 										},
 									},
 								},
 							},
 						},
 						&ruleRefExpr{
-							pos:  position{line: 11, col: 28, offset: 104},
+							pos:  position{line: 11, col: 42, offset: 118},
 							name: "EOF",
 						},
 					},
@@ -57,63 +57,105 @@ var g = &grammar{
 		},
 		{
 			name: "HEADER",
-			pos:  position{line: 16, col: 1, offset: 150},
+			pos:  position{line: 15, col: 1, offset: 155},
 			expr: &actionExpr{
-				pos: position{line: 16, col: 11, offset: 160},
+				pos: position{line: 15, col: 11, offset: 165},
 				run: (*parser).callonHEADER1,
 				expr: &seqExpr{
-					pos: position{line: 16, col: 11, offset: 160},
+					pos: position{line: 15, col: 11, offset: 165},
 					exprs: []interface{}{
-						&oneOrMoreExpr{
-							pos: position{line: 16, col: 11, offset: 160},
-							expr: &litMatcher{
-								pos:        position{line: 16, col: 11, offset: 160},
-								val:        "#",
-								ignoreCase: false,
+						&labeledExpr{
+							pos:   position{line: 15, col: 11, offset: 165},
+							label: "level",
+							expr: &oneOrMoreExpr{
+								pos: position{line: 15, col: 18, offset: 172},
+								expr: &litMatcher{
+									pos:        position{line: 15, col: 18, offset: 172},
+									val:        "#",
+									ignoreCase: false,
+								},
 							},
 						},
 						&ruleRefExpr{
-							pos:  position{line: 16, col: 16, offset: 165},
+							pos:  position{line: 15, col: 24, offset: 178},
 							name: "_",
 						},
 						&labeledExpr{
-							pos:   position{line: 16, col: 18, offset: 167},
+							pos:   position{line: 15, col: 26, offset: 180},
 							label: "text",
-							expr: &seqExpr{
-								pos: position{line: 16, col: 24, offset: 173},
-								exprs: []interface{}{
-									&oneOrMoreExpr{
-										pos: position{line: 16, col: 24, offset: 173},
-										expr: &anyMatcher{
-											line: 16, col: 24, offset: 173,
-										},
-									},
-									&ruleRefExpr{
-										pos:  position{line: 16, col: 27, offset: 176},
-										name: "nl",
-									},
+							expr: &oneOrMoreExpr{
+								pos: position{line: 15, col: 32, offset: 186},
+								expr: &charClassMatcher{
+									pos:        position{line: 15, col: 32, offset: 186},
+									val:        "[^\\n]",
+									chars:      []rune{'\n'},
+									ignoreCase: false,
+									inverted:   true,
 								},
 							},
+						},
+						&ruleRefExpr{
+							pos:  position{line: 15, col: 40, offset: 194},
+							name: "EOL",
 						},
 					},
 				},
 			},
 		},
 		{
-			name:        "nl",
-			displayName: "\"new line\"",
-			pos:         position{line: 21, col: 1, offset: 220},
+			name: "PARAGRAPH",
+			pos:  position{line: 19, col: 1, offset: 238},
 			expr: &actionExpr{
-				pos: position{line: 21, col: 17, offset: 238},
-				run: (*parser).callonnl1,
-				expr: &zeroOrMoreExpr{
-					pos: position{line: 21, col: 17, offset: 238},
-					expr: &charClassMatcher{
-						pos:        position{line: 21, col: 17, offset: 238},
-						val:        "[\\r\\n]",
-						chars:      []rune{'\r', '\n'},
-						ignoreCase: false,
-						inverted:   false,
+				pos: position{line: 19, col: 14, offset: 251},
+				run: (*parser).callonPARAGRAPH1,
+				expr: &seqExpr{
+					pos: position{line: 19, col: 14, offset: 251},
+					exprs: []interface{}{
+						&labeledExpr{
+							pos:   position{line: 19, col: 14, offset: 251},
+							label: "text",
+							expr: &oneOrMoreExpr{
+								pos: position{line: 19, col: 20, offset: 257},
+								expr: &charClassMatcher{
+									pos:        position{line: 19, col: 20, offset: 257},
+									val:        "[^#^ ^\\t]",
+									chars:      []rune{'#', '^', ' ', '^', '\t'},
+									ignoreCase: false,
+									inverted:   true,
+								},
+							},
+						},
+						&ruleRefExpr{
+							pos:  position{line: 19, col: 32, offset: 269},
+							name: "EOL",
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "EOL",
+			pos:  position{line: 23, col: 1, offset: 309},
+			expr: &actionExpr{
+				pos: position{line: 23, col: 7, offset: 317},
+				run: (*parser).callonEOL1,
+				expr: &seqExpr{
+					pos: position{line: 23, col: 7, offset: 317},
+					exprs: []interface{}{
+						&ruleRefExpr{
+							pos:  position{line: 23, col: 7, offset: 317},
+							name: "_",
+						},
+						&zeroOrMoreExpr{
+							pos: position{line: 23, col: 9, offset: 319},
+							expr: &charClassMatcher{
+								pos:        position{line: 23, col: 9, offset: 319},
+								val:        "[\\n]",
+								chars:      []rune{'\n'},
+								ignoreCase: false,
+								inverted:   false,
+							},
+						},
 					},
 				},
 			},
@@ -121,14 +163,14 @@ var g = &grammar{
 		{
 			name:        "_",
 			displayName: "\"whitespace\"",
-			pos:         position{line: 25, col: 1, offset: 269},
+			pos:         position{line: 27, col: 1, offset: 348},
 			expr: &actionExpr{
-				pos: position{line: 25, col: 18, offset: 288},
+				pos: position{line: 27, col: 18, offset: 367},
 				run: (*parser).callon_1,
 				expr: &zeroOrMoreExpr{
-					pos: position{line: 25, col: 18, offset: 288},
+					pos: position{line: 27, col: 18, offset: 367},
 					expr: &charClassMatcher{
-						pos:        position{line: 25, col: 18, offset: 288},
+						pos:        position{line: 27, col: 18, offset: 367},
 						val:        "[ \\t]",
 						chars:      []rune{' ', '\t'},
 						ignoreCase: false,
@@ -139,14 +181,14 @@ var g = &grammar{
 		},
 		{
 			name: "EOF",
-			pos:  position{line: 29, col: 1, offset: 318},
+			pos:  position{line: 31, col: 1, offset: 397},
 			expr: &actionExpr{
-				pos: position{line: 29, col: 8, offset: 325},
+				pos: position{line: 31, col: 8, offset: 404},
 				run: (*parser).callonEOF1,
 				expr: &notExpr{
-					pos: position{line: 29, col: 8, offset: 325},
+					pos: position{line: 31, col: 8, offset: 404},
 					expr: &anyMatcher{
-						line: 29, col: 9, offset: 326,
+						line: 31, col: 9, offset: 405,
 					},
 				},
 			},
@@ -155,8 +197,7 @@ var g = &grammar{
 }
 
 func (c *current) onDOC1(stmts interface{}) (interface{}, error) {
-	fmt.Println(stmts)
-	return nil, nil
+	return newNodes(c, stmts)
 }
 
 func (p *parser) callonDOC1() (interface{}, error) {
@@ -165,25 +206,34 @@ func (p *parser) callonDOC1() (interface{}, error) {
 	return p.cur.onDOC1(stack["stmts"])
 }
 
-func (c *current) onHEADER1(text interface{}) (interface{}, error) {
-	fmt.Println(text)
-	return text, nil
+func (c *current) onHEADER1(level, text interface{}) (interface{}, error) {
+	return newHeader(c, level, text)
 }
 
 func (p *parser) callonHEADER1() (interface{}, error) {
 	stack := p.vstack[len(p.vstack)-1]
 	_ = stack
-	return p.cur.onHEADER1(stack["text"])
+	return p.cur.onHEADER1(stack["level"], stack["text"])
 }
 
-func (c *current) onnl1() (interface{}, error) {
+func (c *current) onPARAGRAPH1(text interface{}) (interface{}, error) {
+	return newParagraph(c, text)
+}
+
+func (p *parser) callonPARAGRAPH1() (interface{}, error) {
+	stack := p.vstack[len(p.vstack)-1]
+	_ = stack
+	return p.cur.onPARAGRAPH1(stack["text"])
+}
+
+func (c *current) onEOL1() (interface{}, error) {
 	return nil, nil
 }
 
-func (p *parser) callonnl1() (interface{}, error) {
+func (p *parser) callonEOL1() (interface{}, error) {
 	stack := p.vstack[len(p.vstack)-1]
 	_ = stack
-	return p.cur.onnl1()
+	return p.cur.onEOL1()
 }
 
 func (c *current) on_1() (interface{}, error) {
