@@ -8,16 +8,31 @@
   )
 }
 
-DOC <- EOL stmts:( HEADER / PARAGRAPH )+ EOF {
+DOC <- EOL stmts:(HEADER / HR)+ EOF {
   return newNodes(c, stmts)
 }
 
-HEADER <- level:("#"+) _ text:([^\n]+) EOL {
-  return newHeader(c, level, text)
+HEADER <- level:( "#"+ ) text:( PARAGRAPH ) EOL ps:(PARAGRAPH )* {
+  return newHeader(c, level, text, ps)
 }
 
-PARAGRAPH <- text:([^#^ ^\t]+) EOL {
-  return newParagraph(c, text)
+PARAGRAPH <- !( HEADER / HR ) stmts:( BOLD / TEXT)+ EOL{
+return newParagraph(c, stmts)
+}
+
+
+BOLD <-  "**" [^\n]+ "**"  {
+fmt.Println(c)
+return newString(c), nil
+}
+
+/* TEXT <- [^\n]+ !BOLD { */
+TEXT <- [^\n]+  {
+return newString(c), nil
+}
+
+HR <- ( "---" / "- - -" / "___") EOL? {
+return newHR(c)
 }
 
 EOL ← _ [\n]* {

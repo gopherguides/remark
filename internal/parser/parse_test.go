@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/gopherguides/remark/ast"
@@ -11,7 +12,7 @@ func Test_Parser(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
 
-	res, err := Parse("", []byte(example))
+	res, err := ParseFile("./example.md")
 	r.NoError(err)
 	r.NotNil(res)
 
@@ -21,28 +22,38 @@ func Test_Parser(t *testing.T) {
 
 	h, ok := nodes[0].(*ast.Header)
 	r.True(ok)
-	r.Equal("Header One", h.Text)
+	r.Equal("Header One\n", h.Text.String())
 	r.Equal(1, h.Level)
-	r.Equal("# Header One", h.String())
+	r.Len(h.Nodes, 2)
 
-	h, ok = nodes[1].(*ast.Header)
+	p, ok := h.Nodes[0].(*ast.Paragraph)
 	r.True(ok)
-	r.Equal("Header Two", h.Text)
+	r.Contains(p.Nodes.String(), "Since its inception")
+
+	p, ok = h.Nodes[1].(*ast.Paragraph)
+	r.True(ok)
+	r.Contains(p.Nodes.String(), "EDM")
+
+	hr, ok := nodes[1].(*ast.HR)
+	r.True(ok)
+	r.Equal("---", hr.Text)
+
+	h, ok = nodes[2].(*ast.Header)
+	r.True(ok)
+	r.Equal("Header Two\n", h.Text.String())
 	r.Equal(2, h.Level)
-	r.Equal("## Header Two", h.String())
+	r.Len(h.Nodes, 1)
+
+	p, ok = h.Nodes[0].(*ast.Paragraph)
+	r.True(ok)
+	r.Contains(p.Nodes.String(), "concurrent proximate events")
 
 	h, ok = nodes[3].(*ast.Header)
 	r.True(ok)
-	r.Equal("Header 3hree", h.Text)
+	r.Equal("Header 3hree\n", h.Text.String())
 	r.Equal(3, h.Level)
-	r.Equal("### Header 3hree", h.String())
+	r.Len(h.Nodes, 1)
+
+	fmt.Println("nodes", nodes)
+	r.True(false)
 }
-
-const example = `
-# Header One
-
-## Header Two
-
-asdfasdf
-
-### Header 3hree `

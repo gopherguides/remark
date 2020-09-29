@@ -1,9 +1,9 @@
 package ast
 
 type Paragraph struct {
-	Text string
+	Nodes Nodes
 }
 
 func (p Paragraph) String() string {
-	return p.Text
+	return p.Nodes.String() + "\n"
 }

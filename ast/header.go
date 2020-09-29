@@ -6,8 +6,9 @@ import (
 )
 
 type Header struct {
-	Text  string
+	Text  *Paragraph
 	Level int
+	Nodes Nodes
 }
 
 func (h Header) String() string {
@@ -16,5 +17,11 @@ func (h Header) String() string {
 		b.WriteString("#")
 	}
 	fmt.Fprintf(&b, " %s", h.Text)
+
+	if len(h.Nodes) == 0 {
+		return b.String()
+	}
+
+	fmt.Fprintf(&b, "\n%s", h.Nodes)
 	return b.String()
 }
