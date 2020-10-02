@@ -12,6 +12,7 @@ import (
 )
 
 func Test_MD(t *testing.T) {
+	t.Skip()
 	t.Parallel()
 	r := require.New(t)
 
