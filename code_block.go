@@ -31,3 +31,10 @@ func (cb CodeBlock) String() string {
 }
 
 type CodeBlocks []CodeBlocks
+
+func NewCodeBlock(node *ast.CodeBlock) (CodeBlock, error) {
+	cb := CodeBlock{
+		CodeBlock: node,
+	}
+	return cb, nil
+}
