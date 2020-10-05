@@ -1,6 +1,8 @@
 package remark
 
 import (
+	"bytes"
+
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/gopherguides/remark/internal/md"
 )
@@ -10,5 +12,11 @@ type Paragraph struct {
 }
 
 func (p Paragraph) String() string {
-	return md.String(p.Paragraph)
+	bb := &bytes.Buffer{}
+
+	for _, c := range p.Children {
+		bb.WriteString(md.String(c))
+	}
+
+	return bb.String()
 }

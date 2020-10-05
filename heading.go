@@ -3,6 +3,7 @@ package remark
 import (
 	"bytes"
 	"fmt"
+	"strings"
 
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/gopherguides/remark/internal/md"
@@ -10,7 +11,6 @@ import (
 
 type Heading struct {
 	*ast.Heading
-	Sections Sections
 }
 
 func (h Heading) String() string {
@@ -18,7 +18,11 @@ func (h Heading) String() string {
 	for i := 0; i < h.Level; i++ {
 		bb.WriteString("#")
 	}
-	fmt.Fprintf(bb, " %s", md.String(h.Heading))
+	var lines []string
+	for _, c := range h.Children {
+		lines = append(lines, md.String(c))
+	}
+	fmt.Fprintf(bb, " %s", strings.Join(lines, ""))
 	return bb.String()
 }
 

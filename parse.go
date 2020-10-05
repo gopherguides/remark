@@ -23,54 +23,61 @@ func (p *Parser) Parse(src []byte) (*Module, error) {
 
 	m := &Module{}
 
-	section := Section{}
+	var section Section
 	var fn ast.NodeVisitorFunc = func(node ast.Node, entering bool) ast.WalkStatus {
 		if !entering {
 			return ast.GoToNext
 		}
+
+		if _, ok := node.(*ast.Document); !ok {
+			section.Nodes = append(section.Nodes, node)
+		}
+
 		switch t := node.(type) {
 		case *ast.Document:
 			m.Node = t
+		case *ast.CodeBlock:
+			cb := CodeBlock{
+				CodeBlock: t,
+			}
+			section.Elements = append(section.Elements, cb)
 		case *ast.Paragraph:
-			section.Children = append(section.Children, &Paragraph{
+			p := Paragraph{
 				Paragraph: t,
-			})
-			return ast.SkipChildren
+			}
+			section.Elements = append(section.Elements, p)
+		// 	section.Children = append(section.Children, &Paragraph{
+		// 		Paragraph: t,
+		// 	})
+		// 	return ast.SkipChildren
 		case *ast.Heading:
-			section.Children = append(section.Children, &Heading{
-				Heading: t,
-			})
-			return ast.SkipChildren
-		case *ast.HorizontalRule:
-			m.Sections = append(m.Sections, section)
-			section = Section{}
-		default:
-			fmt.Printf("%T\n", node)
-		}
-		// switch t := node.(type) {
+			if !section.IsZero() {
+				m.Sections = append(m.Sections, section)
+			}
+			h := Heading{Heading: t}
+			section = Section{
+				Heading: h,
+			}
+		// 	section.Children = append(section.Children, &Heading{
+		// 		Heading: t,
+		// 	})
+		// 	return ast.SkipChildren
 		// case *ast.HorizontalRule:
-		// 	section.Children = append(section.Children, t)
 		// 	m.Sections = append(m.Sections, section)
 		// 	section = Section{}
-		// 	return ast.GoToNext
-		// case *ast.Heading:
-		// 	h := &Heading{
-		// 		Heading: t,
-		// 	}
-		// 	section.Children = append(section.Children, h)
-		// 	// case *ast.Text:
-		// 	// fmt.Println(string(t.Literal))
-		// case *ast.Paragraph:
-		// 	section.Children = append(section.Children, t)
-		// 	return ast.SkipChildren
-		// default:
-		// 	// section.Children = append(section.Children, t)
-		// }
+		default:
+			section.Nodes = append(section.Nodes, t)
+			// section.Elements = append(section.Elements, t)
+			fmt.Printf("%T\n", t)
+		}
 
 		return ast.GoToNext
 	}
 	ast.Walk(node, fn)
 
+	if !section.IsZero() {
+		m.Sections = append(m.Sections, section)
+	}
 	return m, nil
 }
 

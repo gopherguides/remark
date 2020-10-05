@@ -2,7 +2,7 @@ class: center, middle, inverse
 duration: 1h30m
 exercises: 1 Shared Lab, 2 student Labs
 
-# Concurrency With The Sync Package
+# Concurrency With The `sync` Package
 
 ---
 
@@ -589,3 +589,13 @@ go run -race ./main.go
 ### Mutex Solution
 
 <code src="./src/solutions/02-mutex/main.go"></code>
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+  fmt.Println("hi")
+}
+```

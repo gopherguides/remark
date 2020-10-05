@@ -14,5 +14,5 @@ func Test_Parser_Parse(t *testing.T) {
 	m, err := ParseFile("./internal/md/example.md")
 	r.NoError(err)
 	fmt.Println(m)
-	r.Nil(m)
+	r.True(false)
 }

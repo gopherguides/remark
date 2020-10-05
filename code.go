@@ -1,6 +1,33 @@
 package remark
 
-type Code struct {
+import (
+	"bytes"
+	"fmt"
+
+	"github.com/gomarkdown/markdown/ast"
+)
+
+type CodeBlock struct {
+	*ast.CodeBlock
 }
 
-type Codes []Code
+func (cb CodeBlock) Language() string {
+	s := string(cb.Info)
+	if len(s) == 0 {
+		s = "plain"
+	}
+	return s
+}
+
+func (cb CodeBlock) String() string {
+	if !cb.IsFenced {
+		return string(cb.Literal)
+	}
+	bb := &bytes.Buffer{}
+	fmt.Fprintf(bb, "```%s\n", cb.Language())
+	bb.Write(bytes.TrimSpace(cb.Literal))
+	fmt.Fprintf(bb, "\n```")
+	return bb.String()
+}
+
+type CodeBlocks []CodeBlocks
