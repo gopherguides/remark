@@ -9,7 +9,9 @@ type Module struct {
 	Sections Sections
 }
 
-type Modules []Module
+func (m Module) String() string {
+	return m.Sections.String()
+}
 
 func NewModule(node *ast.Document) (Module, error) {
 	m := Module{

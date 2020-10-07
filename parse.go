@@ -1,6 +1,7 @@
 package remark
 
 import (
+	"fmt"
 	"io"
 	"io/ioutil"
 
@@ -18,66 +19,62 @@ func (p *Parser) Parse(src []byte) (*Module, error) {
 	if p.Parser == nil {
 		p.Parser = md.NewParser()
 	}
+
 	node := markdown.Parse(src, p.Parser)
 
-	m := &Module{}
+	doc, ok := node.(*ast.Document)
+	if !ok {
+		return nil, fmt.Errorf("expected a document, got %T", node)
+	}
 
-	// var section Section
+	m, err := NewModule(doc)
+	if err != nil {
+		return nil, err
+	}
+
+	var el Element
+	var section Section
+	var subSection Section
 	var fn ast.NodeVisitorFunc = func(node ast.Node, entering bool) ast.WalkStatus {
-		if !entering {
-			return ast.GoToNext
+		el, err = NewElement(node)
+		if err != nil {
+			return ast.Terminate
 		}
 
-		// if _, ok := node.(*ast.Document); !ok {
-		// 	section.Nodes = append(section.Nodes, node)
-		// }
-		//
-		// switch t := node.(type) {
-		// case *ast.Document:
-		// 	m.Node = t
-		// case *ast.CodeBlock:
-		// 	cb := CodeBlock{
-		// 		CodeBlock: t,
-		// 	}
-		// 	section.Elements = append(section.Elements, cb)
-		// case *ast.Paragraph:
-		// 	p := Paragraph{
-		// 		Paragraph: t,
-		// 	}
-		// 	section.Elements = append(section.Elements, p)
-		// // 	section.Children = append(section.Children, &Paragraph{
-		// // 		Paragraph: t,
-		// // 	})
-		// // 	return ast.SkipChildren
-		// case *ast.Heading:
-		// 	if !section.IsZero() {
-		// 		m.Sections = append(m.Sections, section)
-		// 	}
-		// 	h := Heading{Heading: t}
-		// 	section = Section{
-		// 		Heading: h,
-		// 	}
-		// // 	section.Children = append(section.Children, &Heading{
-		// // 		Heading: t,
-		// // 	})
-		// // 	return ast.SkipChildren
-		// // case *ast.HorizontalRule:
-		// // 	m.Sections = append(m.Sections, section)
-		// // 	section = Section{}
-		// default:
-		// 	section.Nodes = append(section.Nodes, t)
-		// 	// section.Elements = append(section.Elements, t)
-		// 	fmt.Printf("%T\n", t)
-		// }
+		switch t := el.(type) {
+		case Heading:
+			if t.Level == 1 {
+				if !section.IsZero() {
+					m.Sections = append(m.Sections, section)
+				}
+				section = Section{
+					Heading: t,
+				}
+				continue
+			}
+			if !subSection.IsZero() {
+				section.SubSections = append(section.SubSections, subSection)
+				subSection = Section{
+					Heading: t,
+				}
+			}
+		case Paragraph:
+			subSection.Elements = append(section.Elements, t)
+			return ast.SkipChildren
+		default:
+			subSection.Elements = append(section.Elements, t)
+		}
 
 		return ast.GoToNext
 	}
+
 	ast.Walk(node, fn)
 
-	// if !section.IsZero() {
-	// 	m.Sections = append(m.Sections, section)
-	// }
-	return m, nil
+	if err != nil {
+		return nil, err
+	}
+
+	return &m, nil
 }
 
 func (p *Parser) ParseFile(filename string) (*Module, error) {

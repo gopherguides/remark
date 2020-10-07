@@ -1,6 +1,10 @@
 package remark
 
 import (
+	"bytes"
+	"fmt"
+	"strings"
+
 	"github.com/gomarkdown/markdown/ast"
 )
 
@@ -9,6 +13,20 @@ type Section struct {
 	Elements    Elements
 	SubSections Sections
 	Nodes       []ast.Node
+}
+
+func (s Section) IsZero() bool {
+	if len(s.Elements) > 0 {
+		return false
+	}
+	return true
+}
+
+func (s Section) String() string {
+	bb := &bytes.Buffer{}
+	fmt.Fprintf(bb, "%s\n\n", s.Heading)
+	fmt.Fprintf(bb, s.Elements.String())
+	return bb.String()
 }
 
 func NewSection(h Heading) (Section, error) {
@@ -20,3 +38,11 @@ func NewSection(h Heading) (Section, error) {
 }
 
 type Sections []Section
+
+func (s Sections) String() string {
+	lines := make([]string, 0, len(s))
+	for _, e := range s {
+		lines = append(lines, e.String())
+	}
+	return strings.Join(lines, "")
+}
