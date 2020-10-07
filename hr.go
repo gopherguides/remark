@@ -4,14 +4,19 @@ import "github.com/gomarkdown/markdown/ast"
 
 type HR struct {
 	*ast.HorizontalRule
+	parent Element
+}
+
+func (h *HR) Parent() Element {
+	return h.parent
 }
 
 func (hr HR) String() string {
 	return "---"
 }
 
-func NewHR(node *ast.HorizontalRule) (HR, error) {
-	h := HR{
+func NewHR(node *ast.HorizontalRule) (*HR, error) {
+	h := &HR{
 		HorizontalRule: node,
 	}
 	return h, nil

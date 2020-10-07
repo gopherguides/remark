@@ -10,6 +10,11 @@ import (
 type Heading struct {
 	*ast.Heading
 	Elements Elements
+	parent   Element
+}
+
+func (h *Heading) Parent() Element {
+	return h.parent
 }
 
 func (h Heading) String() string {
@@ -38,8 +43,8 @@ type Headings []Heading
 // 	return strings.Join(lines, "\n\n")
 // }
 
-func NewHeading(node *ast.Heading) (Heading, error) {
-	h := Heading{
+func NewHeading(node *ast.Heading) (*Heading, error) {
+	h := &Heading{
 		Heading: node,
 	}
 	return h, nil

@@ -9,35 +9,33 @@ import (
 )
 
 type Section struct {
-	Heading
+	*Heading
 	Elements    Elements
 	SubSections Sections
 	Nodes       []ast.Node
+	parent      Element
 }
 
-func (s Section) IsZero() bool {
-	if len(s.Elements) > 0 {
-		return false
-	}
-	return true
+func (s *Section) Parent() Element {
+	return s.parent
 }
 
 func (s Section) String() string {
 	bb := &bytes.Buffer{}
-	fmt.Fprintf(bb, "%s\n\n", s.Heading)
+	// fmt.Fprintf(bb, "%s\n\n", s.Heading)
 	fmt.Fprintf(bb, s.Elements.String())
 	return bb.String()
 }
 
-func NewSection(h Heading) (Section, error) {
-	s := Section{
+func NewSection(h *Heading) (*Section, error) {
+	s := &Section{
 		Heading: h,
 	}
 
 	return s, nil
 }
 
-type Sections []Section
+type Sections []*Section
 
 func (s Sections) String() string {
 	lines := make([]string, 0, len(s))

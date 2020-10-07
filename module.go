@@ -9,12 +9,16 @@ type Module struct {
 	Sections Sections
 }
 
+func (m Module) Parent() Element {
+	return nil
+}
+
 func (m Module) String() string {
 	return m.Sections.String()
 }
 
-func NewModule(node *ast.Document) (Module, error) {
-	m := Module{
+func NewModule(node *ast.Document) (*Module, error) {
+	m := &Module{
 		Document: node,
 	}
 	return m, nil

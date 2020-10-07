@@ -9,6 +9,7 @@ import (
 
 type Element interface {
 	fmt.Stringer
+	Parent() Element
 }
 
 type Elements []Element

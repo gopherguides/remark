@@ -9,6 +9,11 @@ import (
 
 type CodeBlock struct {
 	*ast.CodeBlock
+	parent Element
+}
+
+func (cb CodeBlock) Parent() Element {
+	return cb
 }
 
 func (cb CodeBlock) Language() string {
@@ -32,8 +37,8 @@ func (cb CodeBlock) String() string {
 
 type CodeBlocks []CodeBlocks
 
-func NewCodeBlock(node *ast.CodeBlock) (CodeBlock, error) {
-	cb := CodeBlock{
+func NewCodeBlock(node *ast.CodeBlock) (*CodeBlock, error) {
+	cb := &CodeBlock{
 		CodeBlock: node,
 	}
 	return cb, nil
