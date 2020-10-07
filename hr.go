@@ -1,23 +1,34 @@
 package remark
 
-import "github.com/gomarkdown/markdown/ast"
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/gomarkdown/markdown/ast"
+)
 
 type HR struct {
 	*ast.HorizontalRule
-	parent Element
+	Text string
 }
 
-func (h *HR) Parent() Element {
-	return h.parent
+func (hr HR) MarshalJSON() ([]byte, error) {
+	m := map[string]interface{}{
+		"text": hr.Text,
+	}
+	return json.Marshal(map[string]interface{}{
+		fmt.Sprintf("%T", hr): m,
+	})
 }
 
 func (hr HR) String() string {
-	return "---"
+	return hr.Text
 }
 
 func NewHR(node *ast.HorizontalRule) (*HR, error) {
 	h := &HR{
 		HorizontalRule: node,
+		Text:           string(node.Literal),
 	}
 	return h, nil
 }

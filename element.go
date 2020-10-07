@@ -1,6 +1,7 @@
 package remark
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -9,7 +10,7 @@ import (
 
 type Element interface {
 	fmt.Stringer
-	Parent() Element
+	json.Marshaler
 }
 
 type Elements []Element

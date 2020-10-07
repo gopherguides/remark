@@ -1,14 +1,23 @@
 package remark
 
-import "github.com/gomarkdown/markdown/ast"
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/gomarkdown/markdown/ast"
+)
 
 type HTML struct {
 	*ast.HTMLSpan
-	parent Element
 }
 
-func (h *HTML) Parent() Element {
-	return h.parent
+func (h HTML) MarshalJSON() ([]byte, error) {
+	m := map[string]interface{}{
+		"text": "",
+	}
+	return json.Marshal(map[string]interface{}{
+		fmt.Sprintf("%T", h): m,
+	})
 }
 
 func (h HTML) String() string {

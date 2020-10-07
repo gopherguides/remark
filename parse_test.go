@@ -9,6 +9,7 @@ import (
 )
 
 func Test_Parser_Parse_Simple(t *testing.T) {
+	t.Skip()
 	t.Parallel()
 	r := require.New(t)
 
@@ -21,7 +22,7 @@ func Test_Parser_Parse_Simple(t *testing.T) {
 }
 
 func Test_Parser_Parse(t *testing.T) {
-	t.Skip()
+	// t.Skip()
 	t.Parallel()
 	r := require.New(t)
 	b, err := ioutil.ReadFile("./internal/md/example.md")
@@ -29,7 +30,8 @@ func Test_Parser_Parse(t *testing.T) {
 
 	m, err := Parse(b)
 	r.NoError(err)
-	fmt.Println(m)
+	// fmt.Println(m)
+	fmt.Printf(">>>TODO parse_test.go:34: m (%T): %+v \n", m, m)
 	r.True(false)
 	// r.Equal(string(b), m.String())
 }

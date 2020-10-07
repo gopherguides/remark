@@ -1,13 +1,22 @@
 package remark
 
 import (
+	"encoding/json"
+
 	"github.com/gomarkdown/markdown/ast"
 )
 
 type Paragraph struct {
-	*ast.Paragraph
-	Elements Elements
-	parent   Element
+	*ast.Paragraph `json:"-"`
+	Elements       Elements `json:"elements"`
+	parent         Element  `json:"parent"`
+}
+
+func (p Paragraph) MarshalJSON() ([]byte, error) {
+	bits := map[string]interface{}{
+		"elements": p.Elements,
+	}
+	return json.Marshal(bits)
 }
 
 func (p *Paragraph) Parent() Element {

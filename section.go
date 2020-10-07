@@ -2,6 +2,7 @@ package remark
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -16,6 +17,14 @@ type Section struct {
 	parent      Element
 }
 
+func (s *Section) MarshalJSON() ([]byte, error) {
+	bits := map[string]interface{}{
+		"element":      s.Elements,
+		"sub_sections": s.SubSections,
+	}
+	return json.Marshal(bits)
+}
+
 func (s *Section) Parent() Element {
 	return s.parent
 }
@@ -27,7 +36,7 @@ func (s Section) String() string {
 	return bb.String()
 }
 
-func NewSection(h *Heading) (*Section, error) {
+func NewSection(h *Heading, children []ast.Node) (*Section, error) {
 	s := &Section{
 		Heading: h,
 	}
@@ -43,4 +52,12 @@ func (s Sections) String() string {
 		lines = append(lines, e.String())
 	}
 	return strings.Join(lines, "")
+}
+
+func (sections Sections) MarshalJSON() ([]byte, error) {
+	bits := make([]json.Marshaler, 0, len(sections))
+	for _, s := range sections {
+		bits = append(bits, s)
+	}
+	return json.Marshal(bits)
 }

@@ -2,6 +2,7 @@ package remark
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -10,11 +11,17 @@ import (
 type Heading struct {
 	*ast.Heading
 	Elements Elements
-	parent   Element
+	Text     string
 }
 
-func (h *Heading) Parent() Element {
-	return h.parent
+func (h Heading) MarshalJSON() ([]byte, error) {
+	m := map[string]interface{}{
+		"elements": h.Elements,
+		"text":     h.Text,
+	}
+	return json.Marshal(map[string]interface{}{
+		fmt.Sprintf("%T", h): m,
+	})
 }
 
 func (h Heading) String() string {
@@ -34,14 +41,6 @@ func (h Heading) String() string {
 }
 
 type Headings []Heading
-
-// func (s Headings) String() string {
-// 	lines := make([]string, 0, len(s))
-// 	for _, e := range s {
-// 		lines = append(lines, e.String())
-// 	}
-// 	return strings.Join(lines, "\n\n")
-// }
 
 func NewHeading(node *ast.Heading) (*Heading, error) {
 	h := &Heading{
