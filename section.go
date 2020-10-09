@@ -19,10 +19,12 @@ type Section struct {
 
 func (s *Section) MarshalJSON() ([]byte, error) {
 	bits := map[string]interface{}{
-		"element":      s.Elements,
+		"elements":     s.Elements,
 		"sub_sections": s.SubSections,
 	}
-	return json.Marshal(bits)
+	return json.MarshalIndent(map[string]interface{}{
+		fmt.Sprintf("%T", s): bits,
+	}, "", "  ")
 }
 
 func (s *Section) Parent() Element {
@@ -59,5 +61,7 @@ func (sections Sections) MarshalJSON() ([]byte, error) {
 	for _, s := range sections {
 		bits = append(bits, s)
 	}
-	return json.Marshal(bits)
+	return json.MarshalIndent(map[string]interface{}{
+		fmt.Sprintf("%T", sections): bits,
+	}, "", "  ")
 }

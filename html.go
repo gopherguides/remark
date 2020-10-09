@@ -15,9 +15,9 @@ func (h HTML) MarshalJSON() ([]byte, error) {
 	m := map[string]interface{}{
 		"text": "",
 	}
-	return json.Marshal(map[string]interface{}{
+	return json.MarshalIndent(map[string]interface{}{
 		fmt.Sprintf("%T", h): m,
-	})
+	}, "", "  ")
 }
 
 func (h HTML) String() string {

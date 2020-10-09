@@ -16,9 +16,9 @@ func (hr HR) MarshalJSON() ([]byte, error) {
 	m := map[string]interface{}{
 		"text": hr.Text,
 	}
-	return json.Marshal(map[string]interface{}{
+	return json.MarshalIndent(map[string]interface{}{
 		fmt.Sprintf("%T", hr): m,
-	})
+	}, "", "  ")
 }
 
 func (hr HR) String() string {

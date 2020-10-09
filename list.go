@@ -1,18 +1,24 @@
 package remark
 
-import "github.com/gomarkdown/markdown/ast"
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/gomarkdown/markdown/ast"
+)
 
 type List struct {
 	*ast.List
-	parent Element
 }
 
-func (l *List) Parent() Element {
-	return l.parent
+func (l List) MarshalJSON() ([]byte, error) {
+	return json.MarshalIndent(map[string]interface{}{
+		fmt.Sprintf("%T", l): nil,
+	}, "", "  ")
 }
 
 func (l List) String() string {
-	return ""
+	panic("remark.List")
 }
 
 func NewList(node *ast.List) (*List, error) {

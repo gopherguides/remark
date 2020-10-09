@@ -1,18 +1,24 @@
 package remark
 
-import "github.com/gomarkdown/markdown/ast"
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/gomarkdown/markdown/ast"
+)
 
 type Strong struct {
 	*ast.Strong
-	parent Element
 }
 
-func (s *Strong) Parent() Element {
-	return s.parent
+func (s Strong) MarshalJSON() ([]byte, error) {
+	return json.MarshalIndent(map[string]interface{}{
+		fmt.Sprintf("%T", s): nil,
+	}, "", "  ")
 }
 
 func (s Strong) String() string {
-	return ""
+	panic("remark.Strong")
 }
 
 func NewStrong(node *ast.Strong) (*Strong, error) {

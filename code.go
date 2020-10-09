@@ -13,22 +13,22 @@ type Code struct {
 }
 
 func (c Code) String() string {
-	return c.text
+	return fmt.Sprintf("`%s`", c.Text)
 }
 
 func (c Code) MarshalJSON() ([]byte, error) {
 	m := map[string]interface{}{
 		"text": c.Text,
 	}
-	return json.Marshal(map[string]interface{}{
-		fmt.Sprintf("%T", h): m,
-	})
+	return json.MarshalIndent(map[string]interface{}{
+		fmt.Sprintf("%T", c): m,
+	}, "", " ")
 }
 
 func NewCode(node *ast.Code) (*Code, error) {
 	c := &Code{
 		Code: node,
-		text: fmt.Sprintf("`%s`", string(node.Literal)),
+		Text: string(node.Literal),
 	}
 	return c, nil
 }

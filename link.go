@@ -1,18 +1,24 @@
 package remark
 
-import "github.com/gomarkdown/markdown/ast"
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/gomarkdown/markdown/ast"
+)
 
 type Link struct {
 	*ast.Link
-	parent Element
 }
 
-func (l *Link) Parent() Element {
-	return l.parent
+func (l Link) MarshalJSON() ([]byte, error) {
+	return json.MarshalIndent(map[string]interface{}{
+		fmt.Sprintf("%T", l): nil,
+	}, "", "  ")
 }
 
 func (l Link) String() string {
-	return ""
+	panic("remark.Link")
 }
 
 func NewLink(node *ast.Link) (*Link, error) {

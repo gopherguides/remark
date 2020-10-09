@@ -19,9 +19,9 @@ func (h Heading) MarshalJSON() ([]byte, error) {
 		"elements": h.Elements,
 		"text":     h.Text,
 	}
-	return json.Marshal(map[string]interface{}{
+	return json.MarshalIndent(map[string]interface{}{
 		fmt.Sprintf("%T", h): m,
-	})
+	}, "", "  ")
 }
 
 func (h Heading) String() string {

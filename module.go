@@ -28,7 +28,7 @@ func (m Module) String() string {
 func (m Module) Format(st fmt.State, verb rune) {
 	switch verb {
 	case 'v':
-		b, err := json.Marshal(m)
+		b, err := json.MarshalIndent(m, "", "  ")
 		if err != nil {
 			log.Fatal(err)
 		}
