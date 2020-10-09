@@ -11,16 +11,17 @@ import (
 
 type Section struct {
 	*Heading
-	Elements    Elements
-	SubSections Sections
-	Nodes       []ast.Node
+	Elements Elements
+	Sections Sections
+	Nodes    []ast.Node
 }
 
 func (s *Section) MarshalJSON() ([]byte, error) {
 	bits := map[string]interface{}{
-		"heading":      s.Heading,
-		"elements":     s.Elements,
-		"sub_sections": s.SubSections,
+		"elements": s.Elements,
+		"heading":  s.Heading,
+		"literal":  s.String(),
+		"sections": s.Sections,
 	}
 	return json.MarshalIndent(map[string]interface{}{
 		fmt.Sprintf("%T", s): bits,
@@ -29,38 +30,50 @@ func (s *Section) MarshalJSON() ([]byte, error) {
 
 func (s Section) String() string {
 	bb := &bytes.Buffer{}
-	// fmt.Fprintf(bb, "%s\n\n", s.Heading)
-	fmt.Fprintf(bb, s.Elements.String())
+
+	if s.Heading != nil {
+		fmt.Fprintf(bb, "%s\n\n", s.Heading)
+	}
+
+	for _, e := range s.Elements {
+		fmt.Fprintf(bb, "%s\n\n", e)
+	}
 	return bb.String()
 }
 
-func NewSection(h *Heading, children []ast.Node) (*Section, error) {
+func NewSection(head *Heading, children []ast.Node) (*Section, error) {
 	s := &Section{
-		Heading: h,
+		Heading: head,
 	}
-	fmt.Printf(">>>TODO section.go:40: len(children) (%T): %v \n", len(children), len(children))
-	// for _, node := range children {
-	// 	switch t := node.(type) {
-	// 	case *ast.Heading:
-	// 		if t.Level == 1 {
-	// 			return s, nil
-	// 		}
-	// 		// h, err := NewHeading(t)
-	// 		// if err != nil {
-	// 		// 	return nil, err
-	// 		// }
-	// 		// if t.Level == 1 {
-	// 		// 	return nil, fmt.Errorf("can not have H1 under another H1 %v", t)
-	// 		// }
-	// 		// sec, err := NewSection(h, children[i:])
-	// 		// if err != nil {
-	// 		// 	return nil, err
-	// 		// }
-	// 		// fmt.Printf(">>>TODO section.go:47: sec (%T): %v \n", sec, sec)
-	// 	default:
-	// 		fmt.Printf(">>>TODO section.go:48: t (%T): %v \n", t, t)
-	// 	}
-	// }
+
+	var kids []ast.Node
+	// var err error
+	for _, n := range children {
+		switch t := n.(type) {
+		case *ast.Heading:
+			h, err := NewHeading(t)
+			if err != nil {
+				return nil, err
+			}
+			sec, err := NewSection(h, kids)
+			if err != nil {
+				return nil, err
+			}
+			s.Sections = append(s.Sections, sec)
+			kids = []ast.Node{}
+
+		default:
+			kids = append(kids, t)
+		}
+	}
+
+	for _, k := range kids {
+		el, err := NewElement(k)
+		if err != nil {
+			return nil, err
+		}
+		s.Elements = append(s.Elements, el)
+	}
 	return s, nil
 }
 

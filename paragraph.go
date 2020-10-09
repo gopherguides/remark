@@ -15,6 +15,7 @@ type Paragraph struct {
 func (p Paragraph) MarshalJSON() ([]byte, error) {
 	bits := map[string]interface{}{
 		"elements": p.Elements,
+		"literal":  p.String(),
 	}
 	return json.MarshalIndent(map[string]interface{}{
 		fmt.Sprintf("%T", p): bits,

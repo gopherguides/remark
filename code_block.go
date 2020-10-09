@@ -17,9 +17,10 @@ type CodeBlock struct {
 
 func (cb CodeBlock) MarshalJSON() ([]byte, error) {
 	m := map[string]interface{}{
-		"language":  cb.Language,
-		"text":      cb.Text,
+		"content":   cb.Text,
 		"is_fenced": cb.IsFenced,
+		"language":  cb.Language,
+		"literal":   cb.String(),
 	}
 	return json.MarshalIndent(map[string]interface{}{
 		fmt.Sprintf("%T", cb): m,

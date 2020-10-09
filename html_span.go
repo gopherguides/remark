@@ -7,26 +7,27 @@ import (
 	"github.com/gomarkdown/markdown/ast"
 )
 
-type HTML struct {
+type HTMLSpan struct {
 	*ast.HTMLSpan
 }
 
-func (h HTML) MarshalJSON() ([]byte, error) {
+func (h HTMLSpan) MarshalJSON() ([]byte, error) {
 	m := map[string]interface{}{
-		"text": "",
+		"literal": h.String(),
 	}
 	return json.MarshalIndent(map[string]interface{}{
 		fmt.Sprintf("%T", h): m,
 	}, "", "  ")
 }
 
-func (h HTML) String() string {
-	return ""
+func (h HTMLSpan) String() string {
+	return string(h.Literal)
 }
 
-func NewHTML(node *ast.HTMLSpan) (*HTML, error) {
-	h := &HTML{
+func NewHTMLSpan(node *ast.HTMLSpan) (*HTMLSpan, error) {
+	h := &HTMLSpan{
 		HTMLSpan: node,
 	}
+
 	return h, nil
 }

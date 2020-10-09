@@ -1,6 +1,7 @@
 package remark
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 
@@ -10,13 +11,13 @@ import (
 type Heading struct {
 	*ast.Heading
 	Elements Elements
-	Text     string
 }
 
 func (h Heading) MarshalJSON() ([]byte, error) {
 	m := map[string]interface{}{
+		"content":  h.Elements.String(),
 		"elements": h.Elements,
-		"text":     h.Text,
+		"literal":  h.String(),
 	}
 	return json.MarshalIndent(map[string]interface{}{
 		fmt.Sprintf("%T", h): m,
@@ -24,21 +25,19 @@ func (h Heading) MarshalJSON() ([]byte, error) {
 }
 
 func (h Heading) String() string {
-	b, _ := h.MarshalJSON()
-	return string(b)
-	// if h.Heading == nil {
-	// 	return ""
-	// }
-	// if h.Level == 0 {
-	// 	h.Level = 1
-	// }
-	//
-	// bb := &bytes.Buffer{}
-	// for i := 0; i < h.Level; i++ {
-	// 	fmt.Fprint(bb, "#")
-	// }
-	// fmt.Fprintf(bb, " %s", h.Text)
-	// return bb.String()
+	if h.Heading == nil {
+		return ""
+	}
+	if h.Level == 0 {
+		h.Level = 1
+	}
+
+	bb := &bytes.Buffer{}
+	for i := 0; i < h.Level; i++ {
+		fmt.Fprint(bb, "#")
+	}
+	fmt.Fprintf(bb, " %s", h.Elements)
+	return bb.String()
 }
 
 type Headings []Heading
@@ -46,6 +45,14 @@ type Headings []Heading
 func NewHeading(node *ast.Heading) (*Heading, error) {
 	h := &Heading{
 		Heading: node,
+	}
+
+	for _, n := range node.Children {
+		el, err := NewElement(n)
+		if err != nil {
+			return nil, err
+		}
+		h.Elements = append(h.Elements, el)
 	}
 	return h, nil
 }

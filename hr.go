@@ -9,26 +9,21 @@ import (
 
 type HR struct {
 	*ast.HorizontalRule
-	Text string
 }
 
 func (hr HR) MarshalJSON() ([]byte, error) {
-	m := map[string]interface{}{
-		"text": hr.Text,
-	}
 	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", hr): m,
+		fmt.Sprintf("%T", hr): hr.String(),
 	}, "", "  ")
 }
 
 func (hr HR) String() string {
-	return hr.Text
+	return string(hr.Literal)
 }
 
 func NewHR(node *ast.HorizontalRule) (*HR, error) {
 	h := &HR{
 		HorizontalRule: node,
-		Text:           string(node.Literal),
 	}
 	return h, nil
 }

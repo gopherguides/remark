@@ -18,7 +18,8 @@ func (c Code) String() string {
 
 func (c Code) MarshalJSON() ([]byte, error) {
 	m := map[string]interface{}{
-		"text": c.Text,
+		"content": c.Text,
+		"literal": c.String(),
 	}
 	return json.MarshalIndent(map[string]interface{}{
 		fmt.Sprintf("%T", c): m,

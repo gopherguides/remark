@@ -48,7 +48,7 @@ func NewElement(node ast.Node) (Element, error) {
 	case *ast.Text:
 		return NewText(t)
 	case *ast.HTMLSpan:
-		return NewHTML(t)
+		return NewHTMLSpan(t)
 	case *ast.Code:
 		return NewCode(t)
 	case *ast.HorizontalRule:
@@ -61,6 +61,8 @@ func NewElement(node ast.Node) (Element, error) {
 		return NewListItem(t)
 	case *ast.Strong:
 		return NewStrong(t)
+	case *ast.Emph:
+		return NewEmph(t)
 	default:
 		return nil, fmt.Errorf("unknown node type %T", node)
 	}

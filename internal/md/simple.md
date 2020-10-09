@@ -1,4 +1,4 @@
-# Header One
+# Header *One*: The `coding`
 
 this is a paragraph. **some bold text**, and some `inline code`.
 
@@ -6,17 +6,17 @@ this is a paragraph. **some bold text**, and some `inline code`.
 
 this paragraph has a [link](www.example.com) in it.
 
-## Sub Header 1A [^ [a linked footnote](www.example.org) ]
+## Sub Header 1A [a linked header](www.example.org)
 
 this sub header has this paragraph.
 
 ### Sub Sub Header 1Aa
 
-* list item 1
-* list item 2
-* list item 3
+* list item 1 `inline code` is provided
+* list **item** 2
+* list **[`item`](www.example.net)** 3
 
-# Header Two [^ a footnote ]
+# Header Two
 
 this should be a different section.
 
@@ -29,3 +29,4 @@ func main() {
     fmt.Println("hello world!")
 }
 ```
+
