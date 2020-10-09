@@ -14,21 +14,17 @@ type Section struct {
 	Elements    Elements
 	SubSections Sections
 	Nodes       []ast.Node
-	parent      Element
 }
 
 func (s *Section) MarshalJSON() ([]byte, error) {
 	bits := map[string]interface{}{
+		"heading":      s.Heading,
 		"elements":     s.Elements,
 		"sub_sections": s.SubSections,
 	}
 	return json.MarshalIndent(map[string]interface{}{
 		fmt.Sprintf("%T", s): bits,
 	}, "", "  ")
-}
-
-func (s *Section) Parent() Element {
-	return s.parent
 }
 
 func (s Section) String() string {
@@ -42,7 +38,29 @@ func NewSection(h *Heading, children []ast.Node) (*Section, error) {
 	s := &Section{
 		Heading: h,
 	}
-
+	fmt.Printf(">>>TODO section.go:40: len(children) (%T): %v \n", len(children), len(children))
+	// for _, node := range children {
+	// 	switch t := node.(type) {
+	// 	case *ast.Heading:
+	// 		if t.Level == 1 {
+	// 			return s, nil
+	// 		}
+	// 		// h, err := NewHeading(t)
+	// 		// if err != nil {
+	// 		// 	return nil, err
+	// 		// }
+	// 		// if t.Level == 1 {
+	// 		// 	return nil, fmt.Errorf("can not have H1 under another H1 %v", t)
+	// 		// }
+	// 		// sec, err := NewSection(h, children[i:])
+	// 		// if err != nil {
+	// 		// 	return nil, err
+	// 		// }
+	// 		// fmt.Printf(">>>TODO section.go:47: sec (%T): %v \n", sec, sec)
+	// 	default:
+	// 		fmt.Printf(">>>TODO section.go:48: t (%T): %v \n", t, t)
+	// 	}
+	// }
 	return s, nil
 }
 

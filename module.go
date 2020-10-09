@@ -1,10 +1,6 @@
 package remark
 
 import (
-	"encoding/json"
-	"fmt"
-	"log"
-
 	"github.com/gomarkdown/markdown/ast"
 )
 
@@ -22,54 +18,97 @@ func (m Module) MarshalJSON() ([]byte, error) {
 }
 
 func (m Module) String() string {
-	return m.Sections.String()
+	b, _ := m.MarshalJSON()
+	return string(b)
+	// return m.Sections.String()
 }
 
-func (m Module) Format(st fmt.State, verb rune) {
-	switch verb {
-	case 'v':
-		b, err := json.MarshalIndent(m, "", "  ")
-		if err != nil {
-			log.Fatal(err)
-		}
-		st.Write(b)
-		return
-	case 'q':
-		fmt.Fprintf(st, "%q", m.String())
-		return
-	}
-	fmt.Fprint(st, m.String())
-}
+// func (m Module) Format(st fmt.State, verb rune) {
+// 	switch verb {
+// 	case 'v':
+// 		b, err := json.MarshalIndent(m, "", "  ")
+// 		if err != nil {
+// 			log.Fatal(err)
+// 		}
+// 		st.Write(b)
+// 		return
+// 	case 'q':
+// 		fmt.Fprintf(st, "%q", m.String())
+// 		return
+// 	}
+// 	fmt.Fprint(st, m.String())
+// }
 
 func NewModule(node *ast.Document) (*Module, error) {
 	m := &Module{
 		Document: node,
 	}
 
-	section := &Section{}
-	for i, n := range node.Children {
+	var kids []ast.Node
+	var head *Heading
+	var err error
+	for _, n := range node.Children {
 		switch t := n.(type) {
 		case *ast.Heading:
-			m.Sections = append(m.Sections, section)
-			h, err := NewHeading(t)
-			if err != nil {
-				return nil, err
+			if t.Level > 1 {
+				kids = append(kids, t)
+				continue
 			}
-			section, err = NewSection(h, node.Children[i:])
-			if err != nil {
-				return nil, err
+
+			if len(kids) > 0 {
+				sec, err := NewSection(head, kids)
+				if err != nil {
+					return nil, err
+				}
+				m.Sections = append(m.Sections, sec)
+				kids = []ast.Node{}
 			}
-		default:
-			el, err := NewElement(t)
+
+			head, err = NewHeading(t)
 			if err != nil {
 				return nil, err
 			}
 
-			fmt.Printf(">>>TODO module.go:47: el (%T): %v \n", el, el)
-			section.Elements = append(section.Elements, el)
+		default:
+			kids = append(kids, t)
 		}
 	}
-	m.Sections = append(m.Sections, section)
+
+	if len(kids) > 0 {
+		sec, err := NewSection(head, kids)
+		if err != nil {
+			return nil, err
+		}
+		m.Sections = append(m.Sections, sec)
+	}
+
+	// section := &Section{}
+	// for i, n := range node.Children {
+	// 	switch t := n.(type) {
+	// 	case *ast.Heading:
+	// 		m.Sections = append(m.Sections, section)
+	// 		h, err := NewHeading(t)
+	// 		if err != nil {
+	// 			return nil, err
+	// 		}
+	// 		section, err = NewSection(h, node.Children[i:])
+	// 		if err != nil {
+	// 			return nil, err
+	// 		}
+	// 		fmt.Printf(">>>TODO module.go:60: section (%T): %v \n", section, section)
+	// 	default:
+	// 		if section.Heading != nil {
+	// 			continue
+	// 		}
+	// 		el, err := NewElement(t)
+	// 		if err != nil {
+	// 			return nil, err
+	// 		}
+	//
+	// 		section.Elements = append(section.Elements, el)
+	// 	}
+	// }
+	// m.Sections = append(m.Sections, section)
 
 	return m, nil
 }

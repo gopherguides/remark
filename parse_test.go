@@ -25,13 +25,15 @@ func Test_Parser_Parse(t *testing.T) {
 	// t.Skip()
 	t.Parallel()
 	r := require.New(t)
-	b, err := ioutil.ReadFile("./internal/md/example.md")
+	b, err := ioutil.ReadFile("./internal/md/simple.md")
 	r.NoError(err)
 
 	m, err := Parse(b)
 	r.NoError(err)
-	// fmt.Println(m)
-	fmt.Printf(">>>TODO parse_test.go:34: m (%T): %+v \n", m, m)
+	r.NotNil(m)
+	r.Len(m.Sections, 2)
+	fmt.Println(m)
+	// fmt.Printf(">>>TODO parse_test.go:34: m (%T): %+v \n", m, m)
 	r.True(false)
 	// r.Equal(string(b), m.String())
 }

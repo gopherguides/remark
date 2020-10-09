@@ -64,5 +64,5 @@ func NewElement(node ast.Node) (Element, error) {
 	default:
 		return nil, fmt.Errorf("unknown node type %T", node)
 	}
-	return nil, nil
+	// return nil, nil
 }
