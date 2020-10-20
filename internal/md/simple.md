@@ -8,7 +8,7 @@ this paragraph has a [link](www.example.com) in it.
 
 ## Sub Header 1A [a linked header](www.example.org)
 
-this sub header has this paragraph.
+this sub header has this paragraph. [^:[linked footnote](www.example.biz)]
 
 ### Sub Sub Header 1Aa
 

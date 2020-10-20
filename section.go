@@ -32,11 +32,15 @@ func (s Section) String() string {
 	bb := &bytes.Buffer{}
 
 	if s.Heading != nil {
-		fmt.Fprintf(bb, "%s\n\n", s.Heading)
+		fmt.Fprintf(bb, "%s", s.Heading)
 	}
 
 	for _, e := range s.Elements {
-		fmt.Fprintf(bb, "%s\n\n", e)
+		fmt.Fprintf(bb, "\n\n%s", e)
+	}
+
+	for _, e := range s.Sections {
+		fmt.Fprintf(bb, "\n\n%s", e)
 	}
 	return bb.String()
 }

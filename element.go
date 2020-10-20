@@ -63,6 +63,28 @@ func NewElement(node ast.Node) (Element, error) {
 		return NewStrong(t)
 	case *ast.Emph:
 		return NewEmph(t)
+	case *ast.Del:
+		return NewDel(t)
+	case *ast.BlockQuote:
+		return NewBlockQuote(t)
+	case *ast.Table:
+		return NewTable(t)
+	case *ast.TableHeader:
+		return NewTableHeader(t)
+	case *ast.TableRow:
+		return NewTableRow(t)
+	case *ast.TableCell:
+		return NewTableCell(t)
+	case *ast.TableBody:
+		return NewTableBody(t)
+	case *ast.Image:
+		return NewImage(t)
+	case *ast.Superscript:
+		return NewSuperScript(t)
+	case *ast.Subscript:
+		return NewSubScript(t)
+	case *ast.Footnotes:
+		return NewFootnotes(t)
 	default:
 		return nil, fmt.Errorf("unknown node type %T", node)
 	}

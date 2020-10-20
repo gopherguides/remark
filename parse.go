@@ -5,7 +5,6 @@ import (
 	"io"
 	"io/ioutil"
 
-	"github.com/gomarkdown/markdown"
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/gomarkdown/markdown/parser"
 	"github.com/gopherguides/remark/internal/md"
@@ -20,7 +19,7 @@ func (p *Parser) Parse(src []byte) (*Module, error) {
 		p.Parser = md.NewParser()
 	}
 
-	node := markdown.Parse(src, p.Parser)
+	node := p.Parser.Parse(src)
 
 	doc, ok := node.(*ast.Document)
 	if !ok {

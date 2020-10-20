@@ -23,7 +23,7 @@ func (li ListItem) MarshalJSON() ([]byte, error) {
 }
 
 func (li ListItem) String() string {
-	return fmt.Sprintf("%s %s", string(li.BulletChar), li.Elements)
+	return fmt.Sprintf("%s%s %s", string(li.BulletChar), string(li.Delimiter), li.Elements)
 }
 
 func NewListItem(node *ast.ListItem) (*ListItem, error) {
