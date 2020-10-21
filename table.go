@@ -10,6 +10,8 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
+var _ TableWriter = &Table{}
+
 // Table is strikethrough
 type Table struct {
 	*ast.Table
@@ -27,29 +29,22 @@ func (table Table) MarshalJSON() ([]byte, error) {
 	}, "", "  ")
 }
 
-type TableWriter interface {
-	WriteTable(w *tablewriter.Table)
+func (table Table) WriteTable(w *tablewriter.Table) error {
+	for _, e := range table.Elements {
+		sw, ok := e.(TableWriter)
+		if !ok {
+			return fmt.Errorf("expected TableWriter, got %T", e)
+		}
+		sw.WriteTable(w)
+	}
+	w.Render()
+	return nil
 }
 
 func (tb Table) String() string {
 	bb := &bytes.Buffer{}
-
 	table := md.NewTableWriter(bb)
-	// table := tablewriter.NewWriter(bb)
-	// table.SetCenterSeparator("|")
-	// table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-	// table.SetHeader([]string{"Date", "Description", "CV2", "Amount"})
-
-	// table.AppendBulk(data) // Add Bulk Data
-	for _, e := range tb.Elements {
-		sw, ok := e.(TableWriter)
-		if !ok {
-			panic(e)
-		}
-		sw.WriteTable(table)
-	}
-
-	table.Render()
+	tb.WriteTable(table)
 	return bb.String()
 }
 

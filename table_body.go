@@ -1,13 +1,16 @@
 package remark
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"strings"
 
 	"github.com/gomarkdown/markdown/ast"
+	"github.com/gopherguides/remark/internal/md"
 	"github.com/olekukonko/tablewriter"
 )
+
+var _ TableWriter = &TableBody{}
 
 // TableBody is strikethrough
 type TableBody struct {
@@ -27,21 +30,21 @@ func (body TableBody) MarshalJSON() ([]byte, error) {
 }
 
 func (body TableBody) String() string {
-	var lines []string
-	for _, e := range body.Elements {
-		lines = append(lines, e.String())
-	}
-	return strings.Join(lines, "\n")
+	bb := &bytes.Buffer{}
+	table := md.NewTableWriter(bb)
+	body.WriteTable(table)
+	return bb.String()
 }
 
-func (body TableBody) WriteTable(w *tablewriter.Table) {
+func (body TableBody) WriteTable(w *tablewriter.Table) error {
 	for _, e := range body.Elements {
 		sw, ok := e.(TableWriter)
 		if !ok {
-			panic(e)
+			return fmt.Errorf("expected TableWriter, got %T", e)
 		}
 		sw.WriteTable(w)
 	}
+	return nil
 }
 
 func NewTableBody(node *ast.TableBody) (*TableBody, error) {

@@ -10,6 +10,8 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
+var _ TableWriter = &TableHeader{}
+
 // TableHeader is strikethrough
 type TableHeader struct {
 	*ast.TableHeader
@@ -34,19 +36,39 @@ func (th TableHeader) String() string {
 	return bb.String()
 }
 
-func (row TableHeader) WriteTable(w *tablewriter.Table) {
+func (row TableHeader) WriteTable(w *tablewriter.Table) error {
 	if len(row.Elements) == 0 {
-		return
+		return nil
 	}
 
+	var cells []*TableCell
 	for _, e := range row.Elements {
+		if row, ok := e.(*TableRow); ok {
+			cells = row.Cells()
+		}
 		tw, ok := e.(TableWriter)
 		if !ok {
-			panic(e)
+			return fmt.Errorf("expected TableWriter, got %T", e)
 		}
 		tw.WriteTable(w)
 	}
 
+	var seps []string
+	for _, c := range cells {
+		var s string
+		if c.Align == ast.TableAlignmentCenter {
+			s += ":"
+		}
+		for i := 0; i < len(c.String()); i++ {
+			s += "-"
+		}
+		if c.Align == ast.TableAlignmentCenter || c.Align == ast.TableAlignmentRight {
+			s += ":"
+		}
+		seps = append(seps, s)
+	}
+	w.Append(seps)
+	return nil
 }
 
 func NewTableHeader(node *ast.TableHeader) (*TableHeader, error) {

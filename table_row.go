@@ -10,10 +10,23 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
+var _ TableWriter = &TableRow{}
+
 // TableRow is strikethrough
 type TableRow struct {
 	*ast.TableRow
 	Elements Elements
+}
+
+func (row TableRow) Cells() []*TableCell {
+	cells := make([]*TableCell, 0, len(row.Elements))
+	for _, e := range row.Elements {
+		if c, ok := e.(*TableCell); ok {
+			cells = append(cells, c)
+		}
+	}
+	fmt.Printf(">>>TODO table_row.go:28: cells (%T): %v \n", cells, cells)
+	return cells
 }
 
 func (row TableRow) MarshalJSON() ([]byte, error) {
@@ -34,24 +47,27 @@ func (row TableRow) String() string {
 	return bb.String()
 }
 
-func (row TableRow) WriteTable(w *tablewriter.Table) {
+func (row TableRow) WriteTable(w *tablewriter.Table) error {
 	if len(row.Elements) == 0 {
-		return
+		return nil
 	}
 
 	var rows []string
 	for _, e := range row.Elements {
 		c, ok := e.(*TableCell)
 		if !ok {
-			panic(e)
+			return fmt.Errorf("expected *TableCell, got %T", e)
 		}
 		rows = append(rows, c.String())
 	}
+
 	if _, ok := row.Parent.(*ast.TableHeader); ok {
 		w.SetHeader(rows)
-		return
+		return nil
 	}
+
 	w.Append(rows)
+	return nil
 }
 
 func NewTableRow(node *ast.TableRow) (*TableRow, error) {

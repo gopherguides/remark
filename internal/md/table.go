@@ -13,5 +13,6 @@ func NewTableWriter(w io.Writer) *tablewriter.Table {
 	table.SetHeaderAlignment(tablewriter.ALIGN_LEFT)
 	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
 	table.SetAutoWrapText(false)
+	table.SetHeaderLine(false)
 	return table
 }

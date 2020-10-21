@@ -26,7 +26,6 @@ func (cell TableCell) MarshalJSON() ([]byte, error) {
 
 func (cell TableCell) String() string {
 	s := cell.Elements.String()
-	// fmt.Printf("TableCell %q\n", s)
 	return s
 }
 

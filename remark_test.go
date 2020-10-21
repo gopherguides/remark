@@ -2,9 +2,9 @@ package remark
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -25,13 +25,17 @@ func compare(t *testing.T, name string) {
 	t.Helper()
 	r := require.New(t)
 
-	b, err := ioutil.ReadFile(filepath.Join("internal", "testdata", name+".md"))
+	fp := filepath.Join("internal", "testdata", name+".md")
+	b, err := ioutil.ReadFile(fp)
 	r.NoError(err)
 
 	b = bytes.TrimSpace(b)
 
 	m, err := Parse(b)
 	r.NoError(err)
-	fmt.Println(m.String())
-	r.Equal(string(b), m.String())
+
+	exp := strings.TrimSpace(string(b))
+	act := strings.TrimSpace(m.String())
+
+	r.Equal(exp, act)
 }
