@@ -2,7 +2,6 @@ package remark
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -13,18 +12,6 @@ type CodeBlock struct {
 	*ast.CodeBlock `json:"-"`
 	Language       string
 	Text           string
-}
-
-func (cb CodeBlock) MarshalJSON() ([]byte, error) {
-	m := map[string]interface{}{
-		"content":   cb.Text,
-		"is_fenced": cb.IsFenced,
-		"language":  cb.Language,
-		"literal":   cb.String(),
-	}
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", cb): m,
-	}, "", "  ")
 }
 
 func (cb CodeBlock) String() string {

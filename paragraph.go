@@ -1,25 +1,12 @@
 package remark
 
 import (
-	"encoding/json"
-	"fmt"
-
 	"github.com/gomarkdown/markdown/ast"
 )
 
 type Paragraph struct {
 	*ast.Paragraph
 	Elements Elements
-}
-
-func (p Paragraph) MarshalJSON() ([]byte, error) {
-	bits := map[string]interface{}{
-		"elements": p.Elements,
-		"literal":  p.String(),
-	}
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", p): bits,
-	}, "", "  ")
 }
 
 func (p Paragraph) String() string {

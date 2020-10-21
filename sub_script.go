@@ -1,7 +1,6 @@
 package remark
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -10,16 +9,6 @@ import (
 // SubScript is strikethrough
 type SubScript struct {
 	*ast.Subscript
-}
-
-func (script SubScript) MarshalJSON() ([]byte, error) {
-	m := map[string]interface{}{
-		"literal": script.String(),
-	}
-
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", script): m,
-	}, "", "  ")
 }
 
 func (script SubScript) String() string {

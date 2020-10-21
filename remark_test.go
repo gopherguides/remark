@@ -21,7 +21,7 @@ func parseT(t *testing.T, input string) *Module {
 	return m
 }
 
-func compare(t *testing.T, name string) {
+func compareStringer(t *testing.T, name string) {
 	t.Helper()
 	r := require.New(t)
 

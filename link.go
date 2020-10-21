@@ -1,7 +1,6 @@
 package remark
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -18,19 +17,6 @@ func (l Link) URL() string {
 
 func (l Link) Caption() string {
 	return string(l.Title)
-}
-
-func (l Link) MarshalJSON() ([]byte, error) {
-	m := map[string]interface{}{
-		"caption":  l.Caption(),
-		"content":  l.Elements.String(),
-		"elements": l.Elements,
-		"literal":  l.String(),
-		"url":      l.URL(),
-	}
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", l): m,
-	}, "", "  ")
 }
 
 func (link Link) String() string {

@@ -2,7 +2,6 @@ package remark
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -16,17 +15,6 @@ var _ TableWriter = &TableBody{}
 type TableBody struct {
 	*ast.TableBody
 	Elements Elements
-}
-
-func (body TableBody) MarshalJSON() ([]byte, error) {
-	m := map[string]interface{}{
-		"content": body.Elements,
-		"literal": body.String(),
-	}
-
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", body): m,
-	}, "", "  ")
 }
 
 func (body TableBody) String() string {

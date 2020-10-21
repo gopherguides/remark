@@ -2,7 +2,6 @@ package remark
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -25,19 +24,7 @@ func (row TableRow) Cells() []*TableCell {
 			cells = append(cells, c)
 		}
 	}
-	fmt.Printf(">>>TODO table_row.go:28: cells (%T): %v \n", cells, cells)
 	return cells
-}
-
-func (row TableRow) MarshalJSON() ([]byte, error) {
-	m := map[string]interface{}{
-		"content": row.Elements,
-		"literal": row.String(),
-	}
-
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", row): m,
-	}, "", "  ")
 }
 
 func (row TableRow) String() string {

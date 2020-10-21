@@ -4,5 +4,5 @@ import "testing"
 
 func Test_Del_String(t *testing.T) {
 	t.Parallel()
-	compare(t, "del")
+	compareStringer(t, "del")
 }

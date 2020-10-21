@@ -1,7 +1,6 @@
 package remark
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -10,17 +9,6 @@ import (
 type Strong struct {
 	*ast.Strong
 	Elements Elements
-}
-
-func (s Strong) MarshalJSON() ([]byte, error) {
-	m := map[string]interface{}{
-		"content":  s.Elements.String(),
-		"elements": s.Elements,
-		"literal":  s.String(),
-	}
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", s): m,
-	}, "", "  ")
 }
 
 func (s Strong) String() string {

@@ -6,5 +6,5 @@ import (
 
 func Test_Code_String(t *testing.T) {
 	t.Parallel()
-	compare(t, "code")
+	compareStringer(t, "code")
 }

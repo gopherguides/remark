@@ -1,7 +1,6 @@
 package remark
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -10,17 +9,6 @@ import (
 type BlockQuote struct {
 	*ast.BlockQuote
 	Elements Elements
-}
-
-func (bq BlockQuote) MarshalJSON() ([]byte, error) {
-	m := map[string]interface{}{
-		"content": bq.Elements,
-		"literal": bq.String(),
-	}
-
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", bq): m,
-	}, "", "  ")
 }
 
 func (bq BlockQuote) String() string {

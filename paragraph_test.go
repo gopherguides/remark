@@ -6,5 +6,5 @@ import (
 
 func Test_Paragraph_String(t *testing.T) {
 	t.Parallel()
-	compare(t, "paragraph")
+	compareStringer(t, "paragraph")
 }

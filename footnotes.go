@@ -1,7 +1,6 @@
 package remark
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -11,17 +10,6 @@ import (
 type Footnotes struct {
 	*ast.Footnotes
 	Elements Elements
-}
-
-func (feet Footnotes) MarshalJSON() ([]byte, error) {
-	m := map[string]interface{}{
-		"content": feet.Elements,
-		"literal": feet.String(),
-	}
-
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", feet): m,
-	}, "", "  ")
 }
 
 func (feet Footnotes) String() string {

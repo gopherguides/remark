@@ -2,7 +2,6 @@ package remark
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -11,17 +10,6 @@ import (
 type Heading struct {
 	*ast.Heading
 	Elements Elements
-}
-
-func (h Heading) MarshalJSON() ([]byte, error) {
-	m := map[string]interface{}{
-		"content":  h.Elements.String(),
-		"elements": h.Elements,
-		"literal":  h.String(),
-	}
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", h): m,
-	}, "", "  ")
 }
 
 func (h Heading) String() string {

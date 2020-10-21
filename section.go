@@ -2,7 +2,6 @@ package remark
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -14,18 +13,6 @@ type Section struct {
 	Elements Elements
 	Sections Sections
 	Nodes    []ast.Node
-}
-
-func (s *Section) MarshalJSON() ([]byte, error) {
-	bits := map[string]interface{}{
-		"elements": s.Elements,
-		"heading":  s.Heading,
-		"literal":  s.String(),
-		"sections": s.Sections,
-	}
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", s): bits,
-	}, "", "  ")
 }
 
 func (s Section) String() string {
@@ -89,14 +76,4 @@ func (s Sections) String() string {
 		lines = append(lines, e.String())
 	}
 	return strings.Join(lines, "")
-}
-
-func (sections Sections) MarshalJSON() ([]byte, error) {
-	bits := make([]json.Marshaler, 0, len(sections))
-	for _, s := range sections {
-		bits = append(bits, s)
-	}
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", sections): bits,
-	}, "", "  ")
 }

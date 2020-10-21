@@ -1,7 +1,6 @@
 package remark
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -10,16 +9,6 @@ import (
 type ListItem struct {
 	*ast.ListItem
 	Elements Elements
-}
-
-func (li ListItem) MarshalJSON() ([]byte, error) {
-	m := map[string]interface{}{
-		"elements": li.Elements,
-		"literal":  li.String(),
-	}
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", li): m,
-	}, "", "  ")
 }
 
 func (li ListItem) String() string {

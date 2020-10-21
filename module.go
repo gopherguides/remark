@@ -15,10 +15,6 @@ func (m Module) Parent() Element {
 	return nil
 }
 
-func (m Module) MarshalJSON() ([]byte, error) {
-	return m.Sections.MarshalJSON()
-}
-
 func (m Module) String() string {
 	s := m.Sections.String()
 

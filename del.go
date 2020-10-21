@@ -1,7 +1,6 @@
 package remark
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -11,17 +10,6 @@ import (
 type Del struct {
 	*ast.Del
 	Elements Elements
-}
-
-func (del Del) MarshalJSON() ([]byte, error) {
-	m := map[string]interface{}{
-		"content": del.Elements,
-		"literal": del.String(),
-	}
-
-	return json.MarshalIndent(map[string]interface{}{
-		fmt.Sprintf("%T", del): m,
-	}, "", "  ")
 }
 
 func (del Del) String() string {
