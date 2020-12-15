@@ -2,7 +2,9 @@ package remark
 
 import (
 	"fmt"
+	"html/template"
 
+	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
 )
 
@@ -14,6 +16,12 @@ type Del struct {
 
 func (del Del) String() string {
 	return fmt.Sprintf("~~%s~~", del.Elements)
+}
+
+func (del Del) HTML() template.HTML {
+	strike := tags.New("strike", nil)
+	strike.Append(del.Elements)
+	return strike.HTML()
 }
 
 func NewDel(node *ast.Del) (*Del, error) {

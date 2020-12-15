@@ -2,13 +2,24 @@ package remark
 
 import (
 	"fmt"
+	"html/template"
 
+	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
 )
 
 type Link struct {
 	*ast.Link
 	Elements Elements
+}
+
+func (l Link) HTML() template.HTML {
+	a := tags.New("a", tags.Options{
+		"href": l.URL(),
+		"alt":  l.Caption(),
+	})
+	a.Append(l.Elements.HTML())
+	return a.HTML()
 }
 
 func (l Link) URL() string {

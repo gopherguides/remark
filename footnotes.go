@@ -2,14 +2,19 @@ package remark
 
 import (
 	"fmt"
+	"html/template"
 
 	"github.com/gomarkdown/markdown/ast"
 )
 
-// Footnotes is strikethrough
 type Footnotes struct {
 	*ast.Footnotes
 	Elements Elements
+}
+
+func (feet Footnotes) HTML() template.HTML {
+	panic(feet)
+	return ""
 }
 
 func (feet Footnotes) String() string {

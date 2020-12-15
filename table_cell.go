@@ -1,13 +1,21 @@
 package remark
 
 import (
+	"html/template"
+
+	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
 )
 
-// TableCell is strikethrough
 type TableCell struct {
 	*ast.TableCell
 	Elements Elements
+}
+
+func (cell TableCell) HTML() template.HTML {
+	t := tags.New("td", nil)
+	t.Append(cell.Elements.HTML())
+	return t.HTML()
 }
 
 func (cell TableCell) String() string {

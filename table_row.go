@@ -3,7 +3,9 @@ package remark
 import (
 	"bytes"
 	"fmt"
+	"html/template"
 
+	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/gopherguides/remark/internal/md"
 	"github.com/olekukonko/tablewriter"
@@ -15,6 +17,12 @@ var _ TableWriter = &TableRow{}
 type TableRow struct {
 	*ast.TableRow
 	Elements Elements
+}
+
+func (row TableRow) HTML() template.HTML {
+	tr := tags.New("tr", nil)
+	tr.Append(row.Elements.HTML())
+	return tr.HTML()
 }
 
 func (row TableRow) Cells() []*TableCell {

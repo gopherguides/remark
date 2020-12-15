@@ -1,6 +1,8 @@
 package remark
 
 import (
+	"html/template"
+
 	"github.com/gomarkdown/markdown/ast"
 )
 
@@ -17,4 +19,8 @@ func NewText(node *ast.Text) (*Text, error) {
 
 func (t Text) String() string {
 	return string(t.Literal)
+}
+
+func (t Text) HTML() template.HTML {
+	return template.HTML(t.Literal)
 }

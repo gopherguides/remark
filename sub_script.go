@@ -2,13 +2,20 @@ package remark
 
 import (
 	"fmt"
+	"html/template"
 
+	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
 )
 
-// SubScript is strikethrough
 type SubScript struct {
 	*ast.Subscript
+}
+
+func (s SubScript) HTML() template.HTML {
+	t := tags.New("sub", nil)
+
+	return t.HTML()
 }
 
 func (script SubScript) String() string {

@@ -1,6 +1,9 @@
 package remark
 
 import (
+	"html/template"
+
+	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
 )
 
@@ -11,6 +14,13 @@ type Paragraph struct {
 
 func (p Paragraph) String() string {
 	return p.Elements.String()
+}
+
+func (p Paragraph) HTML() template.HTML {
+	pt := tags.New("p", nil)
+	pt.Append(p.Elements.HTML())
+
+	return pt.HTML()
 }
 
 func NewParagraph(node *ast.Paragraph) (*Paragraph, error) {

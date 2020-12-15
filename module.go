@@ -1,6 +1,7 @@
 package remark
 
 import (
+	"html/template"
 	"strings"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -13,6 +14,10 @@ type Module struct {
 
 func (m Module) Parent() Element {
 	return nil
+}
+
+func (m Module) HTML() template.HTML {
+	return m.Sections.HTML()
 }
 
 func (m Module) String() string {

@@ -2,6 +2,7 @@ package remark
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
@@ -21,21 +22,33 @@ func parseT(t *testing.T, input string) *Module {
 	return m
 }
 
-func compareStringer(t *testing.T, name string) {
+func td(t *testing.T, name string) string {
 	t.Helper()
 	r := require.New(t)
 
-	fp := filepath.Join("internal", "testdata", name+".md")
+	if filepath.Ext(name) == "" {
+		name += ".md"
+	}
+
+	fp := filepath.Join("internal", "testdata", name)
 	b, err := ioutil.ReadFile(fp)
 	r.NoError(err)
 
 	b = bytes.TrimSpace(b)
+	return string(b)
+}
 
-	m, err := Parse(b)
+func compareStringer(t *testing.T, name string) {
+	t.Helper()
+	r := require.New(t)
+
+	s := td(t, name)
+	m, err := Parse([]byte(s))
 	r.NoError(err)
 
-	exp := strings.TrimSpace(string(b))
+	exp := strings.TrimSpace(s)
 	act := strings.TrimSpace(m.String())
+	fmt.Println(act)
 
 	r.Equal(exp, act)
 }

@@ -2,13 +2,21 @@ package remark
 
 import (
 	"fmt"
+	"html/template"
 
+	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
 )
 
 type Strong struct {
 	*ast.Strong
 	Elements Elements
+}
+
+func (s Strong) HTML() template.HTML {
+	t := tags.New("strong", nil)
+	t.Append(s.Elements.HTML())
+	return t.HTML()
 }
 
 func (s Strong) String() string {

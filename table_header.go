@@ -3,7 +3,9 @@ package remark
 import (
 	"bytes"
 	"fmt"
+	"html/template"
 
+	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/gopherguides/remark/internal/md"
 	"github.com/olekukonko/tablewriter"
@@ -11,10 +13,15 @@ import (
 
 var _ TableWriter = &TableHeader{}
 
-// TableHeader is strikethrough
 type TableHeader struct {
 	*ast.TableHeader
 	Elements Elements
+}
+
+func (th TableHeader) HTML() template.HTML {
+	t := tags.New("th", nil)
+	t.Append(th.Elements.HTML())
+	return t.HTML()
 }
 
 func (th TableHeader) String() string {

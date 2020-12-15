@@ -2,6 +2,7 @@ package remark
 
 import (
 	"fmt"
+	"html/template"
 	"strings"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -9,6 +10,7 @@ import (
 
 type Element interface {
 	fmt.Stringer
+	HTML() template.HTML
 }
 
 type Elements []Element
@@ -19,6 +21,16 @@ func (elems Elements) String() string {
 		lines = append(lines, e.String())
 	}
 	return strings.Join(lines, "")
+}
+
+func (elems Elements) HTML() template.HTML {
+	lines := make([]string, 0, len(elems))
+	for _, e := range elems {
+		lines = append(lines, string(e.HTML()))
+	}
+
+	s := strings.Join(lines, "")
+	return template.HTML(s)
 }
 
 func NewElements(nodes []ast.Node) (Elements, error) {

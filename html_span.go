@@ -1,11 +1,18 @@
 package remark
 
 import (
+	"html/template"
+
 	"github.com/gomarkdown/markdown/ast"
 )
 
 type HTMLSpan struct {
 	*ast.HTMLSpan
+}
+
+func (h HTMLSpan) HTML() template.HTML {
+	panic(h)
+	return ``
 }
 
 func (h HTMLSpan) String() string {

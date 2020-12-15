@@ -3,7 +3,9 @@ package remark
 import (
 	"bytes"
 	"fmt"
+	"html/template"
 
+	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/gopherguides/remark/internal/md"
 	"github.com/olekukonko/tablewriter"
@@ -11,10 +13,15 @@ import (
 
 var _ TableWriter = &Table{}
 
-// Table is strikethrough
 type Table struct {
 	*ast.Table
 	Elements Elements
+}
+
+func (tb Table) HTML() template.HTML {
+	table := tags.New("table", nil)
+	table.Append(tb.Elements.HTML())
+	return table.HTML()
 }
 
 func (table Table) WriteTable(w *tablewriter.Table) error {

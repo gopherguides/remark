@@ -3,6 +3,7 @@ package remark
 import (
 	"bytes"
 	"fmt"
+	"html/template"
 	"strings"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -76,4 +77,13 @@ func (s Sections) String() string {
 		lines = append(lines, e.String())
 	}
 	return strings.Join(lines, "")
+}
+
+func (s Sections) HTML() template.HTML {
+	lines := make([]string, 0, len(s))
+	for _, e := range s {
+		lines = append(lines, string(e.HTML()))
+	}
+	sl := strings.Join(lines, "")
+	return template.HTML(sl)
 }

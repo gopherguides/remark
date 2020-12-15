@@ -1,6 +1,8 @@
 package remark
 
 import (
+	"html/template"
+
 	"github.com/gomarkdown/markdown/ast"
 )
 
@@ -17,4 +19,8 @@ func NewHR(node *ast.HorizontalRule) (*HR, error) {
 		HorizontalRule: node,
 	}
 	return h, nil
+}
+
+func (hr HR) HTML() template.HTML {
+	return template.HTML(`<hr>`)
 }

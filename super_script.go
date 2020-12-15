@@ -2,13 +2,20 @@ package remark
 
 import (
 	"fmt"
+	"html/template"
 
+	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
 )
 
-// SuperScript is strikethrough
 type SuperScript struct {
 	*ast.Superscript
+}
+
+func (s SuperScript) HTML() template.HTML {
+	t := tags.New("sup", nil)
+
+	return t.HTML()
 }
 
 func (script SuperScript) String() string {

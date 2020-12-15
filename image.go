@@ -2,14 +2,24 @@ package remark
 
 import (
 	"fmt"
+	"html/template"
 
+	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
 )
 
-// Image is strikethrough
 type Image struct {
 	*ast.Image
 	Elements Elements
+}
+
+func (image Image) HTML() template.HTML {
+	t := tags.New("img", tags.Options{
+		"src": image.URL(),
+		"alt": image.Caption(),
+	})
+	t.Append(image.Elements.HTML())
+	return t.HTML()
 }
 
 func (image Image) URL() string {
