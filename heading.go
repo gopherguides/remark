@@ -6,18 +6,14 @@ import (
 	"html/template"
 
 	"github.com/gobuffalo/tags/v3"
-	"github.com/gomarkdown/markdown/ast"
 )
 
 type Heading struct {
-	*ast.Heading
+	Level    int
 	Elements Elements
 }
 
 func (h Heading) HTML() template.HTML {
-	if h.Heading == nil {
-		return ""
-	}
 	if h.Level == 0 {
 		h.Level = 1
 	}
@@ -29,9 +25,6 @@ func (h Heading) HTML() template.HTML {
 }
 
 func (h Heading) String() string {
-	if h.Heading == nil {
-		return ""
-	}
 	if h.Level == 0 {
 		h.Level = 1
 	}
@@ -45,18 +38,3 @@ func (h Heading) String() string {
 }
 
 type Headings []Heading
-
-func NewHeading(node *ast.Heading) (*Heading, error) {
-	h := &Heading{
-		Heading: node,
-	}
-
-	for _, n := range node.Children {
-		el, err := NewElement(n)
-		if err != nil {
-			return nil, err
-		}
-		h.Elements = append(h.Elements, el)
-	}
-	return h, nil
-}

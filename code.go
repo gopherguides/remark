@@ -5,11 +5,9 @@ import (
 	"html/template"
 
 	"github.com/gobuffalo/tags/v3"
-	"github.com/gomarkdown/markdown/ast"
 )
 
 type Code struct {
-	*ast.Code
 	Text string
 }
 
@@ -24,12 +22,4 @@ func (c Code) HTML() template.HTML {
 	pre.Append(code)
 
 	return pre.HTML()
-}
-
-func NewCode(node *ast.Code) (*Code, error) {
-	c := &Code{
-		Code: node,
-		Text: string(node.Literal),
-	}
-	return c, nil
 }

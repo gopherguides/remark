@@ -1,13 +1,14 @@
 package remark
 
+import "html/template"
+
 type CodeSpan struct {
-	*HTMLSpan
 }
 
-func NewCodeSpan(html *HTMLSpan) (*CodeSpan, error) {
-	c := &CodeSpan{
-		HTMLSpan: html,
-	}
+func (c CodeSpan) String() string {
+	return ""
+}
 
-	return c, nil
+func (c CodeSpan) HTML() template.HTML {
+	return ""
 }

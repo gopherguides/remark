@@ -5,15 +5,12 @@ import (
 	"fmt"
 	"html/template"
 	"strings"
-
-	"github.com/gomarkdown/markdown/ast"
 )
 
 type Section struct {
 	*Heading
 	Elements Elements
 	Sections Sections
-	Nodes    []ast.Node
 }
 
 func (s Section) String() string {
@@ -31,42 +28,6 @@ func (s Section) String() string {
 		fmt.Fprintf(bb, "\n\n%s", e)
 	}
 	return bb.String()
-}
-
-func NewSection(head *Heading, children []ast.Node) (*Section, error) {
-	s := &Section{
-		Heading: head,
-	}
-
-	var kids []ast.Node
-	// var err error
-	for _, n := range children {
-		switch t := n.(type) {
-		case *ast.Heading:
-			h, err := NewHeading(t)
-			if err != nil {
-				return nil, err
-			}
-			sec, err := NewSection(h, kids)
-			if err != nil {
-				return nil, err
-			}
-			s.Sections = append(s.Sections, sec)
-			kids = []ast.Node{}
-
-		default:
-			kids = append(kids, t)
-		}
-	}
-
-	for _, k := range kids {
-		el, err := NewElement(k)
-		if err != nil {
-			return nil, err
-		}
-		s.Elements = append(s.Elements, el)
-	}
-	return s, nil
 }
 
 type Sections []*Section

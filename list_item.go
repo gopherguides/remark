@@ -7,12 +7,13 @@ import (
 	"strings"
 
 	"github.com/gobuffalo/tags/v3"
-	"github.com/gomarkdown/markdown/ast"
 )
 
 type ListItem struct {
-	*ast.ListItem
-	Elements Elements
+	Attributes Attributes
+	Bullet     string
+	Delimiter  string
+	Elements   Elements
 }
 
 func (li ListItem) HTML() template.HTML {
@@ -38,22 +39,6 @@ func (li ListItem) String() string {
 			lines = append(lines, s)
 		}
 	}
-	s := fmt.Sprintf("%s%s %s", string(li.BulletChar), string(li.Delimiter), strings.Join(lines, ""))
+	s := fmt.Sprintf("%s%s %s", li.Bullet, li.Delimiter, strings.Join(lines, ""))
 	return s
-}
-
-func NewListItem(node *ast.ListItem) (*ListItem, error) {
-	li := &ListItem{
-		ListItem: node,
-	}
-
-	for _, n := range node.Children {
-		el, err := NewElement(n)
-		if err != nil {
-			return nil, err
-		}
-		li.Elements = append(li.Elements, el)
-
-	}
-	return li, nil
 }
