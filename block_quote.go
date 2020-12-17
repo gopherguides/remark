@@ -14,7 +14,7 @@ type BlockQuote struct {
 }
 
 func (bq BlockQuote) HTML() template.HTML {
-	t := tags.New("blockquote", nil)
+	t := tags.New("blockquote", tags.Options{})
 	t.Append(bq.Elements.HTML())
 	return t.HTML()
 }

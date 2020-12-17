@@ -14,11 +14,21 @@ type Image struct {
 }
 
 func (image Image) HTML() template.HTML {
-	t := tags.New("img", tags.Options{
+	opts := tags.Options{
 		"src": image.URL(),
-		"alt": image.Caption(),
-	})
+	}
+
+	t := tags.New("img", opts)
+	capt := image.Caption()
+	if len(capt) > 0 {
+		opts["alt"] = capt
+		fig := tags.New("figcaption", tags.Options{
+			"body": capt,
+		})
+		t.AfterTag = append(t.AfterTag, fig)
+	}
 	t.Append(image.Elements.HTML())
+
 	return t.HTML()
 }
 

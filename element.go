@@ -48,7 +48,7 @@ func NewElements(nodes []ast.Node) (Elements, error) {
 func NewElement(node ast.Node) (Element, error) {
 	switch t := node.(type) {
 	case *ast.Document:
-		return NewModule(t)
+		return NewDocument(t)
 	case *ast.Paragraph:
 		return NewParagraph(t)
 	case *ast.CodeBlock:
@@ -95,6 +95,8 @@ func NewElement(node ast.Node) (Element, error) {
 		return NewSubScript(t)
 	case *ast.Footnotes:
 		return NewFootnotes(t)
+	case *ast.HTMLBlock:
+		panic(string(t.Literal))
 	default:
 		return nil, fmt.Errorf("unknown node type %T", node)
 	}

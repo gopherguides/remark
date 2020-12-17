@@ -13,7 +13,9 @@ type SuperScript struct {
 }
 
 func (s SuperScript) HTML() template.HTML {
-	t := tags.New("sup", nil)
+	t := tags.New("sup", tags.Options{
+		"body": string(s.Literal),
+	})
 
 	return t.HTML()
 }

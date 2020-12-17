@@ -7,27 +7,27 @@ import (
 	"github.com/gomarkdown/markdown/ast"
 )
 
-type Module struct {
+type Document struct {
 	Document *ast.Document `json:"-"`
 	Sections Sections
 }
 
-func (m Module) Parent() Element {
+func (m Document) Parent() Element {
 	return nil
 }
 
-func (m Module) HTML() template.HTML {
+func (m Document) HTML() template.HTML {
 	return m.Sections.HTML()
 }
 
-func (m Module) String() string {
+func (m Document) String() string {
 	s := m.Sections.String()
 
 	return strings.TrimSpace(s)
 }
 
-func NewModule(node *ast.Document) (*Module, error) {
-	m := &Module{
+func NewDocument(node *ast.Document) (*Document, error) {
+	m := &Document{
 		Document: node,
 	}
 

@@ -14,7 +14,7 @@ type Emph struct {
 }
 
 func (s Emph) HTML() template.HTML {
-	t := tags.New("emph", nil)
+	t := tags.New("em", nil)
 	t.Append(s.Elements.HTML())
 	return t.HTML()
 }

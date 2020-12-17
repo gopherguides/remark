@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func parseT(t *testing.T, input string) *Module {
+func parseT(t *testing.T, input string) *Document {
 	t.Helper()
 
 	r := require.New(t)

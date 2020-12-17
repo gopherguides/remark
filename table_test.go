@@ -1,9 +1,54 @@
 package remark
 
-import "testing"
+import (
+	"html/template"
+	"testing"
+
+	"github.com/gomarkdown/markdown/ast"
+	"github.com/stretchr/testify/require"
+)
 
 func Test_Table_String(t *testing.T) {
 	t.Parallel()
 
 	compareStringer(t, "table")
+}
+
+func Test_Table_HTML(t *testing.T) {
+	t.Parallel()
+	r := require.New(t)
+
+	table := Table{
+		Elements: Elements{
+			TableHeader{
+				Elements: Elements{
+					TableCell{
+						Elements: Elements{String("hooligan")},
+					},
+					TableCell{
+						Elements: Elements{String("hippo")},
+					},
+				},
+			},
+			TableRow{
+				Elements: Elements{
+					TableCell{
+						Elements: Elements{String("snow")},
+					},
+					TableCell{
+						Elements: Elements{
+							Image{
+								Image: &ast.Image{
+									Destination: []byte("./foo.png"),
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	exp := template.HTML(`<table><th><td>hooligan</td><td>hippo</td></th><tr><td>snow</td><td><img src="./foo.png"></img></td></tr></table>`)
+	r.Equal(exp, table.HTML())
 }
