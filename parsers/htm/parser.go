@@ -44,7 +44,6 @@ func (p *Parser) node(n *html.Node) error {
 		if err != nil {
 			return err
 		}
-		fmt.Printf(">>>TODO parsers/htm/parser.go:47: el (%T): %v \n", el, el)
 		p.elements = append(p.elements, el)
 		return nil
 	case html.RawNode:

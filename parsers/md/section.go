@@ -9,9 +9,7 @@ import (
 )
 
 func NewSection(head *remark.Heading, children []ast.Node) (*remark.Section, error) {
-	s := &remark.Section{
-		Heading: head,
-	}
+	s := &remark.Section{}
 
 	var kids []ast.Node
 	// var err error
@@ -26,7 +24,7 @@ func NewSection(head *remark.Heading, children []ast.Node) (*remark.Section, err
 			if err != nil {
 				return nil, err
 			}
-			s.Sections = append(s.Sections, sec)
+			s.Elements = append(s.Elements, sec)
 			kids = []ast.Node{}
 
 		default:

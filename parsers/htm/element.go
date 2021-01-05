@@ -11,8 +11,6 @@ type Element = remark.Element
 type Elements = remark.Elements
 
 func NewElement(n *html.Node) (Element, error) {
-	fmt.Printf(">>>TODO parsers/htm/parser.go:34: n (%T): %v \n", n, n)
-	fmt.Printf(">>>TODO parsers/htm/element.go:15: n.Data (%T): %v \n", n.Data, n.Data)
 	switch n.Data {
 	case "a":
 		return NewLink(n)

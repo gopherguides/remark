@@ -17,9 +17,11 @@ func NewDocument(n *html.Node) (*remark.Document, error) {
 		if s, ok := el.(*remark.Section); ok {
 			d.Sections = append(d.Sections, sec)
 			sec = s
+			continue
 		}
 		sec.Elements = append(sec.Elements, el)
 	}
+
 	d.Sections = append(d.Sections, sec)
 
 	return d, nil

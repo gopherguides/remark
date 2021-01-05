@@ -1,7 +1,7 @@
 package htm
 
 import (
-	"fmt"
+	"html/template"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -24,6 +24,7 @@ func Test_HTML(t *testing.T) {
 	r.NoError(err)
 	r.NotNil(doc)
 
-	fmt.Printf(">>>TODO parsers/htm/parser_test.go:26: doc.HTML() (%T): %v \n", doc.HTML(), doc.HTML())
-	r.False(true)
+	act := doc.HTML()
+	exp := template.HTML(html)
+	r.Equal(exp, act)
 }
