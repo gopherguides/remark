@@ -1,8 +1,6 @@
 package md
 
 import (
-	"fmt"
-
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/gopherguides/remark"
 )
@@ -12,11 +10,9 @@ func NewList(node *ast.List) (*remark.List, error) {
 
 	switch node.ListFlags {
 	case ast.ListTypeOrdered:
-		l.Type = ListTypeOrdered
-	case ast.ListTypeUnordered:
-		l.Type = ListTypeUnordered
+		l.Type = remark.ListTypeOrdered
 	default:
-		return nil, fmt.Errorf("unknown list type %v", node)
+		l.Type = remark.ListTypeUnordered
 	}
 
 	for _, n := range node.Children {

@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"testing"
 
-	"github.com/gomarkdown/markdown/ast"
+	"github.com/gopherguides/remark"
 	"github.com/stretchr/testify/require"
 )
 
@@ -31,10 +31,8 @@ func Test_Heading_HTML(t *testing.T) {
 		t.Run(fmt.Sprintf("%d/%s", tt.Level, tt.Exp), func(st *testing.T) {
 			r := require.New(st)
 
-			h := Heading{
-				Heading: &ast.Heading{
-					Level: tt.Level,
-				},
+			h := &remark.Heading{
+				Level: tt.Level,
 				Elements: Elements{
 					String("Hello"),
 				},

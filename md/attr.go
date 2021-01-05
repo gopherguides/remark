@@ -13,10 +13,10 @@ func attrs(at *ast.Attribute) remark.Attributes {
 		return atts
 	}
 
-	for k, v := range a.Attrs {
+	for k, v := range at.Attrs {
 		atts[k] = string(v)
 	}
-	atts["id"] = string(a.ID)
-	atts["class"] = string(bytes.Join(a.Classes, []byte(" ")))
+	atts["id"] = string(at.ID)
+	atts["class"] = string(bytes.Join(at.Classes, []byte(" ")))
 	return atts
 }

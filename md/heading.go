@@ -7,7 +7,7 @@ import (
 
 func NewHeading(node *ast.Heading) (*remark.Heading, error) {
 	h := &remark.Heading{
-		Heading: node,
+		Level: node.Level,
 	}
 
 	for _, n := range node.Children {

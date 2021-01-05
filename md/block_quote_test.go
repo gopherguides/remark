@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"testing"
 
+	"github.com/gopherguides/remark"
 	"github.com/stretchr/testify/require"
 )
 
@@ -16,7 +17,7 @@ func Test_BlockQuote_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
 
-	bq := BlockQuote{
+	bq := &remark.BlockQuote{
 		Elements: Elements{
 			String("ala mode"),
 		},

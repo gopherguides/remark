@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"testing"
 
+	"github.com/gopherguides/remark"
 	"github.com/stretchr/testify/require"
 )
 
@@ -16,7 +17,7 @@ func Test_Code_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
 
-	c := Code{
+	c := &remark.Code{
 		Text: "1+1",
 	}
 

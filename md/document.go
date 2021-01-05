@@ -9,7 +9,7 @@ func NewDocument(node *ast.Document) (*remark.Document, error) {
 	m := &remark.Document{}
 
 	var kids []ast.Node
-	var head *Heading
+	var head *remark.Heading
 	var err error
 	for _, n := range node.Children {
 		switch t := n.(type) {

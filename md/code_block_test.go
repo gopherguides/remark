@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"testing"
 
+	"github.com/gopherguides/remark"
 	"github.com/stretchr/testify/require"
 )
 
@@ -16,7 +17,7 @@ func Test_CodeBlock_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
 
-	cb := CodeBlock{
+	cb := &remark.CodeBlock{
 		Language: "go",
 		Text:     "print(1)\nprint(2)",
 	}

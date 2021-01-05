@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/gomarkdown/markdown/ast"
+	"github.com/gopherguides/remark"
 	"github.com/stretchr/testify/require"
 )
 
@@ -38,11 +39,14 @@ func Test_Image_HTML(t *testing.T) {
 	for _, tt := range table {
 		tt := tt
 
-		t.Run(string(tt.Image.Destination), func(st *testing.T) {
+		t.Run(string(tt.Image.Destination)+string(tt.Image.Title), func(st *testing.T) {
 			r := require.New(st)
 
-			img := Image{
-				Image: tt.Image,
+			img := &remark.Image{
+				Attributes: remark.Attributes{
+					"src":   string(tt.Image.Destination),
+					"title": string(tt.Image.Title),
+				},
 			}
 
 			r.Equal(tt.Exp, img.HTML())

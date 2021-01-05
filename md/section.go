@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/gomarkdown/markdown/ast"
+	"github.com/gopherguides/remark"
 )
 
 func NewSection(head *remark.Heading, children []ast.Node) (*remark.Section, error) {
@@ -43,7 +44,7 @@ func NewSection(head *remark.Heading, children []ast.Node) (*remark.Section, err
 	return s, nil
 }
 
-type Sections []*Section
+type Sections []*remark.Section
 
 func (s Sections) String() string {
 	lines := make([]string, 0, len(s))

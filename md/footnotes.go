@@ -14,7 +14,7 @@ type Footnotes struct {
 
 func (feet Footnotes) HTML() template.HTML {
 	panic(feet)
-	return ""
+	// return ""
 }
 
 func (feet Footnotes) String() string {

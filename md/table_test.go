@@ -4,7 +4,7 @@ import (
 	"html/template"
 	"testing"
 
-	"github.com/gomarkdown/markdown/ast"
+	"github.com/gopherguides/remark"
 	"github.com/stretchr/testify/require"
 )
 
@@ -37,9 +37,9 @@ func Test_Table_HTML(t *testing.T) {
 					},
 					TableCell{
 						Elements: Elements{
-							Image{
-								Image: &ast.Image{
-									Destination: []byte("./foo.png"),
+							&remark.Image{
+								Attributes: remark.Attributes{
+									"src": "./foo.png",
 								},
 							},
 						},

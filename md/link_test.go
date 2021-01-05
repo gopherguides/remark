@@ -4,7 +4,7 @@ import (
 	"html/template"
 	"testing"
 
-	"github.com/gomarkdown/markdown/ast"
+	"github.com/gopherguides/remark"
 	"github.com/stretchr/testify/require"
 )
 
@@ -17,10 +17,10 @@ func Test_Link_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
 
-	l := Link{
-		Link: &ast.Link{
-			Destination: []byte("http://example.com"),
-			Title:       []byte("Devil Man"),
+	l := &remark.Link{
+		Attributes: remark.Attributes{
+			"alt":  "Devil Man",
+			"href": "http://example.com",
 		},
 		Elements: Elements{String("The Dance")},
 	}

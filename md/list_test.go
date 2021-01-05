@@ -4,7 +4,7 @@ import (
 	"html/template"
 	"testing"
 
-	"github.com/gomarkdown/markdown/ast"
+	"github.com/gopherguides/remark"
 	"github.com/stretchr/testify/require"
 )
 
@@ -17,13 +17,11 @@ func Test_List_OL_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
 
-	l := List{
-		List: &ast.List{
-			ListFlags: ast.ListTypeOrdered,
-		},
+	l := &remark.List{
+		Type: remark.ListTypeOrdered,
 		Elements: Elements{
-			ListItem{Elements: Elements{String("Ding")}},
-			ListItem{Elements: Elements{String("Dong")}},
+			&remark.ListItem{Elements: Elements{String("Ding")}},
+			&remark.ListItem{Elements: Elements{String("Dong")}},
 		},
 	}
 
