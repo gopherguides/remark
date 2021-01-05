@@ -8,12 +8,8 @@ import (
 func NewParagraph(n *html.Node) (*remark.Paragraph, error) {
 	d := &remark.Paragraph{}
 
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		el, err := NewElement(c)
-		if err != nil {
-			return nil, err
-		}
-		d.Elements = append(d.Elements, el)
+	if err := set(d, n); err != nil {
+		return nil, err
 	}
 
 	return d, nil

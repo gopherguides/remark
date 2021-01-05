@@ -8,12 +8,8 @@ import (
 func NewSection(n *html.Node) (*remark.Section, error) {
 	s := &remark.Section{}
 
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		el, err := NewElement(c)
-		if err != nil {
-			return nil, err
-		}
-		s.Elements = append(s.Elements, el)
+	if err := set(s, n); err != nil {
+		return nil, err
 	}
 
 	return s, nil

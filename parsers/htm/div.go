@@ -8,12 +8,8 @@ import (
 func NewDiv(n *html.Node) (*remark.Div, error) {
 	d := &remark.Div{}
 
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		el, err := NewElement(c)
-		if err != nil {
-			return nil, err
-		}
-		d.Elements = append(d.Elements, el)
+	if err := set(d, n); err != nil {
+		return nil, err
 	}
 
 	return d, nil

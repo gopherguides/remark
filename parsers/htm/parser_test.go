@@ -1,6 +1,7 @@
 package htm
 
 import (
+	"fmt"
 	"html/template"
 	"testing"
 
@@ -25,6 +26,7 @@ func Test_HTML(t *testing.T) {
 	r.NotNil(doc)
 
 	act := doc.HTML()
+	fmt.Println(act)
 	exp := template.HTML(html)
 	r.Equal(exp, act)
 }

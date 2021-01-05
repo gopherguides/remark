@@ -12,10 +12,11 @@ type Link struct {
 }
 
 func (l Link) HTML() template.HTML {
-	a := tags.New("a", tags.Options{
-		"href": l.URL(),
-		"alt":  l.Alt(),
-	})
+	opts := tags.Options{}
+	for k, v := range l.Attributes {
+		opts[k] = v
+	}
+	a := tags.New("a", opts)
 	a.Append(l.Elements.HTML())
 	return a.HTML()
 }

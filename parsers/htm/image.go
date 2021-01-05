@@ -6,15 +6,11 @@ import (
 )
 
 func NewImage(n *html.Node) (*remark.Image, error) {
-	d := &remark.Image{}
+	i := &remark.Image{}
 
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		el, err := NewElement(c)
-		if err != nil {
-			return nil, err
-		}
-		d.Elements = append(d.Elements, el)
+	if err := set(i, n); err != nil {
+		return nil, err
 	}
 
-	return d, nil
+	return i, nil
 }

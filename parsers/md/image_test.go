@@ -27,7 +27,7 @@ func Test_Image_HTML(t *testing.T) {
 				Destination: []byte("./foo.png"),
 				Title:       []byte("Kangaroo"),
 			},
-			Exp: `<img alt="Kangaroo" src="./foo.png"></img><figcaption>Kangaroo</figcaption>`,
+			Exp: `<img src="./foo.png" title="Kangaroo"></img>`,
 		},
 	}
 
@@ -39,9 +39,11 @@ func Test_Image_HTML(t *testing.T) {
 
 			img := &remark.Image{
 				Attributes: remark.Attributes{
-					"src":   string(tt.Image.Destination),
-					"title": string(tt.Image.Title),
+					"src": string(tt.Image.Destination),
 				},
+			}
+			if len(tt.Image.Title) > 0 {
+				img.Attributes["title"] = string(tt.Image.Title)
 			}
 
 			r.Equal(tt.Exp, img.HTML())

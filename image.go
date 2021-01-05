@@ -16,21 +16,22 @@ func (i Image) Attrs() Attributes {
 }
 
 func (image Image) HTML() template.HTML {
-	opts := tags.Options{
-		"src": image.URL(),
+	opts := tags.Options{}
+	for k, v := range image.Attributes {
+		opts[k] = v
 	}
 
 	t := tags.New("img", opts)
-	capt := image.Title()
-	if len(capt) > 0 {
-		if _, ok := opts["alt"]; !ok {
-			opts["alt"] = capt
-		}
-		fig := tags.New("figcaption", tags.Options{
-			"body": capt,
-		})
-		t.AfterTag = append(t.AfterTag, fig)
-	}
+	// capt := image.Title()
+	// if len(capt) > 0 {
+	// 	if _, ok := opts["alt"]; !ok {
+	// 		opts["alt"] = capt
+	// 	}
+	// 	fig := tags.New("figcaption", tags.Options{
+	// 		"body": capt,
+	// 	})
+	// 	t.AfterTag = append(t.AfterTag, fig)
+	// }
 	t.Append(image.Elements.HTML())
 
 	return t.HTML()

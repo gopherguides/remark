@@ -8,12 +8,8 @@ import (
 func NewHead(n *html.Node) (*remark.Head, error) {
 	h := &remark.Head{}
 
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		el, err := NewElement(c)
-		if err != nil {
-			return nil, err
-		}
-		h.Elements = append(h.Elements, el)
+	if err := set(h, n); err != nil {
+		return nil, err
 	}
 
 	return h, nil
