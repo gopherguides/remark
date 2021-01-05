@@ -1,13 +1,5 @@
 package md
 
-import "html/template"
+import "github.com/gopherguides/remark"
 
-type String string
-
-func (s String) String() string {
-	return string(s)
-}
-
-func (s String) HTML() template.HTML {
-	return template.HTML(string(s))
-}
+type String = remark.String

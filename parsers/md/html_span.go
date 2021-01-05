@@ -15,10 +15,6 @@ func (h HTMLSpan) HTML() template.HTML {
 	return ``
 }
 
-func (h HTMLSpan) String() string {
-	return string(h.Literal)
-}
-
 // NewHTMLSpan returns an element, because if it is a
 // <code> span, for example, it'll return a CodeSpan type instead.
 func NewHTMLSpan(node *ast.HTMLSpan) (Element, error) {

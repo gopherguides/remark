@@ -2,10 +2,8 @@ package md
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"path/filepath"
-	"strings"
 	"testing"
 
 	"github.com/gopherguides/remark"
@@ -37,20 +35,4 @@ func td(t *testing.T, name string) string {
 
 	b = bytes.TrimSpace(b)
 	return string(b)
-}
-
-func compareStringer(t *testing.T, name string) {
-	t.Skip()
-	t.Helper()
-	r := require.New(t)
-
-	s := td(t, name)
-	m, err := Parse([]byte(s))
-	r.NoError(err)
-
-	exp := strings.TrimSpace(s)
-	act := strings.TrimSpace(m.String())
-	fmt.Println(act)
-
-	r.Equal(exp, act)
 }

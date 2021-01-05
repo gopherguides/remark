@@ -9,11 +9,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_Heading_String(t *testing.T) {
-	t.Parallel()
-	compareStringer(t, "heading")
-}
-
 func Test_Heading_HTML(t *testing.T) {
 	t.Parallel()
 

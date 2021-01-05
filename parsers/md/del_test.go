@@ -8,11 +8,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_Del_String(t *testing.T) {
-	t.Parallel()
-	compareStringer(t, "del")
-}
-
 func Test_Del_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)

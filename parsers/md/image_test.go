@@ -9,11 +9,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_Image_String(t *testing.T) {
-	t.Parallel()
-	compareStringer(t, "image")
-}
-
 func Test_Image_HTML(t *testing.T) {
 	t.Parallel()
 

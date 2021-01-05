@@ -1,7 +1,6 @@
 package md
 
 import (
-	"fmt"
 	"html/template"
 
 	"github.com/gobuffalo/tags/v3"
@@ -18,10 +17,6 @@ func (s SuperScript) HTML() template.HTML {
 	})
 
 	return t.HTML()
-}
-
-func (script SuperScript) String() string {
-	return fmt.Sprintf("^%s^", script.Literal)
 }
 
 func NewSuperScript(node *ast.Superscript) (*SuperScript, error) {

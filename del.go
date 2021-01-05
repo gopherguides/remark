@@ -1,7 +1,6 @@
 package remark
 
 import (
-	"fmt"
 	"html/template"
 
 	"github.com/gobuffalo/tags/v3"
@@ -10,10 +9,6 @@ import (
 // Del is strikethrough
 type Del struct {
 	Elements Elements
-}
-
-func (del Del) String() string {
-	return fmt.Sprintf("~~%s~~", del.Elements)
 }
 
 func (del Del) HTML() template.HTML {

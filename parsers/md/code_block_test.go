@@ -8,11 +8,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_CodeBlock_String(t *testing.T) {
-	t.Parallel()
-	compareStringer(t, "code_block")
-}
-
 func Test_CodeBlock_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)

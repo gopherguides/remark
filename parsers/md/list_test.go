@@ -8,11 +8,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_List_String(t *testing.T) {
-	t.Parallel()
-	// compareStringer(t, "list")
-}
-
 func Test_List_OL_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)

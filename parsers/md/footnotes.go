@@ -1,7 +1,6 @@
 package md
 
 import (
-	"fmt"
 	"html/template"
 
 	"github.com/gomarkdown/markdown/ast"
@@ -15,10 +14,6 @@ type Footnotes struct {
 func (feet Footnotes) HTML() template.HTML {
 	panic(feet)
 	// return ""
-}
-
-func (feet Footnotes) String() string {
-	return fmt.Sprintf("~~%s~~", feet.Elements)
 }
 
 func NewFootnotes(node *ast.Footnotes) (*Footnotes, error) {

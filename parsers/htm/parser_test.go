@@ -1,6 +1,7 @@
 package htm
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -19,8 +20,10 @@ func Test_HTML(t *testing.T) {
 </div>
 `
 
-	elems, err := Parse([]byte(html))
+	doc, err := Parse([]byte(html))
 	r.NoError(err)
+	r.NotNil(doc)
 
-	r.NotEmpty(elems)
+	fmt.Printf(">>>TODO parsers/htm/parser_test.go:26: doc.HTML() (%T): %v \n", doc.HTML(), doc.HTML())
+	r.False(true)
 }

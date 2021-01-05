@@ -1,7 +1,6 @@
 package remark
 
 import (
-	"bytes"
 	"fmt"
 	"html/template"
 
@@ -22,19 +21,6 @@ func (h Heading) HTML() template.HTML {
 	ht.Append(h.Elements.HTML())
 
 	return ht.HTML()
-}
-
-func (h Heading) String() string {
-	if h.Level == 0 {
-		h.Level = 1
-	}
-
-	bb := &bytes.Buffer{}
-	for i := 0; i < h.Level; i++ {
-		fmt.Fprint(bb, "#")
-	}
-	fmt.Fprintf(bb, " %s", h.Elements)
-	return bb.String()
 }
 
 type Headings []Heading

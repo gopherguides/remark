@@ -2,7 +2,6 @@ package remark
 
 import (
 	"html/template"
-	"strings"
 
 	"github.com/gobuffalo/tags/v3"
 )
@@ -29,16 +28,4 @@ func (l List) HTML() template.HTML {
 	}
 	t.Append(l.Elements.HTML())
 	return t.HTML()
-}
-
-func (l List) String() string {
-	var lines []string
-	// for _, e := range l.Elements {
-	// 	s := e.String()
-	// 	if _, ok := l.Parent.(*ast.ListItem); ok {
-	// 		s = "  " + s
-	// 	}
-	// 	lines = append(lines, s)
-	// }
-	return strings.Join(lines, "\n")
 }

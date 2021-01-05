@@ -12,10 +12,6 @@ type Paragraph struct {
 	Elements Elements
 }
 
-func (p Paragraph) String() string {
-	return p.Elements.String()
-}
-
 func (p Paragraph) HTML() template.HTML {
 	pt := tags.New("p", nil)
 	pt.Append(p.Elements.HTML())

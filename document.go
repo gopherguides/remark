@@ -2,7 +2,6 @@ package remark
 
 import (
 	"html/template"
-	"strings"
 )
 
 type Document struct {
@@ -11,10 +10,4 @@ type Document struct {
 
 func (m Document) HTML() template.HTML {
 	return m.Sections.HTML()
-}
-
-func (m Document) String() string {
-	s := m.Sections.String()
-
-	return strings.TrimSpace(s)
 }

@@ -8,11 +8,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_Emph_string(t *testing.T) {
-	t.Parallel()
-	compareStringer(t, "emph")
-}
-
 func Test_Emph_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)

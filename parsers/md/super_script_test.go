@@ -8,11 +8,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_SuperScript_String(t *testing.T) {
-	t.Parallel()
-	compareStringer(t, "super_script")
-}
-
 func Test_SuperScript_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)

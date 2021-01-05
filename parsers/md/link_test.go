@@ -8,11 +8,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_Link_String(t *testing.T) {
-	t.Parallel()
-	compareStringer(t, "link")
-}
-
 func Test_Link_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)

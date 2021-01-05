@@ -1,10 +1,7 @@
 package remark
 
 import (
-	"bytes"
-	"fmt"
 	"html/template"
-	"strings"
 
 	"github.com/gobuffalo/tags/v3"
 )
@@ -12,14 +9,6 @@ import (
 type CodeBlock struct {
 	Language string
 	Text     string
-}
-
-func (cb CodeBlock) String() string {
-	bb := &bytes.Buffer{}
-	fmt.Fprintf(bb, "```%s\n", cb.Language)
-	fmt.Fprint(bb, strings.TrimSpace(cb.Text))
-	fmt.Fprintf(bb, "\n```")
-	return bb.String()
 }
 
 func (cb CodeBlock) HTML() template.HTML {

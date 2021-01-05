@@ -12,10 +12,6 @@ type HTMLBlock struct {
 	Elements Elements
 }
 
-func (hb HTMLBlock) String() string {
-	return hb.Elements.String()
-}
-
 func (hb HTMLBlock) HTML() template.HTML {
 	return hb.Elements.HTML()
 }

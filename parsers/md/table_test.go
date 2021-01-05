@@ -8,12 +8,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_Table_String(t *testing.T) {
-	t.Parallel()
-
-	compareStringer(t, "table")
-}
-
 func Test_Table_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)

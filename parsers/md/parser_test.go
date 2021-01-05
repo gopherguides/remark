@@ -18,5 +18,4 @@ func Test_Parser_Parse(t *testing.T) {
 	r.NoError(err)
 	r.NotNil(m)
 
-	// r.Equal(string(b), m.String())
 }

@@ -1,7 +1,6 @@
 package remark
 
 import (
-	"fmt"
 	"html/template"
 
 	"github.com/gobuffalo/tags/v3"
@@ -9,10 +8,6 @@ import (
 
 type Code struct {
 	Text string
-}
-
-func (c Code) String() string {
-	return fmt.Sprintf("`%s`", c.Text)
 }
 
 func (c Code) HTML() template.HTML {

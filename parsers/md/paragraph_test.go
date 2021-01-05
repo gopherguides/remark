@@ -7,11 +7,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_Paragraph_String(t *testing.T) {
-	t.Parallel()
-	compareStringer(t, "paragraph")
-}
-
 func Test_Paragraph_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)

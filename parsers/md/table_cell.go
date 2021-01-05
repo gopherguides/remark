@@ -18,11 +18,6 @@ func (cell TableCell) HTML() template.HTML {
 	return t.HTML()
 }
 
-func (cell TableCell) String() string {
-	s := cell.Elements.String()
-	return s
-}
-
 func NewTableCell(node *ast.TableCell) (*TableCell, error) {
 	elems, err := NewElements(node.Children)
 	if err != nil {

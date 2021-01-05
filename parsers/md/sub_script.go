@@ -1,7 +1,6 @@
 package md
 
 import (
-	"fmt"
 	"html/template"
 
 	"github.com/gobuffalo/tags/v3"
@@ -17,10 +16,6 @@ func (s SubScript) HTML() template.HTML {
 		"body": string(s.Literal),
 	})
 	return t.HTML()
-}
-
-func (script SubScript) String() string {
-	return fmt.Sprintf("~%s~", script.Literal)
 }
 
 func NewSubScript(node *ast.Subscript) (*SubScript, error) {

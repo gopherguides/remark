@@ -46,14 +46,6 @@ func NewSection(head *remark.Heading, children []ast.Node) (*remark.Section, err
 
 type Sections []*remark.Section
 
-func (s Sections) String() string {
-	lines := make([]string, 0, len(s))
-	for _, e := range s {
-		lines = append(lines, e.String())
-	}
-	return strings.Join(lines, "")
-}
-
 func (s Sections) HTML() template.HTML {
 	lines := make([]string, 0, len(s))
 	for _, e := range s {

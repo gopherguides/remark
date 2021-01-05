@@ -8,11 +8,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_BlockQuote_String(t *testing.T) {
-	t.Parallel()
-	compareStringer(t, "block_quote")
-}
-
 func Test_BlockQuote_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)

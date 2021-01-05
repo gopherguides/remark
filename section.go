@@ -1,7 +1,6 @@
 package remark
 
 import (
-	"bytes"
 	"fmt"
 	"html/template"
 	"strings"
@@ -13,36 +12,17 @@ type Section struct {
 	Sections Sections
 }
 
-func (s Section) String() string {
-	bb := &bytes.Buffer{}
-
-	if s.Heading != nil {
-		fmt.Fprintf(bb, "%s", s.Heading)
-	}
-
-	for _, e := range s.Elements {
-		fmt.Fprintf(bb, "\n\n%s", e)
-	}
-
-	for _, e := range s.Sections {
-		fmt.Fprintf(bb, "\n\n%s", e)
-	}
-	return bb.String()
+func (s Section) HTML() template.HTML {
+	return s.Elements.HTML()
 }
 
 type Sections []*Section
 
-func (s Sections) String() string {
-	lines := make([]string, 0, len(s))
-	for _, e := range s {
-		lines = append(lines, e.String())
-	}
-	return strings.Join(lines, "")
-}
-
 func (s Sections) HTML() template.HTML {
 	lines := make([]string, 0, len(s))
 	for _, e := range s {
+		fmt.Printf(">>>TODO section.go:46: e (%T): %v \n", e, e)
+		fmt.Printf(">>>TODO section.go:21: e.HTML() (%T): %v \n", e.HTML(), e.HTML())
 		lines = append(lines, string(e.HTML()))
 	}
 	sl := strings.Join(lines, "")

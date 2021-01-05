@@ -1,17 +1,11 @@
 package md
 
 import (
-	"bytes"
-	"fmt"
 	"html/template"
 
 	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
-	"github.com/gopherguides/remark/internal/md"
-	"github.com/olekukonko/tablewriter"
 )
-
-var _ TableWriter = &TableHeader{}
 
 type TableHeader struct {
 	*ast.TableHeader
@@ -22,48 +16,6 @@ func (th TableHeader) HTML() template.HTML {
 	t := tags.New("th", nil)
 	t.Append(th.Elements.HTML())
 	return t.HTML()
-}
-
-func (th TableHeader) String() string {
-	bb := &bytes.Buffer{}
-	table := md.NewTableWriter(bb)
-	th.WriteTable(table)
-	return bb.String()
-}
-
-func (row TableHeader) WriteTable(w *tablewriter.Table) error {
-	if len(row.Elements) == 0 {
-		return nil
-	}
-
-	var cells []*TableCell
-	for _, e := range row.Elements {
-		if row, ok := e.(*TableRow); ok {
-			cells = row.Cells()
-		}
-		tw, ok := e.(TableWriter)
-		if !ok {
-			return fmt.Errorf("expected TableWriter, got %T", e)
-		}
-		tw.WriteTable(w)
-	}
-
-	var seps []string
-	for _, c := range cells {
-		var s string
-		if c.Align == ast.TableAlignmentCenter {
-			s += ":"
-		}
-		for i := 0; i < len(c.String()); i++ {
-			s += "-"
-		}
-		if c.Align == ast.TableAlignmentCenter || c.Align == ast.TableAlignmentRight {
-			s += ":"
-		}
-		seps = append(seps, s)
-	}
-	w.Append(seps)
-	return nil
 }
 
 func NewTableHeader(node *ast.TableHeader) (*TableHeader, error) {

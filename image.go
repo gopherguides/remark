@@ -1,7 +1,6 @@
 package remark
 
 import (
-	"fmt"
 	"html/template"
 
 	"github.com/gobuffalo/tags/v3"
@@ -43,12 +42,4 @@ func (image Image) URL() string {
 
 func (image Image) Title() string {
 	return image.Attributes["title"]
-}
-
-func (image Image) String() string {
-	title := image.Title()
-	if len(title) == 0 {
-		return fmt.Sprintf("![%s](%s)", image.Elements, image.URL())
-	}
-	return fmt.Sprintf("![%s](%s %q)", image.Elements, image.URL(), title)
 }
