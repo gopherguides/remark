@@ -1,30 +1,35 @@
-package md
+package htm
 
 import (
 	"bytes"
 	"fmt"
 	"strings"
 
-	"github.com/gomarkdown/markdown/ast"
+	"github.com/gopherguides/remark"
 	"golang.org/x/net/html"
 )
 
-type HTMLParser struct {
-	doc *ast.Document
+func Parse(src []byte) (remark.Elements, error) {
+	p := Parser{}
+	return p.Parse(src)
 }
 
-func (p *HTMLParser) Parse(b []byte) (*ast.Document, error) {
-	node, err := html.Parse(bytes.NewReader(b))
+type Parser struct {
+}
+
+func (p *Parser) Parse(src []byte) (remark.Elements, error) {
+	node, err := html.Parse(bytes.NewReader(src))
 	if err != nil {
 		return nil, err
 	}
 	if err := p.node(node); err != nil {
 		return nil, err
 	}
-	return p.doc, nil
+
+	return nil, nil
 }
 
-func (p *HTMLParser) node(n *html.Node) error {
+func (p *Parser) node(n *html.Node) error {
 	switch n.Type {
 	case html.CommentNode:
 		fmt.Println("CommentNode", n)
@@ -66,7 +71,20 @@ func (p *HTMLParser) node(n *html.Node) error {
 	return nil
 }
 
-func HTML(b []byte) (*ast.Document, error) {
-	hp := HTMLParser{}
-	return hp.Parse(b)
-}
+// fmt.Printf(">>>TODO html_block.go:35: doc (%T): %v \n", doc, doc)
+// var f func(*html.Node)
+// f = func(n *html.Node) {
+// 	fmt.Printf(">>>TODO html_block.go:38: n (%T): %v \n", n, n)
+// 	if n.Type == html.ElementNode && n.Data == "a" {
+// 		for _, a := range n.Attr {
+// 			if a.Key == "href" {
+// 				fmt.Println(a.Val)
+// 				break
+// 			}
+// 		}
+// 	}
+// 	for c := n.FirstChild; c != nil; c = c.NextSibling {
+// 		f(c)
+// 	}
+// }
+// f(doc)

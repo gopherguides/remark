@@ -1,4 +1,4 @@
-package md
+package htm
 
 import (
 	"testing"
@@ -19,8 +19,8 @@ func Test_HTML(t *testing.T) {
 </div>
 `
 
-	doc, err := HTML([]byte(html))
+	elems, err := Parse([]byte(html))
 	r.NoError(err)
 
-	r.NotNil(doc)
+	r.NotEmpty(elems)
 }
