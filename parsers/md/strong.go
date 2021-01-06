@@ -1,34 +1,12 @@
 package md
 
 import (
-	"html/template"
-
-	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
+	"github.com/gopherguides/remark"
 )
 
-type Strong struct {
-	*ast.Strong
-	Elements Elements
-}
-
-func (s Strong) HTML() template.HTML {
-	t := tags.New("strong", nil)
-	t.Append(s.Elements.HTML())
-	return t.HTML()
-}
-
-func NewStrong(node *ast.Strong) (*Strong, error) {
-	s := &Strong{
-		Strong: node,
-	}
-
-	for _, n := range node.Children {
-		el, err := NewElement(n)
-		if err != nil {
-			return nil, err
-		}
-		s.Elements = append(s.Elements, el)
-	}
-	return s, nil
+func NewStrong(node *ast.Strong) (*remark.Strong, error) {
+	s := &remark.Strong{}
+	err := set(s, node)
+	return s, err
 }

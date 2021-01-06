@@ -11,6 +11,13 @@ type Element interface {
 
 type Elements []Element
 
+func (elems Elements) Name() string {
+	if len(elems) == 1 {
+		return elems[0].Name()
+	}
+	return ""
+}
+
 func (elems Elements) HTML() template.HTML {
 	var lines []string
 	for _, e := range elems {

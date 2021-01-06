@@ -1,9 +1,12 @@
 package md
 
-import "github.com/gopherguides/remark"
+import (
+	"github.com/gomarkdown/markdown/ast"
+	"github.com/gopherguides/remark"
+)
 
-func NewCodeSpan(html *HTMLSpan) (*remark.CodeSpan, error) {
+func NewCodeSpan(node *ast.HTMLSpan) (*remark.CodeSpan, error) {
 	c := &remark.CodeSpan{}
-
-	return c, nil
+	err := set(c, node)
+	return c, err
 }

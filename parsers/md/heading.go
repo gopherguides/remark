@@ -9,13 +9,6 @@ func NewHeading(node *ast.Heading) (*remark.Heading, error) {
 	h := &remark.Heading{
 		Level: node.Level,
 	}
-
-	for _, n := range node.Children {
-		el, err := NewElement(n)
-		if err != nil {
-			return nil, err
-		}
-		h.Elements = append(h.Elements, el)
-	}
-	return h, nil
+	err := set(h, node)
+	return h, err
 }

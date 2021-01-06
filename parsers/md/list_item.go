@@ -6,17 +6,7 @@ import (
 )
 
 func NewListItem(node *ast.ListItem) (*remark.ListItem, error) {
-	li := &remark.ListItem{
-		Attributes: attrs(node.Attribute),
-	}
-
-	for _, n := range node.Children {
-		el, err := NewElement(n)
-		if err != nil {
-			return nil, err
-		}
-		li.Elements = append(li.Elements, el)
-
-	}
-	return li, nil
+	li := &remark.ListItem{}
+	err := set(li, node)
+	return li, err
 }

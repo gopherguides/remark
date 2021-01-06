@@ -6,8 +6,9 @@ import (
 )
 
 func NewCode(node *ast.Code) (*remark.Code, error) {
-	c := &remark.Code{
-		Text: string(node.Literal),
+	c := &remark.Code{}
+	if err := set(c, node); err != nil {
+		return nil, err
 	}
 	return c, nil
 }

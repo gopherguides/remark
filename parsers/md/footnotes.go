@@ -1,31 +1,13 @@
 package md
 
 import (
-	"html/template"
+	"fmt"
 
 	"github.com/gomarkdown/markdown/ast"
+	"github.com/gopherguides/remark"
 )
 
-type Footnotes struct {
-	*ast.Footnotes
-	Elements Elements
-}
-
-func (feet Footnotes) HTML() template.HTML {
-	panic(feet)
-	// return ""
-}
-
-func NewFootnotes(node *ast.Footnotes) (*Footnotes, error) {
-	elems, err := NewElements(node.Children)
-	if err != nil {
-		return nil, err
-	}
-
-	d := &Footnotes{
-		Footnotes: node,
-		Elements:  elems,
-	}
-
-	return d, nil
+func NewFootnotes(node *ast.Footnotes) (remark.Tag, error) {
+	fmt.Printf(">>>TODO parsers/md/footnotes.go:11: node (%T): %v \n", node, node)
+	return nil, fmt.Errorf("footnotes not supported")
 }

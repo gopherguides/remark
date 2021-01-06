@@ -4,11 +4,12 @@ import (
 	"fmt"
 
 	"github.com/gomarkdown/markdown/ast"
-	"github.com/gopherguides/remark/internal/ifaces"
+	"github.com/gopherguides/remark"
+	"github.com/gopherguides/remark/parsers/htm"
 )
 
-type Element = ifaces.Element
-type Elements = ifaces.Elements
+type Element = remark.Element
+type Elements = remark.Elements
 
 func NewElements(nodes []ast.Node) (Elements, error) {
 	elems := make(Elements, 0, len(nodes))
@@ -33,9 +34,9 @@ func NewElement(node ast.Node) (Element, error) {
 	case *ast.Heading:
 		return NewHeading(t)
 	case *ast.Text:
-		return NewText(t)
+		return remark.String(string(t.Literal)), nil
 	case *ast.HTMLSpan:
-		return NewHTMLSpan(t)
+		return htm.Parse(t.Literal)
 	case *ast.Code:
 		return NewCode(t)
 	case *ast.HorizontalRule:
@@ -73,7 +74,7 @@ func NewElement(node ast.Node) (Element, error) {
 	case *ast.Footnotes:
 		return NewFootnotes(t)
 	case *ast.HTMLBlock:
-		return NewHTMLBlock(t)
+		return htm.Parse(t.Literal)
 	}
 	return nil, fmt.Errorf("unknown node type %T", node)
 }

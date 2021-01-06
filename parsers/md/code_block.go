@@ -5,10 +5,12 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewCodeBlock(node *ast.CodeBlock) (*remark.CodeBlock, error) {
-	cb := &remark.CodeBlock{
+func NewCodeBlock(node *ast.CodeBlock) (*remark.Code, error) {
+	cb := &remark.Code{
 		Language: string(node.Info),
-		Text:     string(node.Literal),
+		Elements: Elements{
+			String(string(node.Literal)),
+		},
 	}
 
 	if len(cb.Language) == 0 {

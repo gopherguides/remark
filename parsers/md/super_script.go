@@ -1,28 +1,12 @@
 package md
 
 import (
-	"html/template"
-
-	"github.com/gobuffalo/tags/v3"
 	"github.com/gomarkdown/markdown/ast"
+	"github.com/gopherguides/remark"
 )
 
-type SuperScript struct {
-	*ast.Superscript
-}
-
-func (s SuperScript) HTML() template.HTML {
-	t := tags.New("sup", tags.Options{
-		"body": string(s.Literal),
-	})
-
-	return t.HTML()
-}
-
-func NewSuperScript(node *ast.Superscript) (*SuperScript, error) {
-	d := &SuperScript{
-		Superscript: node,
-	}
-
-	return d, nil
+func NewSuperScript(node *ast.Superscript) (*remark.Sup, error) {
+	sup := &remark.Sup{}
+	err := set(sup, node)
+	return sup, err
 }

@@ -5,23 +5,16 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewList(node *ast.List) (*remark.List, error) {
-	l := &remark.List{}
+func NewList(node *ast.List) (remark.Tag, error) {
+	var t remark.Tag
 
 	switch node.ListFlags {
 	case ast.ListTypeOrdered:
-		l.Type = remark.ListTypeOrdered
+		t = &remark.OrderedList{}
 	default:
-		l.Type = remark.ListTypeUnordered
+		t = &remark.OrderedList{}
 	}
 
-	for _, n := range node.Children {
-		// always li
-		el, err := NewElement(n)
-		if err != nil {
-			return nil, err
-		}
-		l.Elements = append(l.Elements, el)
-	}
-	return l, nil
+	err := set(t, node)
+	return t, err
 }

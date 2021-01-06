@@ -5,15 +5,8 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewEmph(node *ast.Emph) (*remark.Emph, error) {
-	s := &remark.Emph{}
-
-	for _, n := range node.Children {
-		el, err := NewElement(n)
-		if err != nil {
-			return nil, err
-		}
-		s.Elements = append(s.Elements, el)
-	}
-	return s, nil
+func NewEmph(node *ast.Emph) (*remark.Em, error) {
+	s := &remark.Em{}
+	err := set(s, node)
+	return s, err
 }
