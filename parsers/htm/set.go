@@ -11,15 +11,18 @@ func set(el remark.Element, node *html.Node) error {
 	rv := reflect.ValueOf(el).Elem()
 
 	f := rv.FieldByName("Attributes")
+
 	if f.IsValid() {
-		if f.IsNil() {
-			f.Set(reflect.MakeMap(f.Type()))
-		}
+		tt := reflect.New(f.Type())
+		m := tt.MethodByName("Set")
+
 		for _, at := range node.Attr {
 			key := reflect.ValueOf(at.Key)
 			val := reflect.ValueOf(at.Val)
-			f.SetMapIndex(key, val)
+			m.Call([]reflect.Value{key, val})
 		}
+
+		f.Set(reflect.Indirect(tt))
 	}
 
 	f = rv.FieldByName("Elements")

@@ -16,7 +16,7 @@ func NewElement(n *html.Node) (Element, error) {
 		return NewLink(n)
 	case "blockquote":
 	case "body":
-		return NewSection(n)
+		return NewBody(n)
 	case "code":
 	case "div":
 		return NewDiv(n)
@@ -26,7 +26,7 @@ func NewElement(n *html.Node) (Element, error) {
 		return NewHead(n)
 	case "hr":
 	case "html":
-		return NewDocument(n)
+		return NewHTML(n)
 	case "img":
 		return NewImage(n)
 	case "li":
