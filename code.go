@@ -7,14 +7,16 @@ import (
 )
 
 type Code struct {
-	Text string
+	Attributes
+	Elements Elements
 }
 
-func (c Code) HTML() template.HTML {
-	pre := tags.New("pre", nil)
-	code := tags.New("code", nil)
-	code.Append(c.Text)
-	pre.Append(code)
+func (code Code) Name() string {
+	return "code"
+}
 
-	return pre.HTML()
+func (code *Code) HTML() template.HTML {
+	t := tags.New(code.Name(), code.Options())
+	t.Append(code.Elements.HTML())
+	return t.HTML()
 }

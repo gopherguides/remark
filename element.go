@@ -1,6 +1,23 @@
 package remark
 
-import "github.com/gopherguides/remark/internal/ifaces"
+import (
+	"html/template"
+	"strings"
+)
 
-type Element = ifaces.Element
-type Elements = ifaces.Elements
+type Element interface {
+	Name() string
+}
+
+type Elements []Element
+
+func (elems Elements) HTML() template.HTML {
+	var lines []string
+	for _, e := range elems {
+		if t, ok := e.(Tag); ok {
+			lines = append(lines, string(t.HTML()))
+		}
+	}
+
+	return template.HTML(strings.Join(lines, " "))
+}

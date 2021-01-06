@@ -1,5 +1,8 @@
 package remark
 
-import "github.com/gopherguides/remark/internal/ifaces"
+import "html/template"
 
-type Tag = ifaces.Tag
+type Tag interface {
+	Element
+	HTML() template.HTML
+}

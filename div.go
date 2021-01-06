@@ -7,12 +7,16 @@ import (
 )
 
 type Div struct {
-	Attributes Attributes
-	Elements   Elements
+	Attributes
+	Elements Elements
 }
 
-func (d Div) HTML() template.HTML {
-	t := tags.New("div", nil)
-	t.Append(d.Elements.HTML())
+func (div Div) Name() string {
+	return "div"
+}
+
+func (div *Div) HTML() template.HTML {
+	t := tags.New(div.Name(), div.Options())
+	t.Append(div.Elements.HTML())
 	return t.HTML()
 }
