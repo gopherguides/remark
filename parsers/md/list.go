@@ -12,7 +12,7 @@ func NewList(node *ast.List) (remark.Tag, error) {
 	case ast.ListTypeOrdered:
 		t = &remark.OrderedList{}
 	default:
-		t = &remark.OrderedList{}
+		t = &remark.UnorderedList{}
 	}
 
 	err := set(t, node)

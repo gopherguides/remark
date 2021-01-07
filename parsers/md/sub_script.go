@@ -5,8 +5,10 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewSubScript(node *ast.Subscript) (*remark.Sub, error) {
-	sub := &remark.Sub{}
+func NewSubScript(node *ast.Subscript) (remark.Tag, error) {
+	sub := &remark.Generic{
+		TagName: "sub",
+	}
 	err := set(sub, node)
 	return sub, err
 }

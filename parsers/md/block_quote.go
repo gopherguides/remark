@@ -5,15 +5,11 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewBlockQuote(node *ast.BlockQuote) (*remark.BlockQuote, error) {
-	elems, err := NewElements(node.Children)
-	if err != nil {
-		return nil, err
+func NewBlockQuote(node *ast.BlockQuote) (remark.Tag, error) {
+	g := &remark.Generic{
+		TagName: "blockquote",
 	}
 
-	bq := &remark.BlockQuote{
-		Elements: elems,
-	}
-
-	return bq, nil
+	err := set(g, node)
+	return g, err
 }

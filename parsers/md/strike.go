@@ -5,12 +5,11 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewDel(node *ast.Del) (*remark.Strike, error) {
-	d := &remark.Strike{}
-
-	if err := set(d, node); err != nil {
-		return nil, err
+func NewDel(node *ast.Del) (remark.Tag, error) {
+	d := &remark.Generic{
+		TagName: "strike",
 	}
 
-	return d, nil
+	err := set(d, node)
+	return d, err
 }

@@ -5,8 +5,10 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewEmph(node *ast.Emph) (*remark.Em, error) {
-	s := &remark.Em{}
+func NewEmph(node *ast.Emph) (remark.Tag, error) {
+	s := &remark.Generic{
+		TagName: "em",
+	}
 	err := set(s, node)
 	return s, err
 }

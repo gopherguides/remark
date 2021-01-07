@@ -5,8 +5,10 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewSuperScript(node *ast.Superscript) (*remark.Sup, error) {
-	sup := &remark.Sup{}
+func NewSuperScript(node *ast.Superscript) (remark.Tag, error) {
+	sup := &remark.Generic{
+		TagName: "sup",
+	}
 	err := set(sup, node)
 	return sup, err
 }

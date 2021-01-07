@@ -6,13 +6,9 @@ import (
 	"golang.org/x/net/html"
 )
 
-
 func NewCode(n *html.Node) (Element, error) {
 	code := &remark.Code{}
 
-	if err := set(code, n); err != nil {
-		return nil, err
-	}
-
-	return code, nil
+	err := set(code, n)
+	return code, err
 }

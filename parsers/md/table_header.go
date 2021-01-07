@@ -5,8 +5,10 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewTableHeader(node *ast.TableHeader) (*remark.TH, error) {
-	th := &remark.TH{}
+func NewTableHeader(node *ast.TableHeader) (remark.Tag, error) {
+	th := &remark.Generic{
+		TagName: "th",
+	}
 	err := set(th, node)
 	return th, err
 }

@@ -5,10 +5,10 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewCode(node *ast.Code) (*remark.Code, error) {
-	c := &remark.Code{}
-	if err := set(c, node); err != nil {
-		return nil, err
+func NewCode(node *ast.Code) (remark.Tag, error) {
+	c := &remark.Generic{
+		TagName: "code",
 	}
-	return c, nil
+	err := set(c, node)
+	return c, err
 }

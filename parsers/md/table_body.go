@@ -5,8 +5,10 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewTableBody(node *ast.TableBody) (*remark.TableBody, error) {
-	body := &remark.TableBody{}
+func NewTableBody(node *ast.TableBody) (remark.Tag, error) {
+	body := &remark.Generic{
+		TagName: "tbody",
+	}
 	err := set(body, node)
 	return body, err
 }

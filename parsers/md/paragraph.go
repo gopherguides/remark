@@ -5,8 +5,11 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewParagraph(node *ast.Paragraph) (*remark.Paragraph, error) {
-	p := &remark.Paragraph{}
-	err := set(p, node)
-	return p, err
+func NewParagraph(node *ast.Paragraph) (remark.Tag, error) {
+	g := &remark.Generic{
+		TagName: "p",
+	}
+
+	err := set(g, node)
+	return g, err
 }

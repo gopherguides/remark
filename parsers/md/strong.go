@@ -5,8 +5,10 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewStrong(node *ast.Strong) (*remark.Strong, error) {
-	s := &remark.Strong{}
+func NewStrong(node *ast.Strong) (remark.Tag, error) {
+	s := &remark.Generic{
+		TagName: "strong",
+	}
 	err := set(s, node)
 	return s, err
 }

@@ -5,7 +5,7 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewImage(node *ast.Image) (*remark.Image, error) {
+func NewImage(node *ast.Image) (remark.Tag, error) {
 	image := &remark.Image{}
 	err := set(image, node)
 	return image, err

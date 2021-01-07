@@ -5,8 +5,10 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewListItem(node *ast.ListItem) (*remark.ListItem, error) {
-	li := &remark.ListItem{}
+func NewListItem(node *ast.ListItem) (remark.Tag, error) {
+	li := &remark.Generic{
+		TagName: "li",
+	}
 	err := set(li, node)
 	return li, err
 }
