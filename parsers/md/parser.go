@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"path/filepath"
 
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/gomarkdown/markdown/parser"
@@ -11,6 +12,7 @@ import (
 )
 
 type Parser struct {
+	Root string
 	*parser.Parser
 }
 
@@ -26,7 +28,7 @@ func (p *Parser) Parse(src []byte) (*remark.Document, error) {
 		return nil, fmt.Errorf("expected a document, got %T", node)
 	}
 
-	m, err := NewDocument(doc)
+	m, err := p.NewDocument(doc)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +58,9 @@ func Parse(src []byte) (*remark.Document, error) {
 }
 
 func ParseFile(filename string) (*remark.Document, error) {
-	p := &Parser{}
+	p := &Parser{
+		Root: filepath.Dir(filename),
+	}
 	return p.ParseFile(filename)
 }
 

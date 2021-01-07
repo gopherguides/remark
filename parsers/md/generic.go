@@ -5,11 +5,10 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewBlockQuote(node *ast.BlockQuote) (remark.Tag, error) {
+func (p *Parser) NewGeneric(name string, node ast.Node) (*remark.Generic, error) {
 	g := &remark.Generic{
-		TagName: "blockquote",
+		TagName: name,
 	}
-
-	err := set(g, node)
+	err := p.set(g, node)
 	return g, err
 }

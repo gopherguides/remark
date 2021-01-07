@@ -7,8 +7,11 @@ import (
 	"github.com/gopherguides/remark/parsers/htm"
 )
 
-func htmlBody(b []byte) (remark.Element, error) {
-	doc, err := htm.Parse(b)
+func (p *Parser) htmlBody(b []byte) (remark.Element, error) {
+	hp := &htm.Parser{
+		Root: p.Root,
+	}
+	doc, err := hp.Parse(b)
 	if err != nil {
 		return nil, err
 	}

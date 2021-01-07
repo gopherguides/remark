@@ -7,7 +7,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-func set(el remark.Element, node *html.Node) error {
+func (p *Parser) set(el remark.Element, node *html.Node) error {
 	rv := reflect.ValueOf(el).Elem()
 
 	f := rv.FieldByName("Attributes")
@@ -28,7 +28,7 @@ func set(el remark.Element, node *html.Node) error {
 	f = rv.FieldByName("Elems")
 	if f.IsValid() {
 		for c := node.FirstChild; c != nil; c = c.NextSibling {
-			e, err := NewElement(c)
+			e, err := p.NewElement(c)
 			if err != nil {
 				return err
 			}

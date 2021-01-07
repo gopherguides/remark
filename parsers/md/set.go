@@ -8,11 +8,11 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func set(el remark.Element, node ast.Node) error {
+func (p *Parser) set(el remark.Element, node ast.Node) error {
 	rv := reflect.ValueOf(el).Elem()
 	f := rv.FieldByName("Elems")
 	if f.IsValid() {
-		elems, err := NewElements(node.GetChildren())
+		elems, err := p.NewElements(node.GetChildren())
 		if err != nil {
 			return err
 		}

@@ -6,9 +6,8 @@ import (
 	"golang.org/x/net/html"
 )
 
-func NewLink(n *html.Node) (Element, error) {
+func (p *Parser) NewLink(n *html.Node) (Element, error) {
 	a := &remark.Link{}
-
-	err := set(a, n)
+	err := p.set(a, n)
 	return a, err
 }

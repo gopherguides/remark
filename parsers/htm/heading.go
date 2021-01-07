@@ -9,7 +9,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-func NewHeading(n *html.Node) (Element, error) {
+func (p *Parser) NewHeading(n *html.Node) (Element, error) {
 	h := &remark.Heading{}
 
 	l := strings.TrimPrefix("h", n.Data)
@@ -19,6 +19,6 @@ func NewHeading(n *html.Node) (Element, error) {
 	}
 	h.Level = lvl
 
-	err = set(h, n)
+	err = p.set(h, n)
 	return h, err
 }

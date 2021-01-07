@@ -10,6 +10,7 @@ type Code struct {
 	Attributes
 	Language string
 	Elems    Elements
+	Snippets Snippets
 }
 
 func (code Code) Elements() Elements {

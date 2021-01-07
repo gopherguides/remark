@@ -6,11 +6,10 @@ import (
 	"golang.org/x/net/html"
 )
 
-
-func NewOrderedList(n *html.Node) (Element, error) {
+func (p *Parser) NewOrderedList(n *html.Node) (Element, error) {
 	ol := &remark.OrderedList{}
 
-	if err := set(ol, n); err != nil {
+	if err := p.set(ol, n); err != nil {
 		return nil, err
 	}
 

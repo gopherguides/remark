@@ -10,34 +10,34 @@ import (
 type Element = remark.Element
 type Elements = remark.Elements
 
-func NewElement(n *html.Node) (Element, error) {
+func (p *Parser) NewElement(n *html.Node) (Element, error) {
 	n.Data = strings.ToLower(n.Data)
 	switch n.Data {
 	case "a":
-		return NewLink(n)
+		return p.NewLink(n)
 	case "code":
-		return NewCode(n)
+		return p.NewCode(n)
 	case "em", "i":
 		n.Data = "em"
-		return NewGeneric(n)
+		return p.NewGeneric(n)
 	case "h1", "h2", "h3", "h4", "h5":
-		return NewHeading(n)
+		return p.NewHeading(n)
 	case "img":
-		return NewImage(n)
+		return p.NewImage(n)
 	case "ol":
-		return NewOrderedList(n)
+		return p.NewOrderedList(n)
 	case "strong", "b":
 		n.Data = "strong"
-		return NewGeneric(n)
+		return p.NewGeneric(n)
 	case "table":
-		return NewTable(n)
+		return p.NewTable(n)
 	case "ul":
-		return NewUnorderedList(n)
+		return p.NewUnorderedList(n)
 	}
 
 	if n.Type == html.TextNode {
 		return remark.String(n.Data), nil
 	}
 
-	return NewGeneric(n)
+	return p.NewGeneric(n)
 }

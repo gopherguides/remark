@@ -5,10 +5,10 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewHeading(node *ast.Heading) (*remark.Heading, error) {
+func (p *Parser) NewHeading(node *ast.Heading) (*remark.Heading, error) {
 	h := &remark.Heading{
 		Level: node.Level,
 	}
-	err := set(h, node)
+	err := p.set(h, node)
 	return h, err
 }

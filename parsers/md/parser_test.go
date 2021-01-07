@@ -1,8 +1,8 @@
 package md
 
 import (
-	"fmt"
 	"io/ioutil"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -11,13 +11,18 @@ import (
 func Test_Parser_Parse(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
-	b, err := ioutil.ReadFile("../internal/testdata/example.md")
+
+	fp := "../internal/testdata/buffalo/module.md"
+	b, err := ioutil.ReadFile(fp)
 	r.NoError(err)
 
-	m, err := Parse(b)
+	p := &Parser{
+		Root: filepath.Dir(fp),
+	}
+	m, err := p.Parse(b)
 	r.NoError(err)
 	r.NotNil(m)
 
-	fmt.Println(m.HTML())
-	r.False(true)
+	// fmt.Println(m.HTML())
+	// r.False(true)
 }

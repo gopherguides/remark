@@ -8,7 +8,7 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewSection(head *remark.Heading, children []ast.Node) (*remark.Section, error) {
+func (p *Parser) NewSection(head *remark.Heading, children []ast.Node) (*remark.Section, error) {
 	s := &remark.Section{}
 
 	var kids []ast.Node
@@ -16,11 +16,11 @@ func NewSection(head *remark.Heading, children []ast.Node) (*remark.Section, err
 	for _, n := range children {
 		switch t := n.(type) {
 		case *ast.Heading:
-			h, err := NewHeading(t)
+			h, err := p.NewHeading(t)
 			if err != nil {
 				return nil, err
 			}
-			sec, err := NewSection(h, kids)
+			sec, err := p.NewSection(h, kids)
 			if err != nil {
 				return nil, err
 			}
@@ -33,7 +33,7 @@ func NewSection(head *remark.Heading, children []ast.Node) (*remark.Section, err
 	}
 
 	for _, k := range kids {
-		el, err := NewElement(k)
+		el, err := p.NewElement(k)
 		if err != nil {
 			return nil, err
 		}

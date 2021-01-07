@@ -5,7 +5,7 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewList(node *ast.List) (remark.Tag, error) {
+func (p *Parser) NewList(node *ast.List) (remark.Tag, error) {
 	var t remark.Tag
 
 	switch node.ListFlags {
@@ -15,6 +15,6 @@ func NewList(node *ast.List) (remark.Tag, error) {
 		t = &remark.UnorderedList{}
 	}
 
-	err := set(t, node)
+	err := p.set(t, node)
 	return t, err
 }

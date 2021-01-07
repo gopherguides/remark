@@ -5,8 +5,8 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewLink(node *ast.Link) (*remark.Link, error) {
+func (p *Parser) NewLink(node *ast.Link) (*remark.Link, error) {
 	l := &remark.Link{}
-	err := set(l, node)
+	err := p.set(l, node)
 	return l, err
 }

@@ -5,7 +5,7 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewCodeBlock(node *ast.CodeBlock) (*remark.Code, error) {
+func (p *Parser) NewCodeBlock(node *ast.CodeBlock) (*remark.Code, error) {
 	cb := &remark.Code{
 		Language: string(node.Info),
 		Elems: Elements{

@@ -6,6 +6,7 @@ import (
 	"craigscustomsound/actions"
 )
 
+// snippet: snipa
 // main is the starting point for your Buffalo application.
 // You can feel free and add to this `main` method, change
 // what it does, etc...
@@ -19,6 +20,9 @@ func main() {
 	}
 }
 
+// snippet: snipa
+
+// section: snipb
 /*
 # Notes about `main.go`
 
@@ -36,3 +40,4 @@ that your `main` function will start your application using
 the `app.Serve()` method.
 
 */
+// section: snipb

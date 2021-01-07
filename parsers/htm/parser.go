@@ -15,6 +15,7 @@ func Parse(src []byte) (remark.Elements, error) {
 }
 
 type Parser struct {
+	Root     string
 	elements remark.Elements
 }
 
@@ -40,7 +41,7 @@ func (p *Parser) node(n *html.Node) error {
 	case html.DocumentNode:
 		fmt.Println("DocumentNode", n)
 	case html.ElementNode:
-		el, err := NewElement(n)
+		el, err := p.NewElement(n)
 		if err != nil {
 			return err
 		}
@@ -66,21 +67,3 @@ func (p *Parser) node(n *html.Node) error {
 	}
 	return nil
 }
-
-// fmt.Printf(">>>TODO html_block.go:35: doc (%T): %v \n", doc, doc)
-// var f func(*html.Node)
-// f = func(n *html.Node) {
-// 	fmt.Printf(">>>TODO html_block.go:38: n (%T): %v \n", n, n)
-// 	if n.Type == html.ElementNode && n.Data == "a" {
-// 		for _, a := range n.Attr {
-// 			if a.Key == "href" {
-// 				fmt.Println(a.Val)
-// 				break
-// 			}
-// 		}
-// 	}
-// 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-// 		f(c)
-// 	}
-// }
-// f(doc)

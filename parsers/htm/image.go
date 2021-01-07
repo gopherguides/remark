@@ -6,11 +6,10 @@ import (
 	"golang.org/x/net/html"
 )
 
-
-func NewImage(n *html.Node) (Element, error) {
+func (p *Parser) NewImage(n *html.Node) (Element, error) {
 	img := &remark.Image{}
 
-	if err := set(img, n); err != nil {
+	if err := p.set(img, n); err != nil {
 		return nil, err
 	}
 

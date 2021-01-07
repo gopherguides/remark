@@ -6,13 +6,9 @@ import (
 	"golang.org/x/net/html"
 )
 
-
-func NewUnorderedList(n *html.Node) (Element, error) {
+func (p *Parser) NewUnorderedList(n *html.Node) (Element, error) {
 	ul := &remark.UnorderedList{}
 
-	if err := set(ul, n); err != nil {
-		return nil, err
-	}
-
-	return ul, nil
+	err := p.set(ul, n)
+	return ul, err
 }

@@ -6,9 +6,9 @@ import (
 	"golang.org/x/net/html"
 )
 
-func NewTable(n *html.Node) (Element, error) {
+func (p *Parser) NewTable(n *html.Node) (Element, error) {
 	table := &remark.Table{}
 
-	err := set(table, n)
+	err := p.set(table, n)
 	return table, err
 }
