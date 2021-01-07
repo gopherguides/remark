@@ -6,13 +6,9 @@ import (
 	"golang.org/x/net/html"
 )
 
-
 func NewTable(n *html.Node) (Element, error) {
 	table := &remark.Table{}
 
-	if err := set(table, n); err != nil {
-		return nil, err
-	}
-
-	return table, nil
+	err := set(table, n)
+	return table, err
 }

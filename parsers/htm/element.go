@@ -1,6 +1,8 @@
 package htm
 
 import (
+	"strings"
+
 	"github.com/gopherguides/remark"
 	"golang.org/x/net/html"
 )
@@ -9,6 +11,7 @@ type Element = remark.Element
 type Elements = remark.Elements
 
 func NewElement(n *html.Node) (Element, error) {
+	n.Data = strings.ToLower(n.Data)
 	switch n.Data {
 	case "a":
 		return NewLink(n)
@@ -19,8 +22,6 @@ func NewElement(n *html.Node) (Element, error) {
 		return NewGeneric(n)
 	case "h1", "h2", "h3", "h4", "h5":
 		return NewHeading(n)
-	case "html":
-		return NewHTML(n)
 	case "img":
 		return NewImage(n)
 	case "ol":

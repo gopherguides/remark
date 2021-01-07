@@ -1,7 +1,6 @@
 package htm
 
 import (
-	"fmt"
 	"html/template"
 	"testing"
 
@@ -9,25 +8,16 @@ import (
 )
 
 func Test_HTML(t *testing.T) {
-	t.Skip()
 	t.Parallel()
 	r := require.New(t)
 
-	const html = `<html><head></head> <body><div class="text-center">
-		 <img class="img img-fluid mb-3 mx-auto" src="legacy-site.png" title="Legacy Site"></img>
-		 <p>
-				 <a href="https://example.com" target="_blank">Hi</a>
-		</p>
-</div>
-</body></html>
-`
+	const html = `<html><head></head><body><div class="text-center"><img class="img img-fluid mb-3 mx-auto" src="legacy-site.png" title="Legacy Site"></img><p><a href="https://example.com" target="_blank">hi</a></p></div></body></html>`
 
 	doc, err := Parse([]byte(html))
 	r.NoError(err)
 	r.NotNil(doc)
 
 	act := doc.HTML()
-	fmt.Println(act)
 	exp := template.HTML(html)
 	r.Equal(exp, act)
 }

@@ -5,8 +5,8 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func NewDocument(node *ast.Document) (*remark.HTML, error) {
-	m := &remark.HTML{}
+func NewDocument(node *ast.Document) (*remark.Document, error) {
+	m := &remark.Document{}
 
 	var kids []ast.Node
 	var head *remark.Heading

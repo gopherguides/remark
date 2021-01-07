@@ -22,9 +22,11 @@ func (elems Elements) HTML() template.HTML {
 	var lines []string
 	for _, e := range elems {
 		if t, ok := e.(Tag); ok {
-			lines = append(lines, string(t.HTML()))
+			h := string(t.HTML())
+			h = strings.TrimSpace(h)
+			lines = append(lines, h)
 		}
 	}
 
-	return template.HTML(strings.Join(lines, " "))
+	return template.HTML(strings.Join(lines, ""))
 }
