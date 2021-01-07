@@ -8,10 +8,9 @@ import (
 )
 
 func Test_Parser_Parse(t *testing.T) {
-	// t.Skip()
 	t.Parallel()
 	r := require.New(t)
-	b, err := ioutil.ReadFile("./internal/testdata/full.md")
+	b, err := ioutil.ReadFile("../internal/testdata/example.md")
 	r.NoError(err)
 
 	m, err := Parse(b)

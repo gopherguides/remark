@@ -8,7 +8,6 @@ import (
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/gomarkdown/markdown/parser"
 	"github.com/gopherguides/remark"
-	"github.com/gopherguides/remark/internal/md"
 )
 
 type Parser struct {
@@ -17,7 +16,7 @@ type Parser struct {
 
 func (p *Parser) Parse(src []byte) (*remark.HTML, error) {
 	if p.Parser == nil {
-		p.Parser = md.NewParser()
+		p.Parser = newParser()
 	}
 
 	node := p.Parser.Parse(src)
@@ -64,4 +63,10 @@ func ParseFile(filename string) (*remark.HTML, error) {
 func ParseReader(r io.Reader) (*remark.HTML, error) {
 	p := &Parser{}
 	return p.ParseReader(r)
+}
+
+func newParser() *parser.Parser {
+	extensions := parser.CommonExtensions | parser.AutoHeadingIDs |
+		parser.SuperSubscript | parser.OrderedListStart | parser.Footnotes
+	return parser.NewWithExtensions(extensions)
 }
