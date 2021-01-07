@@ -2,7 +2,6 @@ package remark
 
 import (
 	"html/template"
-	"strings"
 )
 
 type String string
@@ -12,5 +11,5 @@ func (s String) Name() string {
 }
 
 func (s String) HTML() template.HTML {
-	return template.HTML(strings.TrimSpace(string(s)))
+	return template.HTML(string(s))
 }

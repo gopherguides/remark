@@ -5,7 +5,6 @@ import (
 
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/gopherguides/remark"
-	"github.com/gopherguides/remark/parsers/htm"
 )
 
 type Element = remark.Element
@@ -35,8 +34,6 @@ func NewElement(node ast.Node) (Element, error) {
 		return NewHeading(t)
 	case *ast.Text:
 		return remark.String(string(t.Literal)), nil
-	case *ast.HTMLSpan:
-		return htm.Parse(t.Literal)
 	case *ast.Code:
 		return NewCode(t)
 	case *ast.HorizontalRule:
@@ -73,8 +70,10 @@ func NewElement(node ast.Node) (Element, error) {
 		return NewSubScript(t)
 	case *ast.Footnotes:
 		return NewFootnotes(t)
+	case *ast.HTMLSpan:
+		return htmlBody(t.Literal)
 	case *ast.HTMLBlock:
-		return htm.Parse(t.Literal)
+		return htmlBody(t.Literal)
 	}
 	return nil, fmt.Errorf("unknown node type %T", node)
 }

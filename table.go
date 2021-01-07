@@ -8,7 +8,11 @@ import (
 
 type Table struct {
 	Attributes
-	Elements Elements
+	Elems Elements
+}
+
+func (table Table) Elements() Elements {
+	return table.Elems
 }
 
 func (table Table) Name() string {
@@ -17,6 +21,6 @@ func (table Table) Name() string {
 
 func (table *Table) HTML() template.HTML {
 	t := tags.New(table.Name(), table.Options())
-	t.Append(table.Elements.HTML())
+	t.Append(table.Elements().HTML())
 	return t.HTML()
 }

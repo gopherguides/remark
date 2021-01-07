@@ -8,7 +8,11 @@ import (
 
 type Link struct {
 	Attributes
-	Elements Elements
+	Elems Elements
+}
+
+func (a Link) Elements() Elements {
+	return a.Elems
 }
 
 func (a Link) Name() string {
@@ -17,6 +21,6 @@ func (a Link) Name() string {
 
 func (a *Link) HTML() template.HTML {
 	t := tags.New(a.Name(), a.Options())
-	t.Append(a.Elements.HTML())
+	t.Append(a.Elements().HTML())
 	return t.HTML()
 }

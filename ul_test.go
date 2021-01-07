@@ -20,7 +20,7 @@ func Test_UnorderedList_HTML(t *testing.T) {
 
 	ul := UnorderedList{
 		Attributes: Attributes{},
-		Elements: Elements{
+		Elems: Elements{
 			String("hello"),
 		},
 	}

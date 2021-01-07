@@ -1,6 +1,7 @@
 package md
 
 import (
+	"fmt"
 	"io/ioutil"
 	"testing"
 
@@ -17,4 +18,6 @@ func Test_Parser_Parse(t *testing.T) {
 	r.NoError(err)
 	r.NotNil(m)
 
+	fmt.Println(m.HTML())
+	r.False(true)
 }

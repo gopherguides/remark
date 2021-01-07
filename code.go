@@ -9,7 +9,11 @@ import (
 type Code struct {
 	Attributes
 	Language string
-	Elements Elements
+	Elems    Elements
+}
+
+func (code Code) Elements() Elements {
+	return code.Elems
 }
 
 func (code Code) Name() string {
@@ -17,7 +21,18 @@ func (code Code) Name() string {
 }
 
 func (code *Code) HTML() template.HTML {
-	t := tags.New(code.Name(), code.Options())
-	t.Append(code.Elements.HTML())
-	return t.HTML()
+	opts := code.Options()
+
+	lang := code.Language
+	if len(lang) == 0 {
+		lang = "plain"
+	}
+	opts["language"] = lang
+
+	t := tags.New(code.Name(), opts)
+	t.Append(code.Elements().HTML())
+
+	pre := tags.New("pre", nil)
+	pre.Append(t)
+	return pre.HTML()
 }

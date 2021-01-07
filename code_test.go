@@ -20,7 +20,7 @@ func Test_Code_HTML(t *testing.T) {
 
 	code := Code{
 		Attributes: Attributes{},
-		Elements: Elements{
+		Elems: Elements{
 			String("hello"),
 		},
 	}
@@ -28,7 +28,7 @@ func Test_Code_HTML(t *testing.T) {
 	code.Set("k2", "two")
 	code.Set("k3", "three")
 
-	exp := template.HTML(`<code k1="one" k2="two" k3="three">hello</code>`)
+	exp := template.HTML(`<pre><code k1="one" k2="two" k3="three" language="plain">hello</code></pre>`)
 	act := code.HTML()
 	r.Equal(exp, act)
 }

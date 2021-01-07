@@ -8,7 +8,11 @@ import (
 
 type Image struct {
 	Attributes
-	Elements Elements
+	Elems Elements
+}
+
+func (img Image) Elements() Elements {
+	return img.Elems
 }
 
 func (img Image) Name() string {
@@ -17,6 +21,6 @@ func (img Image) Name() string {
 
 func (img *Image) HTML() template.HTML {
 	t := tags.New(img.Name(), img.Options())
-	t.Append(img.Elements.HTML())
+	t.Append(img.Elements().HTML())
 	return t.HTML()
 }

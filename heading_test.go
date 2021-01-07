@@ -21,7 +21,7 @@ func Test_Heading_HTML(t *testing.T) {
 	h := Heading{
 		Level:      3,
 		Attributes: Attributes{},
-		Elements: Elements{
+		Elems: Elements{
 			String("hello"),
 		},
 	}

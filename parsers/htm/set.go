@@ -25,7 +25,7 @@ func set(el remark.Element, node *html.Node) error {
 		f.Set(reflect.Indirect(tt))
 	}
 
-	f = rv.FieldByName("Elements")
+	f = rv.FieldByName("Elems")
 	if f.IsValid() {
 		for c := node.FirstChild; c != nil; c = c.NextSibling {
 			e, err := NewElement(c)

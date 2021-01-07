@@ -8,15 +8,19 @@ import (
 
 type Section struct {
 	Attributes
-	Elements Elements
+	Elems Elements
+}
+
+func (s Section) Elements() Elements {
+	return s.Elems
 }
 
 func (sec Section) Name() string {
-	return "sec"
+	return "section"
 }
 
 func (sec *Section) HTML() template.HTML {
 	t := tags.New(sec.Name(), sec.Options())
-	t.Append(sec.Elements.HTML())
+	t.Append(sec.Elements().HTML())
 	return t.HTML()
 }

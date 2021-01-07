@@ -8,7 +8,11 @@ import (
 
 type UnorderedList struct {
 	Attributes
-	Elements Elements
+	Elems Elements
+}
+
+func (ul UnorderedList) Elements() Elements {
+	return ul.Elems
 }
 
 func (ul UnorderedList) Name() string {
@@ -17,6 +21,6 @@ func (ul UnorderedList) Name() string {
 
 func (ul *UnorderedList) HTML() template.HTML {
 	t := tags.New(ul.Name(), ul.Options())
-	t.Append(ul.Elements.HTML())
+	t.Append(ul.Elements().HTML())
 	return t.HTML()
 }

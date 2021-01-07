@@ -20,7 +20,7 @@ func Test_Link_HTML(t *testing.T) {
 
 	a := Link{
 		Attributes: Attributes{},
-		Elements: Elements{
+		Elems: Elements{
 			String("hello"),
 		},
 	}

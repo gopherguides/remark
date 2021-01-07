@@ -8,7 +8,11 @@ import (
 
 type OrderedList struct {
 	Attributes
-	Elements Elements
+	Elems Elements
+}
+
+func (ol OrderedList) Elements() Elements {
+	return ol.Elems
 }
 
 func (ol OrderedList) Name() string {
@@ -17,6 +21,6 @@ func (ol OrderedList) Name() string {
 
 func (ol *OrderedList) HTML() template.HTML {
 	t := tags.New(ol.Name(), ol.Options())
-	t.Append(ol.Elements.HTML())
+	t.Append(ol.Elements().HTML())
 	return t.HTML()
 }

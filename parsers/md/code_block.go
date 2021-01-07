@@ -8,7 +8,7 @@ import (
 func NewCodeBlock(node *ast.CodeBlock) (*remark.Code, error) {
 	cb := &remark.Code{
 		Language: string(node.Info),
-		Elements: Elements{
+		Elems: Elements{
 			String(string(node.Literal)),
 		},
 	}

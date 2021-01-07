@@ -24,7 +24,7 @@ func NewSection(head *remark.Heading, children []ast.Node) (*remark.Section, err
 			if err != nil {
 				return nil, err
 			}
-			s.Elements = append(s.Elements, sec)
+			s.Elems = append(s.Elements(), sec)
 			kids = []ast.Node{}
 
 		default:
@@ -37,7 +37,7 @@ func NewSection(head *remark.Heading, children []ast.Node) (*remark.Section, err
 		if err != nil {
 			return nil, err
 		}
-		s.Elements = append(s.Elements, el)
+		s.Elems = append(s.Elements(), el)
 	}
 	return s, nil
 }

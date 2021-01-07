@@ -20,7 +20,7 @@ func Test_Table_HTML(t *testing.T) {
 
 	table := Table{
 		Attributes: Attributes{},
-		Elements: Elements{
+		Elems: Elements{
 			String("hello"),
 		},
 	}

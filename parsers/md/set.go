@@ -10,7 +10,7 @@ import (
 
 func set(el remark.Element, node ast.Node) error {
 	rv := reflect.ValueOf(el).Elem()
-	f := rv.FieldByName("Elements")
+	f := rv.FieldByName("Elems")
 	if f.IsValid() {
 		elems, err := NewElements(node.GetChildren())
 		if err != nil {

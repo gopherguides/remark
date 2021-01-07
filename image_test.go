@@ -20,7 +20,7 @@ func Test_Image_HTML(t *testing.T) {
 
 	img := Image{
 		Attributes: Attributes{},
-		Elements: Elements{
+		Elems: Elements{
 			String("hello"),
 		},
 	}

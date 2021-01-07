@@ -20,7 +20,7 @@ func Test_OrderedList_HTML(t *testing.T) {
 
 	ol := OrderedList{
 		Attributes: Attributes{},
-		Elements: Elements{
+		Elems: Elements{
 			String("hello"),
 		},
 	}

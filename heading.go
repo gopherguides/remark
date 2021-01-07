@@ -9,8 +9,12 @@ import (
 
 type Heading struct {
 	Attributes
-	Level    int
-	Elements Elements
+	Elems Elements
+	Level int
+}
+
+func (h Heading) Elements() Elements {
+	return h.Elems
 }
 
 func (h Heading) Name() string {
@@ -23,6 +27,6 @@ func (h Heading) Name() string {
 
 func (h *Heading) HTML() template.HTML {
 	t := tags.New(h.Name(), h.Options())
-	t.Append(h.Elements.HTML())
+	t.Append(h.Elements().HTML())
 	return t.HTML()
 }
