@@ -11,8 +11,8 @@ type Snippet struct {
 	End      int
 }
 
-func (s Snippet) HTML() template.HTML {
-	return template.HTML(s.Content)
+func (snip Snippet) HTML() template.HTML {
+	return template.HTML(snip.Content)
 }
 
 type Snippets map[string]Snippet

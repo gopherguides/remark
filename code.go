@@ -1,8 +1,10 @@
 package remark
 
 import (
+	"fmt"
 	"html"
 	"html/template"
+	"strings"
 
 	"github.com/gobuffalo/tags/v3"
 )
@@ -33,7 +35,20 @@ func (code *Code) HTML() template.HTML {
 
 	t := tags.New(code.Name(), opts)
 
-	h := code.Elements().HTML()
+	var lines []string
+	for _, e := range code.Elements() {
+		switch t := e.(type) {
+		case String:
+			lines = append(lines, string(t))
+		case fmt.Stringer:
+			lines = append(lines, t.String())
+		default:
+			lines = append(lines, fmt.Sprintf("%s", t))
+		}
+	}
+
+	h := template.HTML(strings.Join(lines, "\n"))
+
 	if s, ok := code.Attributes.Get("snippet"); ok {
 		h = code.Snippets[s].HTML()
 	}

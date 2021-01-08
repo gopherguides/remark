@@ -24,7 +24,7 @@ func (p *Parser) NewDocument(node *ast.Document) (*remark.Document, error) {
 				if err != nil {
 					return nil, err
 				}
-				m.Elements = append(m.Elements, sec)
+				m.Elems = append(m.Elems, sec)
 				kids = []ast.Node{}
 			}
 
@@ -43,7 +43,7 @@ func (p *Parser) NewDocument(node *ast.Document) (*remark.Document, error) {
 		if err != nil {
 			return nil, err
 		}
-		m.Elements = append(m.Elements, sec)
+		m.Elems = append(m.Elems, sec)
 	}
 
 	return m, nil

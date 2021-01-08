@@ -1,15 +1,7 @@
 package remark
 
-import (
-	"html/template"
-)
-
 type String string
 
 func (s String) Name() string {
-	return ""
-}
-
-func (s String) HTML() template.HTML {
-	return template.HTML(string(s))
+	return "string"
 }

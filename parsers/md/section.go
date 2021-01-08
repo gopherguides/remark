@@ -1,9 +1,6 @@
 package md
 
 import (
-	"html/template"
-	"strings"
-
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/gopherguides/remark"
 )
@@ -47,12 +44,3 @@ func (p *Parser) NewSection(head *remark.Heading, children []ast.Node) (*remark.
 }
 
 type Sections []*remark.Section
-
-func (s Sections) HTML() template.HTML {
-	lines := make([]string, 0, len(s))
-	for _, e := range s {
-		lines = append(lines, string(e.HTML()))
-	}
-	sl := strings.Join(lines, "")
-	return template.HTML(sl)
-}

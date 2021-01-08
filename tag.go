@@ -1,8 +1,8 @@
 package remark
 
-import "html/template"
+import "github.com/gobuffalo/tags/v3"
 
 type Tag interface {
 	Element
-	HTML() template.HTML
+	Options() tags.Options
 }
