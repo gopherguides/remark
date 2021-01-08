@@ -11,8 +11,7 @@ import (
 
 func (p *Parser) NewHeading(n *html.Node) (Element, error) {
 	h := &remark.Heading{}
-
-	l := strings.TrimPrefix("h", n.Data)
+	l := strings.TrimPrefix(n.Data, "h")
 	lvl, err := strconv.Atoi(l)
 	if err != nil {
 		return nil, err

@@ -36,7 +36,8 @@ func (p *Parser) NewElement(n *html.Node) (Element, error) {
 	}
 
 	if n.Type == html.TextNode {
-		return remark.String(n.Data), nil
+		s := strings.TrimSpace(n.Data)
+		return remark.String(s), nil
 	}
 
 	return p.NewGeneric(n)

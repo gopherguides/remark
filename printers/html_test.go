@@ -1,5 +1,60 @@
 package printers
 
+import (
+	"testing"
+
+	"github.com/gobuffalo/tags/v3"
+	"github.com/gopherguides/remark"
+	"github.com/gopherguides/remark/parsers/htm"
+	"github.com/stretchr/testify/require"
+)
+
+func Test_HTML(t *testing.T) {
+	t.Parallel()
+	r := require.New(t)
+
+	input := `
+	<h1>
+		<strong>words</strong>
+	</h1>
+	<p>
+		<a href="http://example.com">
+			<img src="/foo.png" />
+		</a>
+		<code>foo</code>
+	</p>`
+
+	doc, err := htm.Parse([]byte(input))
+	r.NoError(err)
+	r.NotNil(doc)
+
+	p := &HTML{}
+
+	act, err := p.Print(doc...)
+	r.NoError(err)
+
+	// fmt.Println(act)
+
+	exp := `<html><head></head><body><h1><strong>words</strong></h1><p><a href="http://example.com"><img src="/foo.png"></img></a><pre><code language="plain">foo</code></pre></p></body></html>`
+	r.Equal(exp, act)
+
+	p.Set("img", func(tag remark.Tag) (string, error) {
+		tg := tags.New("div", tags.Options{
+			"class": "img-wrapper",
+		})
+		tg.Append(tags.New(tag.Name(), tag.Options()))
+		return tg.String(), nil
+	})
+
+	act, err = p.Print(doc...)
+	r.NoError(err)
+
+	// fmt.Println(act)
+	exp = `<html><head></head><body><h1><strong>words</strong></h1><p><a href="http://example.com"><div class="img-wrapper"><img src="/foo.png" /></div></a><pre><code language="plain">foo</code></pre></p></body></html>`
+	r.Equal(exp, act)
+
+}
+
 // func Test_HTML_ZeroValue(t *testing.T) {
 // 	t.Parallel()
 // 	r := require.New(t)
