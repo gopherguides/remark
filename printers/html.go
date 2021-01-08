@@ -24,14 +24,24 @@ func (hp *HTML) Print(elems ...remark.Element) (string, error) {
 	}
 	var lines []string
 	for _, e := range elems {
-		if fn, ok := hp.custom[e.Name()]; ok {
-			if t, ok := e.(remark.Tag); ok {
-				s, err := fn(t)
-				if err != nil {
-					return "", err
-				}
-				lines = append(lines, s)
+		if s, ok := e.(remark.String); ok {
+			if len(s) > 0 {
+				lines = append(lines, string(s))
 			}
+			continue
+		}
+
+		tag, ok := e.(remark.Tag)
+		if !ok {
+			continue
+		}
+
+		if fn, ok := hp.custom[tag.Name()]; ok {
+			s, err := fn(tag)
+			if err != nil {
+				return "", err
+			}
+			lines = append(lines, s)
 			continue
 		}
 
@@ -39,12 +49,6 @@ func (hp *HTML) Print(elems ...remark.Element) (string, error) {
 		switch t := e.(type) {
 		case htmlable:
 			lines = append(lines, string(t.HTML()))
-			continue
-		case remark.String:
-			ss := string(t)
-			if len(ss) > 0 {
-				lines = append(lines, ss)
-			}
 			continue
 		case remark.Elemental:
 			s, err := hp.Print(t.Elements()...)
@@ -54,10 +58,7 @@ func (hp *HTML) Print(elems ...remark.Element) (string, error) {
 			lns = append(lns, s)
 		}
 
-		opts := tags.Options{}
-		if o, ok := e.(remark.Tag); ok {
-			opts = o.Options()
-		}
+		opts := tag.Options()
 
 		t := tags.New(e.Name(), opts)
 		t.Append(strings.Join(lns, ""))
