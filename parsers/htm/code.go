@@ -19,6 +19,11 @@ func (p *Parser) NewCode(n *html.Node) (*remark.Code, error) {
 		return nil, err
 	}
 
+	if s, ok := code.Get("section"); ok {
+		fmt.Printf("[<code section>] is deprecated. Use [<code snippet>] instead. %s\n", s)
+		code.Set("snippet", s)
+	}
+
 	src, ok := code.Get("src")
 	if !ok {
 		return code, nil

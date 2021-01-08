@@ -35,11 +35,11 @@ func (p *Parser) Parse(src []byte) (remark.Elements, error) {
 func (p *Parser) node(n *html.Node) error {
 	switch n.Type {
 	case html.CommentNode:
-		fmt.Println("CommentNode", n)
+		// fmt.Println("CommentNode", n)
 	case html.DoctypeNode:
-		fmt.Println("DoctypeNode", n)
+		// fmt.Println("DoctypeNode", n)
 	case html.DocumentNode:
-		fmt.Println("DocumentNode", n)
+		// fmt.Println("DocumentNode", n)
 	case html.ElementNode:
 		el, err := p.NewElement(n)
 		if err != nil {

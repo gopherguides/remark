@@ -1,6 +1,7 @@
 package remark
 
 import (
+	"html"
 	"html/template"
 
 	"github.com/gobuffalo/tags/v3"
@@ -31,7 +32,14 @@ func (code *Code) HTML() template.HTML {
 	opts["language"] = lang
 
 	t := tags.New(code.Name(), opts)
-	t.Append(code.Elements().HTML())
+
+	h := code.Elements().HTML()
+	if s, ok := code.Attributes.Get("snippet"); ok {
+		h = code.Snippets[s].HTML()
+	}
+
+	hs := html.EscapeString(string(h))
+	t.Append(hs)
 
 	pre := tags.New("pre", nil)
 	pre.Append(t)

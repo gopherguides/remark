@@ -9,7 +9,11 @@ import (
 )
 
 func (p *Parser) NewSection(head *remark.Heading, children []ast.Node) (*remark.Section, error) {
-	s := &remark.Section{}
+	s := &remark.Section{
+		Elems: remark.Elements{
+			head,
+		},
+	}
 
 	var kids []ast.Node
 	// var err error
