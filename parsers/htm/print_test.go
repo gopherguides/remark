@@ -54,20 +54,16 @@ func Test_Printer(t *testing.T) {
 	})
 
 	p.Decorate("img", func(tag remark.Tag) (remark.Tag, error) {
-		if at, ok := tag.(remark.Attributable); ok {
-			attrs := at.Attrs()
-			src, _ := attrs.Get("src")
-			attrs.Set("src", "https://"+path.Join("example.com", src))
-			attrs.Set("width", "100px")
-		}
+		attrs := tag.Attrs()
+		src, _ := attrs.Get("src")
+		attrs.Set("src", "https://"+path.Join("example.com", src))
+		attrs.Set("width", "100px")
 		return tag, nil
 	})
 
 	p.Decorate("a", func(tag remark.Tag) (remark.Tag, error) {
-		if at, ok := tag.(remark.Attributable); ok {
-			attrs := at.Attrs()
-			attrs.Set("target", "_blank")
-		}
+		attrs := tag.Attrs()
+		attrs.Set("target", "_blank")
 		return tag, nil
 	})
 
