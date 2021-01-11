@@ -3,11 +3,20 @@ package htm
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"strings"
 
 	"github.com/gopherguides/remark"
 	"golang.org/x/net/html"
 )
+
+func ParseFile(src string) (remark.Elements, error) {
+	b, err := ioutil.ReadFile(src)
+	if err != nil {
+		return nil, err
+	}
+	return Parse(b)
+}
 
 func Parse(src []byte) (remark.Elements, error) {
 	p := Parser{}

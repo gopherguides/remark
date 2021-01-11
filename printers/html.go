@@ -24,6 +24,14 @@ func (hp *HTML) Print(elems ...remark.Element) (string, error) {
 	}
 	var lines []string
 	for _, e := range elems {
+		if els, ok := e.(remark.Elements); ok {
+			l, err := hp.Print(els...)
+			if err != nil {
+				return "", err
+			}
+			lines = append(lines, l)
+			continue
+		}
 		if s, ok := e.(remark.String); ok {
 			if len(s) > 0 {
 				lines = append(lines, string(s))
