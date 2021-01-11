@@ -9,13 +9,25 @@ import (
 )
 
 func (p *Parser) set(el remark.Element, node ast.Node) error {
+	type leafable interface {
+		AsLeaf() *ast.Leaf
+	}
+
 	rv := reflect.ValueOf(el).Elem()
 	f := rv.FieldByName("Elems")
 	if f.IsValid() {
-		elems, err := p.NewElements(node.GetChildren())
+		var elems Elements
+		if ll, ok := node.(leafable); ok {
+			if leaf := ll.AsLeaf(); leaf != nil {
+				elems = append(elems, String(string(leaf.Literal)))
+			}
+		}
+
+		els, err := p.NewElements(node.GetChildren())
 		if err != nil {
 			return err
 		}
+		elems = append(elems, els...)
 		f.Set(reflect.ValueOf(elems))
 	}
 

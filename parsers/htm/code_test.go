@@ -7,11 +7,11 @@ import (
 	"golang.org/x/net/html"
 )
 
-func Test_NewCode(t *testing.T) {
+func Test_NewCodeBlock(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
 
-	const fp = "../internal/testdata/buffalo/src/initial/main.go"
+	const fp = "../internal/testdata/buffalo/src/initial/actions/app.go"
 
 	node := &html.Node{
 		Data: "code",
@@ -21,42 +21,36 @@ func Test_NewCode(t *testing.T) {
 	}
 
 	p := &Parser{}
-	code, err := p.NewCode(node)
+	code, err := p.NewCodeBlock(node)
 	r.NoError(err)
 
 	r.Len(code.Elements(), 1)
-	r.Len(code.Snippets, 3)
+	r.Len(code.Snippets, 4)
 
-	snip := code.Snippets["snipa"]
-	r.Equal("go", snip.Language)
-	r.Equal("snipa", snip.Name)
-	r.Equal(fp, snip.File)
-	r.Equal(9, snip.Start)
-	r.Equal(25, snip.End)
+	table := []struct {
+		Name  string
+		Start int
+		End   int
+		Exp   string
+	}{
+		{Name: "imports", Start: 3, End: 16, Exp: "gobuffalo/envy"},
+		{Name: "func", Start: 24, End: 70, Exp: "App is where all"},
+		{Name: "app", Start: 38, End: 69, Exp: `app.GET("/", HomeHandler)`},
+		{Name: "home", Start: 59, End: 61, Exp: `app.GET("/", HomeHandler)`},
+	}
 
-	exp := `All we ask is that`
-	r.Contains(snip.Content, exp)
-	r.NotContains(snip.Content, "snipa")
+	for _, tt := range table {
+		tt := tt
+		t.Run(tt.Name, func(st *testing.T) {
+			r := require.New(st)
+			snip := code.Snippets[tt.Name]
+			r.Equal("go", snip.Language)
+			r.Equal(tt.Name, snip.Name)
+			r.Equal(fp, snip.File)
+			r.Equal(tt.Start, snip.Start)
+			r.Equal(tt.End, snip.End)
+			r.Contains(snip.Content, tt.Exp)
+		})
+	}
 
-	snip = code.Snippets["snipb"]
-	r.Equal("go", snip.Language)
-	r.Equal("snipb", snip.Name)
-	r.Equal(fp, snip.File)
-	r.Equal(27, snip.Start)
-	r.Equal(45, snip.End)
-
-	exp = `Nginx`
-	r.Contains(snip.Content, exp)
-	r.NotContains(snip.Content, "snipb")
-
-	snip = code.Snippets["snipc"]
-	r.Equal("go", snip.Language)
-	r.Equal("snipc", snip.Name)
-	r.Equal(fp, snip.File)
-	r.Equal(17, snip.Start)
-	r.Equal(19, snip.End)
-
-	exp = `app := actions.App()`
-	r.Contains(snip.Content, exp)
-	r.NotContains(snip.Content, "app.Serve")
 }

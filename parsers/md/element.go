@@ -37,7 +37,7 @@ func (p *Parser) NewElement(node ast.Node) (Element, error) {
 	case *ast.Code:
 		return p.NewGeneric("code", t)
 	case *ast.HorizontalRule:
-		return p.NewGeneric("hr", t)
+		return NewHR()
 	case *ast.List:
 		return p.NewList(t)
 	case *ast.Link:

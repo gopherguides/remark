@@ -1,5 +1,6 @@
 package actions
 
+// snippet: imports
 import (
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/envy"
@@ -12,12 +13,15 @@ import (
 	"github.com/gobuffalo/packr/v2"
 )
 
+// snippet: imports
+
 // ENV is used to help switch settings based on where the
 // application is being run. Default is "development".
 var ENV = envy.Get("GO_ENV", "development")
 var app *buffalo.App
 var T *i18n.Translator
 
+// snippet: func
 // App is where all routes and middleware for buffalo
 // should be defined. This is the nerve center of your
 // application.
@@ -31,7 +35,7 @@ var T *i18n.Translator
 // `ServeFiles` is a CATCH-ALL route, so it should always be
 // placed last in the route declarations, as it will prevent routes
 // declared after it to never be called.
-// section: app
+// snippet: app
 func App() *buffalo.App {
 	if app == nil {
 		app = buffalo.New(buffalo.Options{
@@ -52,9 +56,9 @@ func App() *buffalo.App {
 		// Setup and use translations:
 		app.Use(translations())
 
-		// section: home
+		// snippet: home
 		app.GET("/", HomeHandler)
-		// section: home
+		// snippet: home
 
 		app.ServeFiles("/", assetsBox) // serve files from the public directory
 	}
@@ -62,7 +66,8 @@ func App() *buffalo.App {
 	return app
 }
 
-// section: app
+// snippet: app
+// snippet: func
 
 // translations will load locale files, set up the translator `actions.T`,
 // and will return a middleware to use to load the correct locale for each

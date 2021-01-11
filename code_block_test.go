@@ -7,18 +7,18 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_Code_Name(t *testing.T) {
+func Test_CodeBlock_Name(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
-	var code Code
+	var code CodeBlock
 	r.Equal("code", code.Name())
 }
 
-func Test_Code_HTML(t *testing.T) {
+func Test_CodeBlock_HTML(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
 
-	code := Code{
+	code := CodeBlock{
 		Attributes: Attributes{},
 		Elems: Elements{
 			String("hello"),

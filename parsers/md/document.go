@@ -5,8 +5,8 @@ import (
 	"github.com/gopherguides/remark"
 )
 
-func (p *Parser) NewDocument(node *ast.Document) (*remark.Document, error) {
-	m := &remark.Document{}
+func (p *Parser) NewDocument(node *ast.Document) (remark.Elements, error) {
+	var elems remark.Elements
 
 	var kids []ast.Node
 	var head *remark.Heading
@@ -24,7 +24,7 @@ func (p *Parser) NewDocument(node *ast.Document) (*remark.Document, error) {
 				if err != nil {
 					return nil, err
 				}
-				m.Elems = append(m.Elems, sec)
+				elems = append(elems, sec)
 				kids = []ast.Node{}
 			}
 
@@ -43,8 +43,8 @@ func (p *Parser) NewDocument(node *ast.Document) (*remark.Document, error) {
 		if err != nil {
 			return nil, err
 		}
-		m.Elems = append(m.Elems, sec)
+		elems = append(elems, sec)
 	}
 
-	return m, nil
+	return elems, nil
 }

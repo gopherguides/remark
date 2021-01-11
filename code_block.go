@@ -9,22 +9,22 @@ import (
 	"github.com/gobuffalo/tags/v3"
 )
 
-type Code struct {
+type CodeBlock struct {
 	Attributes
 	Language string
 	Elems    Elements
 	Snippets Snippets
 }
 
-func (code Code) Elements() Elements {
+func (code CodeBlock) Elements() Elements {
 	return code.Elems
 }
 
-func (code Code) Name() string {
+func (code CodeBlock) Name() string {
 	return "code"
 }
 
-func (code *Code) HTML() template.HTML {
+func (code *CodeBlock) HTML() template.HTML {
 	opts := code.Options()
 
 	lang := code.Language
@@ -54,7 +54,7 @@ func (code *Code) HTML() template.HTML {
 	}
 
 	hs := html.EscapeString(string(h))
-	t.Append(hs)
+	t.Append(strings.TrimSpace(hs))
 
 	pre := tags.New("pre", nil)
 	pre.Append(t)

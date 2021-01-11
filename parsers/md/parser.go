@@ -16,7 +16,7 @@ type Parser struct {
 	*parser.Parser
 }
 
-func (p *Parser) Parse(src []byte) (*remark.Document, error) {
+func (p *Parser) Parse(src []byte) (remark.Elements, error) {
 	if p.Parser == nil {
 		p.Parser = newParser()
 	}
@@ -36,7 +36,7 @@ func (p *Parser) Parse(src []byte) (*remark.Document, error) {
 	return m, nil
 }
 
-func (p *Parser) ParseFile(filename string) (*remark.Document, error) {
+func (p *Parser) ParseFile(filename string) (remark.Elements, error) {
 	b, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (p *Parser) ParseFile(filename string) (*remark.Document, error) {
 	return p.Parse(b)
 }
 
-func (p *Parser) ParseReader(r io.Reader) (*remark.Document, error) {
+func (p *Parser) ParseReader(r io.Reader) (remark.Elements, error) {
 	b, err := ioutil.ReadAll(r)
 	if err != nil {
 		return nil, err
@@ -52,19 +52,19 @@ func (p *Parser) ParseReader(r io.Reader) (*remark.Document, error) {
 	return p.Parse(b)
 }
 
-func Parse(src []byte) (*remark.Document, error) {
+func Parse(src []byte) (remark.Elements, error) {
 	p := &Parser{}
 	return p.Parse(src)
 }
 
-func ParseFile(filename string) (*remark.Document, error) {
+func ParseFile(filename string) (remark.Elements, error) {
 	p := &Parser{
 		Root: filepath.Dir(filename),
 	}
 	return p.ParseFile(filename)
 }
 
-func ParseReader(r io.Reader) (*remark.Document, error) {
+func ParseReader(r io.Reader) (remark.Elements, error) {
 	p := &Parser{}
 	return p.ParseReader(r)
 }

@@ -13,10 +13,14 @@ type Elements = remark.Elements
 func (p *Parser) NewElement(n *html.Node) (Element, error) {
 	n.Data = strings.ToLower(n.Data)
 	switch n.Data {
+	case "hr":
+		return &remark.HR{
+			Attributes: remark.Attributes{},
+		}, nil
 	case "a":
 		return p.NewLink(n)
 	case "code":
-		return p.NewCode(n)
+		return p.NewCodeBlock(n)
 	case "em", "i":
 		n.Data = "em"
 		return p.NewGeneric(n)

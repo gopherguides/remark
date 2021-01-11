@@ -11,8 +11,8 @@ import (
 	"golang.org/x/net/html"
 )
 
-func (p *Parser) NewCode(n *html.Node) (*remark.Code, error) {
-	code := &remark.Code{
+func (p *Parser) NewCodeBlock(n *html.Node) (*remark.CodeBlock, error) {
+	code := &remark.CodeBlock{
 		Snippets: remark.Snippets{},
 	}
 	if err := p.set(code, n); err != nil {
@@ -35,42 +35,41 @@ func (p *Parser) NewCode(n *html.Node) (*remark.Code, error) {
 	}
 
 	var lines []string
-	// var snip remark.Snippet
-	// var cont []string
-	var cur string
+
+	open := map[string]remark.Snippet{}
+
 	for i, line := range strings.Split(string(b), "\n") {
 		sl := strings.TrimSpace(line)
 		if strings.HasPrefix(sl, "// section:") {
-			fmt.Printf("[// section:] has been deprecated. Use [// snippet:] instead. %s\n", sl)
 			sl = strings.ReplaceAll(sl, "section:", "snippet:")
 		}
 
 		if strings.HasPrefix(sl, "// snippet:") {
 			name := strings.TrimPrefix(sl, "// snippet:")
 			name = strings.TrimSpace(name)
-			snip, ok := code.Snippets[name]
+			snip, ok := open[name]
 			if ok {
 				snip.End = i + 1
-				cur = ""
+				code.Snippets[name] = snip
+				delete(open, name)
 			}
 			if !ok {
 				snip.File = src
 				snip.Language = strings.TrimPrefix(filepath.Ext(src), ".")
 				snip.Name = name
 				snip.Start = i + 1
-				cur = name
+				open[name] = snip
 			}
 
 			code.Snippets[name] = snip
 			continue
 		}
 
-		if len(cur) > 0 {
-			snip := code.Snippets[cur]
+		for k, snip := range open {
 			snip.Content = strings.Join([]string{snip.Content, line}, "\n")
-			code.Snippets[cur] = snip
-			continue
+			open[k] = snip
 		}
+
 		lines = append(lines, line)
 	}
 

@@ -7,8 +7,16 @@ import (
 	"github.com/gobuffalo/tags/v3"
 )
 
+type Attributable interface {
+	Attrs() *Attributes
+}
+
 type Attributes struct {
 	data *syncx.StringMap
+}
+
+func (at *Attributes) Attrs() *Attributes {
+	return at
 }
 
 func (at *Attributes) smap() *syncx.StringMap {

@@ -1,4 +1,4 @@
-package printers
+package htm
 
 import (
 	"html/template"
@@ -8,20 +8,35 @@ import (
 	"github.com/gopherguides/remark"
 )
 
+func Print(elems ...remark.Element) (string, error) {
+	p := &Printer{
+		custom: map[string]TagPrinter{},
+	}
+	return p.Print(elems...)
+}
+
 type TagPrinter func(t remark.Tag) (string, error)
 
 type htmlable interface {
 	HTML() template.HTML
 }
 
-type HTML struct {
-	custom map[string]TagPrinter
+type TagDecorator func(t remark.Tag) (remark.Tag, error)
+
+type Printer struct {
+	custom     map[string]TagPrinter
+	decorators map[string]TagDecorator
 }
 
-func (hp *HTML) Print(elems ...remark.Element) (string, error) {
+func (hp *Printer) Print(elems ...remark.Element) (string, error) {
 	if hp.custom == nil {
 		hp.custom = map[string]TagPrinter{}
 	}
+	if hp.decorators == nil {
+		hp.decorators = map[string]TagDecorator{}
+	}
+
+	var err error
 	var lines []string
 	for _, e := range elems {
 		if els, ok := e.(remark.Elements); ok {
@@ -42,6 +57,13 @@ func (hp *HTML) Print(elems ...remark.Element) (string, error) {
 		tag, ok := e.(remark.Tag)
 		if !ok {
 			continue
+		}
+
+		if td, ok := hp.decorators[tag.Name()]; ok {
+			tag, err = td(tag)
+			if err != nil {
+				return "", err
+			}
 		}
 
 		if fn, ok := hp.custom[tag.Name()]; ok {
@@ -75,9 +97,16 @@ func (hp *HTML) Print(elems ...remark.Element) (string, error) {
 	return strings.Join(lines, ""), nil
 }
 
-func (h *HTML) Set(name string, fn TagPrinter) {
+func (h *Printer) Set(name string, fn TagPrinter) {
 	if h.custom == nil {
 		h.custom = map[string]TagPrinter{}
 	}
 	h.custom[name] = fn
+}
+
+func (h *Printer) Decorate(name string, fn TagDecorator) {
+	if h.decorators == nil {
+		h.decorators = map[string]TagDecorator{}
+	}
+	h.decorators[name] = fn
 }
