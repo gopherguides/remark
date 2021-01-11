@@ -25,14 +25,14 @@ func Test_NewCode(t *testing.T) {
 	r.NoError(err)
 
 	r.Len(code.Elements(), 1)
-	r.Len(code.Snippets, 2)
+	r.Len(code.Snippets, 3)
 
 	snip := code.Snippets["snipa"]
 	r.Equal("go", snip.Language)
 	r.Equal("snipa", snip.Name)
 	r.Equal(fp, snip.File)
 	r.Equal(9, snip.Start)
-	r.Equal(23, snip.End)
+	r.Equal(25, snip.End)
 
 	exp := `All we ask is that`
 	r.Contains(snip.Content, exp)
@@ -42,10 +42,21 @@ func Test_NewCode(t *testing.T) {
 	r.Equal("go", snip.Language)
 	r.Equal("snipb", snip.Name)
 	r.Equal(fp, snip.File)
-	r.Equal(25, snip.Start)
-	r.Equal(43, snip.End)
+	r.Equal(27, snip.Start)
+	r.Equal(45, snip.End)
 
 	exp = `Nginx`
 	r.Contains(snip.Content, exp)
 	r.NotContains(snip.Content, "snipb")
+
+	snip = code.Snippets["snipc"]
+	r.Equal("go", snip.Language)
+	r.Equal("snipc", snip.Name)
+	r.Equal(fp, snip.File)
+	r.Equal(17, snip.Start)
+	r.Equal(19, snip.End)
+
+	exp = `app := actions.App()`
+	r.Contains(snip.Content, exp)
+	r.NotContains(snip.Content, "app.Serve")
 }
