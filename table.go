@@ -1,5 +1,7 @@
 package remark
 
+import "github.com/gobuffalo/tags/v3"
+
 type Table struct {
 	Attributes
 	Elems    Elements
@@ -19,4 +21,10 @@ func (table Table) Elements() Elements {
 
 func (table Table) Name() string {
 	return "table"
+}
+
+func (g Table) String() string {
+	t := tags.New(g.Name(), g.Options())
+	t.Append(g.Elems)
+	return t.String()
 }

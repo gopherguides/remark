@@ -68,3 +68,7 @@ func (code *CodeBlock) HTML() template.HTML {
 	pre.Append(t)
 	return pre.HTML()
 }
+
+func (code CodeBlock) String() string {
+	return html.UnescapeString(string(code.HTML()))
+}

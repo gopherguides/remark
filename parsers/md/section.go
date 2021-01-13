@@ -6,10 +6,10 @@ import (
 )
 
 func (p *Parser) NewSection(head *remark.Heading, children []ast.Node) (*remark.Section, error) {
-	s := &remark.Section{
-		Elems: remark.Elements{
-			head,
-		},
+	s := &remark.Section{}
+
+	if head != nil {
+		s.Elems = append(s.Elems, head)
 	}
 
 	var kids []ast.Node

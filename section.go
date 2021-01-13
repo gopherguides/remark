@@ -1,5 +1,7 @@
 package remark
 
+import "github.com/gobuffalo/tags/v3"
+
 type Section struct {
 	Attributes
 	Elems    Elements
@@ -19,4 +21,10 @@ func (s Section) Elements() Elements {
 
 func (sec Section) Name() string {
 	return "section"
+}
+
+func (g Section) String() string {
+	t := tags.New(g.Name(), g.Options())
+	t.Append(g.Elems)
+	return t.String()
 }

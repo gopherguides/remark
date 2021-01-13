@@ -2,13 +2,15 @@ package remark
 
 import (
 	"fmt"
+
+	"github.com/gobuffalo/tags/v3"
 )
 
 type Heading struct {
 	Attributes
-	metadata Metadata
 	Elems    Elements
 	Level    int
+	metadata Metadata
 }
 
 func (head *Heading) Metadata() Metadata {
@@ -28,4 +30,10 @@ func (h Heading) Name() string {
 		lvl = 1
 	}
 	return fmt.Sprintf("h%d", lvl)
+}
+
+func (g Heading) String() string {
+	t := tags.New(g.Name(), g.Options())
+	t.Append(g.Elems)
+	return t.String()
 }

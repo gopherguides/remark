@@ -1,5 +1,7 @@
 package remark
 
+import "github.com/gobuffalo/tags/v3"
+
 type UnorderedList struct {
 	Attributes
 	Elems    Elements
@@ -19,4 +21,10 @@ func (ul UnorderedList) Elements() Elements {
 
 func (ul UnorderedList) Name() string {
 	return "ul"
+}
+
+func (g UnorderedList) String() string {
+	t := tags.New(g.Name(), g.Options())
+	t.Append(g.Elems)
+	return t.String()
 }

@@ -10,6 +10,8 @@ import (
 
 func (p *Parser) NewMetadata(n *html.Node) (remark.Metadata, error) {
 	m := remark.Metadata{}
+	defer fmt.Printf(">>>TODO parsers/htm/metadata.go:13: m (%T): %v \n", m, m)
+
 	c := n.FirstChild
 	if c == nil {
 		return m, nil
@@ -29,6 +31,5 @@ func (p *Parser) NewMetadata(n *html.Node) (remark.Metadata, error) {
 		v := strings.TrimSpace(secs[1])
 		m[k] = v
 	}
-
 	return m, nil
 }

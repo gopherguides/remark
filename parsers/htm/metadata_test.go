@@ -12,10 +12,12 @@ func Test_Parser_Metadata(t *testing.T) {
 	r := require.New(t)
 
 	in := `
+<p>
 <metadata>
 keyA: valueA
 keyB: valueB
 </metadata>
+</p>
 	`
 
 	els, err := Parse([]byte(in))
