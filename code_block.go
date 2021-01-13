@@ -11,9 +11,17 @@ import (
 
 type CodeBlock struct {
 	Attributes
-	Language string
 	Elems    Elements
+	Language string
+	metadata Metadata
 	Snippets Snippets
+}
+
+func (code *CodeBlock) Metadata() Metadata {
+	if code.metadata == nil {
+		code.metadata = Metadata{}
+	}
+	return code.metadata
 }
 
 func (code CodeBlock) Elements() Elements {

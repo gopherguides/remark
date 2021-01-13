@@ -2,7 +2,15 @@ package remark
 
 type Image struct {
 	Attributes
-	Elems Elements
+	Elems    Elements
+	metadata Metadata
+}
+
+func (img *Image) Metadata() Metadata {
+	if img.metadata == nil {
+		img.metadata = Metadata{}
+	}
+	return img.metadata
 }
 
 func (img Image) Elements() Elements {

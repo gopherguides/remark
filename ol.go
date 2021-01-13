@@ -2,7 +2,15 @@ package remark
 
 type OrderedList struct {
 	Attributes
-	Elems Elements
+	metadata Metadata
+	Elems    Elements
+}
+
+func (ol *OrderedList) Metadata() Metadata {
+	if ol.metadata == nil {
+		ol.metadata = Metadata{}
+	}
+	return ol.metadata
 }
 
 func (ol OrderedList) Elements() Elements {

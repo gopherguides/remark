@@ -36,5 +36,6 @@ func (p *Parser) set(el remark.Element, node *html.Node) error {
 		}
 
 	}
+
 	return nil
 }

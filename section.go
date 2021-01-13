@@ -2,7 +2,15 @@ package remark
 
 type Section struct {
 	Attributes
-	Elems Elements
+	Elems    Elements
+	metadata Metadata
+}
+
+func (sec *Section) Metadata() Metadata {
+	if sec.metadata == nil {
+		sec.metadata = Metadata{}
+	}
+	return sec.metadata
 }
 
 func (s Section) Elements() Elements {

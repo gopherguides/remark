@@ -6,8 +6,16 @@ import (
 
 type Heading struct {
 	Attributes
-	Elems Elements
-	Level int
+	metadata Metadata
+	Elems    Elements
+	Level    int
+}
+
+func (head *Heading) Metadata() Metadata {
+	if head.metadata == nil {
+		head.metadata = Metadata{}
+	}
+	return head.metadata
 }
 
 func (h Heading) Elements() Elements {

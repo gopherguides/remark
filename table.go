@@ -2,7 +2,15 @@ package remark
 
 type Table struct {
 	Attributes
-	Elems Elements
+	Elems    Elements
+	metadata Metadata
+}
+
+func (table *Table) Metadata() Metadata {
+	if table.metadata == nil {
+		table.metadata = Metadata{}
+	}
+	return table.metadata
 }
 
 func (table Table) Elements() Elements {

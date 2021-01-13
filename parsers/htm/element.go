@@ -37,6 +37,8 @@ func (p *Parser) NewElement(n *html.Node) (Element, error) {
 		return p.NewTable(n)
 	case "ul":
 		return p.NewUnorderedList(n)
+	case "metadata":
+		return p.NewMetadata(n)
 	}
 
 	if n.Type == html.TextNode {
