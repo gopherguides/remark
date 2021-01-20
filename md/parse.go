@@ -2,6 +2,8 @@ package md
 
 import (
 	"fmt"
+	"io/ioutil"
+	"path/filepath"
 	"strings"
 
 	"github.com/gopherguides/remark"
@@ -20,6 +22,15 @@ func NewParser(root string) *Parser {
 		Root:   root,
 		Parser: newParser(),
 	}
+}
+
+func ParseFile(name string) (remark.Tags, error) {
+	root := filepath.Dir(name)
+	b, err := ioutil.ReadFile(name)
+	if err != nil {
+		return nil, err
+	}
+	return Parse(root, b)
 }
 
 func Parse(root string, src []byte) (remark.Tags, error) {
