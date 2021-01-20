@@ -1,35 +1,58 @@
 package remark
 
 import (
-	"html"
+	"strings"
 
 	"github.com/gobuffalo/tags/v3"
 )
 
 type Generic struct {
-	TagName string
 	Attributes
-	Elems    Elements
-	metadata Metadata
+	Children Tags
+	Name     string
+	Data     Metadata
 }
 
-func (gen *Generic) Metadata() Metadata {
-	if gen.metadata == nil {
-		gen.metadata = Metadata{}
+func (t *Generic) Append(tag Tag) {
+	t.Children = append(t.Children, tag)
+}
+
+func (t *Generic) GetChildren() Tags {
+	return t.Children
+}
+
+func (t *Generic) TagName() string {
+	return t.Name
+}
+
+func (t *Generic) Metadata() Metadata {
+	if t.Data == nil {
+		t.Data = Metadata{}
 	}
-	return gen.metadata
+	return t.Data
 }
 
-func (g Generic) Elements() Elements {
-	return g.Elems
+func (tag Generic) String() string {
+	if len(tag.Name) == 0 {
+		return tag.GetChildren().String()
+	}
+
+	t := tags.New(tag.Name, tag.Options())
+
+	if len(tag.Children) > 0 {
+		t.Append(tag.Children.String())
+	}
+
+	return t.String()
 }
 
-func (g Generic) Name() string {
-	return g.TagName
-}
+func NewGeneric(name string) *Generic {
+	name = strings.TrimSpace(name)
+	name = strings.ToLower(name)
 
-func (g Generic) String() string {
-	t := tags.New(g.Name(), g.Options())
-	t.Append(g.Elems)
-	return html.UnescapeString(t.String())
+	return &Generic{
+		Name:       name,
+		Data:       Metadata{},
+		Attributes: Attributes{},
+	}
 }

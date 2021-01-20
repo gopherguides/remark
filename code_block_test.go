@@ -19,9 +19,11 @@ func Test_CodeBlock_HTML(t *testing.T) {
 	r := require.New(t)
 
 	code := CodeBlock{
-		Attributes: Attributes{},
-		Elems: Elements{
-			String("hello"),
+		Generic: &Generic{
+			Attributes: Attributes{},
+			Children: Tags{
+				String("hello"),
+			},
 		},
 	}
 	code.Set("k1", "one")

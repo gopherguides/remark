@@ -10,22 +10,9 @@ import (
 )
 
 type CodeBlock struct {
-	Attributes
-	Elems    Elements
+	*Generic
 	Language string
-	metadata Metadata
 	Snippets Snippets
-}
-
-func (code *CodeBlock) Metadata() Metadata {
-	if code.metadata == nil {
-		code.metadata = Metadata{}
-	}
-	return code.metadata
-}
-
-func (code CodeBlock) Elements() Elements {
-	return code.Elems
 }
 
 func (code CodeBlock) Name() string {
@@ -44,7 +31,7 @@ func (code *CodeBlock) HTML() template.HTML {
 	t := tags.New(code.Name(), opts)
 
 	var lines []string
-	for _, e := range code.Elements() {
+	for _, e := range code.Children {
 		switch t := e.(type) {
 		case String:
 			lines = append(lines, string(t))
