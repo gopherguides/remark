@@ -85,51 +85,7 @@ func (hp *Printer) Print(elems ...remark.Tag) (string, error) {
 		lines = append(lines, t.String())
 	}
 
-	// for _, tag := range elems {
-	//
-	// 	if s, ok := tag.(remark.String); ok {
-	// 		if len(s) > 0 {
-	// 			lines = append(lines, string(s))
-	// 		}
-	// 		continue
-	// 	}
-	//
-	// 	if td, ok := hp.decorators[tag.TagName()]; ok {
-	// 		tag, err = td(tag)
-	// 		if err != nil {
-	// 			return "", err
-	// 		}
-	// 	}
-	//
-	// 	if fn, ok := hp.custom[tag.TagName()]; ok {
-	// 		s, err := fn(tag)
-	// 		if err != nil {
-	// 			return "", err
-	// 		}
-	// 		lines = append(lines, s)
-	// 		continue
-	// 	}
-	//
-	// 	var lns []string
-	// 	switch t := e.(type) {
-	// 	case htmlable:
-	// 		lines = append(lines, string(t.HTML()))
-	// 		continue
-	// 	case remark.Childish:
-	// 		s, err := hp.Print(t.Children()...)
-	// 		if err != nil {
-	// 			return "", err
-	// 		}
-	// 		lns = append(lns, s)
-	// 	}
-	//
-	// 	opts := tag.Options()
-	//
-	// 	t := tags.New(e.Name(), opts)
-	// 	t.Append(strings.Join(lns, ""))
-	// 	lines = append(lines, t.String())
-	// }
-	return strings.Join(lines, ""), nil
+	return strings.Join(lines, " "), nil
 }
 
 func (h *Printer) Set(name string, fn TagPrinter) {

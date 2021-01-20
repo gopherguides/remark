@@ -1,7 +1,6 @@
 package htm
 
 import (
-	"fmt"
 	"path"
 	"testing"
 
@@ -34,9 +33,9 @@ func Test_Printer(t *testing.T) {
 	act, err := p.Print(doc)
 	r.NoError(err)
 
-	fmt.Println(act)
+	// fmt.Println(act)
 
-	exp := `<html><head></head><body><h1><strong>words</strong></h1><p><a href="http://example.com"><img src="/foo.png"></img></a><pre><code language="plain">foo</code></pre></p></body></html>`
+	exp := `<html><head></head> <body><h1><strong>words</strong></h1> <p><a href="http://example.com"><img src="/foo.png"></img></a> <pre><code language="plain">foo</code></pre></p></body></html>`
 	r.Equal(exp, act)
 
 	p.Set("img", func(tag remark.Tag) (string, error) {
@@ -71,7 +70,7 @@ func Test_Printer(t *testing.T) {
 	act, err = p.Print(doc)
 	r.NoError(err)
 
-	exp = `<html><head></head><body><h1><strong>words</strong></h1><p><a href="http://example.com" target="_blank"><div class="img-wrapper"><img src="https://example.com/foo.png" width="100px" /></div></a><pre><code language="plain">foo</code></pre></p></body></html>`
+	exp = `<html><head></head> <body><h1><strong>words</strong></h1> <p><a href="http://example.com" target="_blank"><div class="img-wrapper"><img src="https://example.com/foo.png" width="100px" /></div></a> <pre><code language="plain">foo</code></pre></p></body></html>`
 	r.Equal(exp, act)
 
 }

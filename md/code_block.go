@@ -6,8 +6,12 @@ import (
 )
 
 func (p *Parser) NewCodeBlock(node *ast.CodeBlock) (*remark.CodeBlock, error) {
+	g := remark.NewGeneric("code")
+
+	g.Children = append(g.Children, remark.String(string(node.Literal)))
+
 	cb := &remark.CodeBlock{
-		Generic:  remark.NewGeneric("code"),
+		Generic:  g,
 		Language: string(node.Info),
 	}
 
@@ -15,5 +19,14 @@ func (p *Parser) NewCodeBlock(node *ast.CodeBlock) (*remark.CodeBlock, error) {
 		cb.Language = "plain"
 	}
 
+	// for _, n := range node.Children {
+	// 	nt, err := p.parseNode(n)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
+	// 	if nt != nil {
+	// 		t.Children = append(t.Children, nt)
+	// 	}
+	// }
 	return cb, nil
 }
