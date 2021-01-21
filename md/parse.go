@@ -74,6 +74,18 @@ func (p *Parser) parseNode(node ast.Node) (remark.Tag, error) {
 		return p.NewCodeBlock(t)
 	case *ast.Emph:
 		name = "em"
+	case *ast.Table:
+		name = "table"
+	case *ast.TableHeader:
+		name = "th"
+	case *ast.TableRow:
+		name = "tr"
+	case *ast.TableCell:
+		name = "td"
+	case *ast.TableBody:
+		name = "tbody"
+	case *ast.Strong:
+		name = "strong"
 	default:
 		return nil, fmt.Errorf("unexpected node %T", node)
 	}
