@@ -9,9 +9,17 @@ import (
 )
 
 func (p *Parser) NewHeading(node *ast.Heading) (*remark.Heading, error) {
-	h := &remark.Heading{
+	tag := &remark.Heading{
 		Generic: remark.NewGeneric(fmt.Sprintf("h%d", node.Level)),
 		Level:   node.Level,
 	}
-	return h, nil
+
+	for _, n := range node.Children {
+		t, err := p.parseNode(n)
+		if err != nil {
+			return nil, err
+		}
+		tag.Append(t)
+	}
+	return tag, nil
 }

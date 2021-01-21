@@ -50,7 +50,7 @@ func (p *Parser) parseNode(node ast.Node) (remark.Tag, error) {
 	switch t := node.(type) {
 	case *ast.Document:
 	case *ast.Heading:
-		name = fmt.Sprintf("h%d", t.Level)
+		return p.NewHeading(t)
 	case *ast.Text:
 		name = ""
 	case *ast.Paragraph:

@@ -26,17 +26,14 @@ func Test_Parse(t *testing.T) {
 	r.Len(tags, 20)
 	r.Contains(tags[19].String(), `https://twitter.com/corylanou`)
 
-	sec := tags[0]
+	sec, ok := tags[0].(*Section)
+	r.True(ok)
 	r.Equal("section", sec.TagName())
-	r.Len(sec.GetChildren(), 2)
+	r.Len(sec.GetChildren(), 1)
+	r.Equal("Converting a Static Site to Buffalo", sec.Title)
 
 	h1 := sec.GetChildren()[0]
 	r.Equal("h1", h1.TagName())
 	r.Len(h1.GetChildren(), 1)
 	r.Equal("<h1>Converting a Static Site to Buffalo</h1>", h1.String())
-
-	md, ok := sec.(*Section)
-	r.True(ok)
-	data := md.Metadata()
-	r.Equal("true", data["overview"])
 }
