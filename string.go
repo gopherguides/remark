@@ -25,7 +25,3 @@ func (s String) TagName() string {
 func (s String) GetChildren() Tags {
 	return Tags{}
 }
-
-func (s String) Text() string {
-	return string(s)
-}

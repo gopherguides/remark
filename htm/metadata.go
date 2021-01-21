@@ -9,14 +9,8 @@ import (
 	"golang.org/x/net/html"
 )
 
-func (p *Parser) parseMetadata(node *html.Node) (*remark.Generic, error) {
-	node.Data = "metadata"
-	tag, err := p.NewGeneric(node)
-	if err != nil {
-		return nil, err
-	}
-
-	tag.Name = "metadata"
+func (p *Parser) parseMetadata(node *html.Node) (remark.Metadata, error) {
+	tag := remark.Metadata{}
 
 	var lines []string
 	for c := node.FirstChild; c != nil; c = c.NextSibling {
@@ -27,11 +21,12 @@ func (p *Parser) parseMetadata(node *html.Node) (*remark.Generic, error) {
 		if tg == nil {
 			continue
 		}
-		txter, ok := tg.(remark.Textable)
+		txter, ok := tg.(remark.String)
 		if !ok {
 			continue
 		}
-		for _, line := range strings.Split(txter.Text(), "\n") {
+		text := string(txter)
+		for _, line := range strings.Split(text, "\n") {
 			line = strings.TrimSpace(line)
 			if len(line) > 0 {
 				lines = append(lines, line)
@@ -39,7 +34,6 @@ func (p *Parser) parseMetadata(node *html.Node) (*remark.Generic, error) {
 		}
 	}
 
-	md := remark.Metadata{}
 	for _, line := range lines {
 		ss := strings.Split(line, ":")
 		if len(ss) < 2 {
@@ -47,8 +41,7 @@ func (p *Parser) parseMetadata(node *html.Node) (*remark.Generic, error) {
 		}
 		k := strings.TrimSpace(strings.ToLower(ss[0]))
 		v := strings.TrimSpace(ss[1])
-		md[k] = v
+		tag[k] = v
 	}
-	tag.Data = md
 	return tag, nil
 }

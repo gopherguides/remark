@@ -17,21 +17,6 @@ type Tag interface {
 
 type Tags []Tag
 
-func (tags Tags) Metadata() Metadata {
-	md := Metadata{}
-	for _, t := range tags {
-		if m, ok := t.(Metadatable); ok {
-			for k, v := range m.Metadata() {
-				md[k] = v
-			}
-		}
-		for k, v := range t.GetChildren().Metadata() {
-			md[k] = v
-		}
-	}
-	return md
-}
-
 func (tags Tags) String() string {
 	lines := make([]string, 0, len(tags))
 	for _, t := range tags {

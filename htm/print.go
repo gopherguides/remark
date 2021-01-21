@@ -39,9 +39,6 @@ func (hp *Printer) Print(elems ...remark.Tag) (string, error) {
 	var err error
 	var lines []string
 	for _, tag := range elems {
-		if tag.TagName() == "metadata" {
-			continue
-		}
 		if h, ok := tag.(htmlable); ok {
 			lines = append(lines, string(h.HTML()))
 			continue

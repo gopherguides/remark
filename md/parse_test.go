@@ -5,7 +5,6 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/gopherguides/remark"
 	"github.com/stretchr/testify/require"
 )
 
@@ -36,7 +35,7 @@ func Test_Parse(t *testing.T) {
 	r.Len(h1.GetChildren(), 1)
 	r.Equal("<h1>Converting a Static Site to Buffalo</h1>", h1.String())
 
-	md, ok := sec.(remark.Metadatable)
+	md, ok := sec.(*Section)
 	r.True(ok)
 	data := md.Metadata()
 	r.Equal("true", data["overview"])
