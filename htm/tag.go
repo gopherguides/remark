@@ -33,7 +33,6 @@ func (p *Parser) NewTag(n *html.Node) (remark.Tag, error) {
 		return nil, fmt.Errorf("nil node")
 	}
 	n.Data = strings.TrimSpace(n.Data)
-	n.Data = strings.ToLower(n.Data)
 	if n.Type == html.TextNode {
 		c := strings.TrimSpace(n.Data)
 		if len(c) == 0 {
@@ -41,6 +40,7 @@ func (p *Parser) NewTag(n *html.Node) (remark.Tag, error) {
 		}
 		return remark.String(c), nil
 	}
+	n.Data = strings.ToLower(n.Data)
 	if len(n.Data) == 0 {
 		g, err := p.NewGeneric(n)
 		if err != nil {

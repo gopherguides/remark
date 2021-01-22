@@ -47,6 +47,9 @@ func Test_HTML(t *testing.T) {
 	md := div.GetChildren()[2]
 	r.Equal("metadata", md.TagName())
 	r.Len(md, 2)
+	data, ok := md.(remark.Metadata)
+	r.True(ok)
+	r.Equal("valueA", data["keya"])
 
 	ct := div.GetChildren()[3]
 	r.Equal("code", ct.TagName())
