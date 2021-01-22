@@ -11,6 +11,16 @@ type Section struct {
 	Title string
 }
 
+func (s *Section) Overview() bool {
+	_, ok := s.Metadata()["overview"]
+	return ok
+}
+
+func (s *Section) Summary() bool {
+	_, ok := s.Metadata()["summary"]
+	return ok
+}
+
 func (s *Section) Metadata() remark.Metadata {
 	if s.Data == nil {
 		s.Data = remark.Metadata{}
@@ -38,10 +48,10 @@ func (p *Parser) NewSection(nodes []ast.Node) (*Section, error) {
 			tag.Data = md.Metadata()
 		}
 
-		if _, ok := tag.Data["overview"]; !ok {
-			tag.Append(t)
-			continue
-		}
+		// if _, ok := tag.Data["overview"]; !ok {
+		// 	tag.Append(t)
+		// 	continue
+		// }
 
 		tag.Append(t)
 	}
