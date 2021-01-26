@@ -1,5 +1,7 @@
 # Converting a Static Site to Buffalo
 
+This is a `code` sample.
+
 ---
 
 ## Overview

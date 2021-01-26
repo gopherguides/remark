@@ -1,10 +1,12 @@
 package md
 
 import (
+	"html/template"
 	"io/ioutil"
 	"path/filepath"
 	"testing"
 
+	"github.com/gopherguides/remark"
 	"github.com/stretchr/testify/require"
 )
 
@@ -29,11 +31,23 @@ func Test_Parse(t *testing.T) {
 	sec, ok := tags[0].(*Section)
 	r.True(ok)
 	r.Equal("section", sec.TagName())
-	r.Len(sec.GetChildren(), 1)
+	r.Len(sec.GetChildren(), 2)
 	r.Equal("Converting a Static Site to Buffalo", sec.Title)
 
 	h1 := sec.GetChildren()[0]
 	r.Equal("h1", h1.TagName())
 	r.Len(h1.GetChildren(), 1)
 	r.Equal("<h1>Converting a Static Site to Buffalo</h1>", h1.String())
+
+	p, ok := sec.GetChildren()[1].(*remark.Generic)
+	r.True(ok)
+	r.Equal("p", p.TagName())
+	r.Len(p.GetChildren(), 3)
+
+	code, ok := p.GetChildren()[1].(*remark.Code)
+	r.True(ok)
+	r.Equal("code", code.TagName())
+
+	exp := template.HTML(`<pre><code language="plain">code</code></pre>`)
+	r.Equal(exp, code.HTML())
 }

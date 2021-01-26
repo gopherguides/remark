@@ -5,6 +5,18 @@ import (
 	"github.com/gopherguides/remark"
 )
 
+func (p *Parser) NewCode(node *ast.Code) (*remark.Code, error) {
+	g := remark.NewGeneric("code")
+
+	g.Children = append(g.Children, remark.String(string(node.Literal)))
+
+	cb := &remark.Code{
+		Generic: g,
+	}
+
+	return cb, nil
+}
+
 func (p *Parser) NewCodeBlock(node *ast.CodeBlock) (*remark.CodeBlock, error) {
 	g := remark.NewGeneric("code")
 
@@ -19,14 +31,5 @@ func (p *Parser) NewCodeBlock(node *ast.CodeBlock) (*remark.CodeBlock, error) {
 		cb.Language = "plain"
 	}
 
-	// for _, n := range node.Children {
-	// 	nt, err := p.parseNode(n)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// 	if nt != nil {
-	// 		t.Children = append(t.Children, nt)
-	// 	}
-	// }
 	return cb, nil
 }

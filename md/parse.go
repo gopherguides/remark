@@ -69,7 +69,7 @@ func (p *Parser) parseNode(node ast.Node) (remark.Tag, error) {
 	case *ast.ListItem:
 		name = "li"
 	case *ast.Code:
-		name = "code"
+		return p.NewCode(t)
 	case *ast.CodeBlock:
 		return p.NewCodeBlock(t)
 	case *ast.Emph:
