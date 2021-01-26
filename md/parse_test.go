@@ -48,6 +48,6 @@ func Test_Parse(t *testing.T) {
 	r.True(ok)
 	r.Equal("code", code.TagName())
 
-	exp := template.HTML(`<pre><code language="plain">code</code></pre>`)
+	exp := template.HTML(`<code language="plain">code</code>`)
 	r.Equal(exp, code.HTML())
 }

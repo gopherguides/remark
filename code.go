@@ -23,9 +23,7 @@ func (code *Code) HTML() template.HTML {
 	t := tags.New(code.Name(), opts)
 	t.Append(code.GetChildren().String())
 
-	pre := tags.New("pre", nil)
-	pre.Append(t)
-	return pre.HTML()
+	return t.HTML()
 }
 
 func (code Code) String() string {
