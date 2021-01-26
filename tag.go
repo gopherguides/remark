@@ -49,7 +49,7 @@ func (tags Tags) String() string {
 	for _, t := range tags {
 		lines = append(lines, t.String())
 	}
-	return strings.Join(lines, "")
+	return strings.Join(lines, " ")
 }
 
 func (tags Tags) FindFirst(name string) (Tag, bool) {
