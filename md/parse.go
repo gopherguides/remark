@@ -86,6 +86,8 @@ func (p *Parser) parseNode(node ast.Node) (remark.Tag, error) {
 		name = "tbody"
 	case *ast.Strong:
 		name = "strong"
+	case *ast.BlockQuote:
+		name = "blockquote"
 	default:
 		return nil, fmt.Errorf("unexpected node %T", node)
 	}
