@@ -10,8 +10,8 @@ func (s String) Options() tags.Options {
 	return tags.Options{}
 }
 
-func (s String) Attrs() *Attributes {
-	return &Attributes{}
+func (s String) Attrs() Attributes {
+	return Attributes{}
 }
 
 func (s String) String() string {

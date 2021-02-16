@@ -5,8 +5,6 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/fatih/structs v1.1.0 h1:Q7juDM0QtcnhCpeyLGQKyg4TOIghuNXrkL32pHAUMxo=
 github.com/fatih/structs v1.1.0/go.mod h1:9NiDSp5zOcgEDl+j00MP/WkGVPOlPRLejGD8Ga6PJ7M=
 github.com/gobuffalo/flect v0.2.0/go.mod h1:W3K3X9ksuZfir8f/LrfVtWmCDQFfayuylOJ7sz/Fj80=
-github.com/gobuffalo/syncx v0.1.0 h1://CNTQ/+VFQizkW24DrBtTBvj8c2+chz5Y7kbboQ2qk=
-github.com/gobuffalo/syncx v0.1.0/go.mod h1:Mg/s+5pv7IgxEp6sA+NFpqS4o2x+R9dQNwbwT0iuOGQ=
 github.com/gobuffalo/tags/v3 v3.1.0 h1:mzdCYooN2VsLRr8KIAdEZ1lh1Py7JSMsiEGCGata2AQ=
 github.com/gobuffalo/tags/v3 v3.1.0/go.mod h1:ZQeN6TCTiwAFnS0dNcbDtSgZDwNKSpqajvVtt6mlYpA=
 github.com/gobuffalo/validate/v3 v3.0.0/go.mod h1:HFpjq+AIiA2RHoQnQVTFKF/ZpUPXwyw82LgyDPxQ9r0=

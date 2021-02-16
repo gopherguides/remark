@@ -56,4 +56,13 @@ func Test_HTML(t *testing.T) {
 	code, ok := ct.(*remark.CodeBlock)
 	r.True(ok)
 	r.NotNil(code)
+
+	it, ok := doc.GetChildren().FindFirst("img")
+	r.True(ok)
+
+	img, ok := it.(*remark.Generic)
+	r.True(ok)
+
+	r.Len(img.Attributes, 3)
+
 }

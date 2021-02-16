@@ -35,6 +35,6 @@ func (md Metadata) Options() tags.Options {
 	return tags.Options{}
 }
 
-func (md Metadata) Attrs() *Attributes {
-	return &Attributes{}
+func (md Metadata) Attrs() Attributes {
+	return Attributes{}
 }

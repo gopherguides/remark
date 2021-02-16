@@ -8,7 +8,7 @@ import (
 )
 
 type Tag interface {
-	Attrs() *Attributes
+	Attrs() Attributes
 	GetChildren() Tags
 	Options() tags.Options
 	TagName() string
