@@ -67,10 +67,14 @@ func Test_Printer(t *testing.T) {
 		return tag, nil
 	})
 
+	p.Set("code", func(tag remark.Tag) (string, error) {
+		return "BAR", nil
+	})
+
 	act, err = p.Print(doc)
 	r.NoError(err)
 
-	exp = `<html><head></head> <body><h1><strong>words</strong></h1> <p><a href="http://example.com" target="_blank"><div class="img-wrapper"><img src="https://example.com/foo.png" width="100px" /></div></a> <pre><code language="plain">foo</code></pre></p></body></html>`
+	exp = `<html><head></head> <body><h1><strong>words</strong></h1> <p><a href="http://example.com" target="_blank"><div class="img-wrapper"><img src="https://example.com/foo.png" width="100px" /></div></a> BAR</p></body></html>`
 	r.Equal(exp, act)
 
 }

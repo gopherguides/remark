@@ -39,11 +39,6 @@ func (hp *Printer) Print(elems ...remark.Tag) (string, error) {
 	var err error
 	var lines []string
 	for _, tag := range elems {
-		if h, ok := tag.(htmlable); ok {
-			lines = append(lines, string(h.HTML()))
-			continue
-		}
-
 		if doc, ok := tag.(*Document); ok {
 			s, err := hp.Print(doc.GetChildren()...)
 			if err != nil {
@@ -71,6 +66,11 @@ func (hp *Printer) Print(elems ...remark.Tag) (string, error) {
 				return "", err
 			}
 			lines = append(lines, s)
+			continue
+		}
+
+		if h, ok := tag.(htmlable); ok {
+			lines = append(lines, string(h.HTML()))
 			continue
 		}
 
