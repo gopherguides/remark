@@ -16,6 +16,7 @@ func (p *Parser) NewCodeBlock(n *html.Node) (*remark.CodeBlock, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	code := &remark.CodeBlock{
 		Generic:  g,
 		Snippets: remark.Snippets{},
@@ -30,6 +31,8 @@ func (p *Parser) NewCodeBlock(n *html.Node) (*remark.CodeBlock, error) {
 	if !ok {
 		return code, nil
 	}
+
+	code.Language = strings.TrimPrefix(filepath.Ext(src), ".")
 
 	b, err := ioutil.ReadFile(filepath.Join(p.Root, src))
 	if err != nil {
@@ -57,7 +60,7 @@ func (p *Parser) NewCodeBlock(n *html.Node) (*remark.CodeBlock, error) {
 			}
 			if !ok {
 				snip.File = src
-				snip.Language = strings.TrimPrefix(filepath.Ext(src), ".")
+				snip.Language = code.Language
 				snip.Name = name
 				snip.Start = i + 1
 				open[name] = snip
