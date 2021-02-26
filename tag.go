@@ -63,3 +63,17 @@ func (tags Tags) FindFirst(name string) (Tag, bool) {
 	}
 	return nil, false
 }
+
+func (tags Tags) FindAll(name string) Tags {
+	var res Tags
+	for _, e := range tags {
+		if e.TagName() == name {
+			res = append(res, e)
+			continue
+		}
+		r := e.GetChildren().FindAll(name)
+		res = append(res, r...)
+	}
+
+	return res
+}
