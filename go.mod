@@ -3,6 +3,7 @@ module github.com/gopherguides/remark
 go 1.15
 
 require (
+	github.com/gobuffalo/flect v0.2.0
 	github.com/gobuffalo/tags/v3 v3.1.0
 	github.com/gomarkdown/markdown v0.0.0-20201113031856-722100d81a8e
 	github.com/kr/pretty v0.2.0 // indirect

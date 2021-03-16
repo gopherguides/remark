@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"html"
 	"html/template"
+	"path/filepath"
 	"strings"
 
+	"github.com/gobuffalo/flect"
 	"github.com/gobuffalo/tags/v3"
 )
 
@@ -19,6 +21,20 @@ func (code CodeBlock) Name() string {
 	return "code"
 }
 
+func (code CodeBlock) ID() string {
+	id, _ := code.Get("src")
+	ext := filepath.Ext(id)
+	id = strings.TrimSuffix(id, ext)
+	id = flect.Dasherize(id)
+	id += ext
+
+	if s, ok := code.Attributes.Get("snippet"); ok {
+		id += "#" + s
+	}
+
+	return id
+}
+
 func (code *CodeBlock) HTML() template.HTML {
 	opts := code.Options()
 
@@ -27,8 +43,6 @@ func (code *CodeBlock) HTML() template.HTML {
 		lang = "plain"
 	}
 	opts["language"] = lang
-
-	t := tags.New(code.Name(), opts)
 
 	var lines []string
 	for _, e := range code.Children {
@@ -48,6 +62,11 @@ func (code *CodeBlock) HTML() template.HTML {
 		h = code.Snippets[s].HTML()
 	}
 
+	if id := code.ID(); len(id) > 0 {
+		opts["id"] = id
+	}
+
+	t := tags.New(code.Name(), opts)
 	hs := html.EscapeString(string(h))
 	t.Append(strings.TrimSpace(hs))
 

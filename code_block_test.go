@@ -20,7 +20,10 @@ func Test_CodeBlock_HTML(t *testing.T) {
 
 	code := CodeBlock{
 		Generic: &Generic{
-			Attributes: Attributes{},
+			Attributes: Attributes{
+				"src":     "./src/foo.go",
+				"snippet": "snip",
+			},
 			Children: Tags{
 				String("hello"),
 			},
@@ -30,7 +33,8 @@ func Test_CodeBlock_HTML(t *testing.T) {
 	code.Set("k2", "two")
 	code.Set("k3", "three")
 
-	exp := template.HTML(`<pre><code k1="one" k2="two" k3="three" language="plain">hello</code></pre>`)
+	exp := template.HTML(`<pre><code id="src-foo.go#snip" k1="one" k2="two" k3="three" language="plain" snippet="snip" src="./src/foo.go"></code></pre>`)
 	act := code.HTML()
+
 	r.Equal(exp, act)
 }
