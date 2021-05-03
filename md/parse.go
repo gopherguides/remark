@@ -88,8 +88,18 @@ func (p *Parser) parseNode(node ast.Node) (remark.Tag, error) {
 		name = "strong"
 	case *ast.BlockQuote:
 		name = "blockquote"
+	case *ast.Subscript:
+		name = "sub"
+	case *ast.Superscript:
+		name = "sup"
+	case *ast.Del:
+		name = "del"
+	case *ast.Hardbreak:
+		return remark.NewGeneric("br"), nil
+	case *ast.Image:
+		return p.NewImage(t)
 	default:
-		return nil, fmt.Errorf("unexpected node %T", node)
+		return nil, fmt.Errorf("unexpected node %T (%q)", node, node)
 	}
 
 	if l := node.AsLeaf(); l != nil {
@@ -99,14 +109,14 @@ func (p *Parser) parseNode(node ast.Node) (remark.Tag, error) {
 		return p.ParseContainer(name, c)
 	}
 
-	return nil, fmt.Errorf("expected node %v", node)
+	return nil, fmt.Errorf("unexpected node %T (%q)", node, node)
 }
 
 func (p *Parser) ParseLeaf(name string, node *ast.Leaf) (remark.Tag, error) {
 	l := string(node.Literal)
 	l = strings.TrimSpace(l)
 	if len(l) == 0 {
-		return nil, nil
+		return remark.Noop(), nil
 	}
 	return remark.String(l), nil
 }
@@ -126,7 +136,6 @@ func (p *Parser) ParseContainer(name string, node *ast.Container) (remark.Tag, e
 }
 
 func newParser() *parser.Parser {
-	extensions := parser.CommonExtensions | parser.AutoHeadingIDs |
-		parser.SuperSubscript | parser.OrderedListStart | parser.Footnotes | parser.LaxHTMLBlocks
+	extensions := parser.NoIntraEmphasis | parser.Tables | parser.FencedCode | parser.Autolink | parser.Strikethrough | parser.SpaceHeadings | parser.HeadingIDs | parser.BackslashLineBreak | parser.DefinitionLists | parser.AutoHeadingIDs | parser.SuperSubscript | parser.OrderedListStart | parser.Footnotes | parser.LaxHTMLBlocks
 	return parser.NewWithExtensions(extensions)
 }

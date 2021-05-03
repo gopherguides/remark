@@ -39,6 +39,7 @@ func (p *Parser) NewSection(nodes []ast.Node) (*Section, error) {
 		if err != nil {
 			return nil, err
 		}
+
 		if h, ok := t.(*remark.Heading); ok {
 			if h.Name == "h1" || len(tag.Title) == 0 {
 				tag.Title = h.Children.String()

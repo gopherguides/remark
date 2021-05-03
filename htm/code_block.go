@@ -1,7 +1,6 @@
 package htm
 
 import (
-	"fmt"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
@@ -23,7 +22,7 @@ func (p *Parser) NewCodeBlock(n *html.Node) (*remark.CodeBlock, error) {
 	}
 
 	if s, ok := code.Get("section"); ok {
-		fmt.Printf("[<code section>] is deprecated. Use [<code snippet>] instead. %s\n", s)
+		// fmt.Printf("[<code section>] is deprecated. Use [<code snippet>] instead. %s\n", s)
 		code.Set("snippet", s)
 	}
 

@@ -201,9 +201,12 @@ You will now see the initial page that was created for the project:
 
 ---
 
-### How it Works
+### `How it Works`
 
 There are several files that you will need to know about to start creating and working with your new project. First, we'll start with the `go` files that contain the code for the `handlers`.
+
+
+<br>
 
 There are two primary files to be aware of.  They are `app.go` and `home.go`, and reside in the `actions` folder:
 
