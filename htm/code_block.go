@@ -1,6 +1,7 @@
 package htm
 
 import (
+	"fmt"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
@@ -35,11 +36,12 @@ func (p *Parser) NewCodeBlock(n *html.Node) (remark.Tag, error) {
 
 	b, err := ioutil.ReadFile(filepath.Join(p.Root, src))
 	if err != nil {
-		tag := &remark.Code{
-			Generic: remark.NewGeneric("code"),
-		}
-		tag.Children = append(tag.Children, remark.String(err.Error()))
-		// return nil, fmt.Errorf("htm/code_block: %w", err)
+		// hack to ignore missing code files
+		// tag := &remark.Code{
+		// 	Generic: remark.NewGeneric("code"),
+		// }
+		// tag.Children = append(tag.Children, remark.String(err.Error()))
+		return nil, fmt.Errorf("htm/code_block: %w", err)
 	}
 
 	var lines []string
