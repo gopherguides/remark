@@ -1,10 +1,12 @@
 package md
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
+	"text/template"
 
 	"github.com/gopherguides/remark"
 
@@ -33,16 +35,39 @@ func ParseFile(name string) (remark.Tags, error) {
 	return Parse(root, b)
 }
 
-func Parse(root string, src []byte) (remark.Tags, error) {
-	p := NewParser(root)
+func (p *Parser) include(name string) (string, error) {
+	fp := filepath.Join(p.Root, "_"+name)
+	b, err := ioutil.ReadFile(fp)
+	return string(b), err
+}
 
-	node := p.Parse(src)
+func (p *Parser) Parse(src []byte) (remark.Tags, error) {
+	t := template.New(p.Root)
+	t = t.Funcs(template.FuncMap{
+		"include": p.include,
+	})
+
+	t, err := t.Parse(string(src))
+	if err != nil {
+		return nil, err
+	}
+
+	bb := &bytes.Buffer{}
+	if err := t.Execute(bb, nil); err != nil {
+		return nil, err
+	}
+	node := p.Parser.Parse(bb.Bytes())
 
 	if node == nil {
 		return nil, fmt.Errorf("nil node")
 	}
 
 	return p.NewDocument(node)
+}
+
+func Parse(root string, src []byte) (remark.Tags, error) {
+	p := NewParser(root)
+	return p.Parse(src)
 }
 
 func (p *Parser) parseNode(node ast.Node) (remark.Tag, error) {

@@ -3,6 +3,7 @@ package htm
 import (
 	"testing"
 
+	"github.com/gopherguides/remark"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/net/html"
 )
@@ -21,8 +22,11 @@ func Test_NewCodeBlock(t *testing.T) {
 	}
 
 	p := &Parser{}
-	code, err := p.NewCodeBlock(node)
+	tag, err := p.NewCodeBlock(node)
 	r.NoError(err)
+
+	code, ok := tag.(*remark.CodeBlock)
+	r.True(ok)
 
 	r.Len(code.GetChildren(), 1)
 	r.Len(code.Snippets, 4)
