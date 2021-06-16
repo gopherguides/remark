@@ -34,7 +34,8 @@ func (p *Parser) NewCodeBlock(n *html.Node) (remark.Tag, error) {
 
 	code.Language = strings.TrimPrefix(filepath.Ext(src), ".")
 
-	b, err := ioutil.ReadFile(filepath.Join(p.Root, src))
+	fp := filepath.Join(p.Root, src)
+	b, err := ioutil.ReadFile(fp)
 	if err != nil {
 		// hack to ignore missing code files
 		// tag := &remark.Code{
