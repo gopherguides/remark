@@ -3,3 +3,4 @@ test:
 
 install:
 	go install ./cmd/remark
+	go install ./cmd/retoc
