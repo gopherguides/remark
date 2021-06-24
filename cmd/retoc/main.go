@@ -71,7 +71,7 @@ func print(path string) error {
 
 			sb := strings.Builder{}
 			for i := 0; i < h.Level; i++ {
-				sb.WriteString("  ")
+				sb.WriteString("\t")
 			}
 			sb.WriteString(title)
 			fmt.Println(sb.String())
