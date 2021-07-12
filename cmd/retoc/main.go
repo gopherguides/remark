@@ -19,6 +19,17 @@ func main() {
 
 func run() error {
 	root := "/Users/markbates/dev/canmark/_courses/intro-to-go/"
+
+	// ind := -1
+	// args := os.Args[1:]
+	// if len(args) > 0 {
+	// 	i, err := strconv.Atoi(args[0])
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// 	ind = i
+	// }
+
 	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err

@@ -36,7 +36,8 @@ func ParseFile(name string) (remark.Tags, error) {
 }
 
 func (p *Parser) include(name string) (string, error) {
-	fp := filepath.Join(p.Root, "_"+name)
+	base := filepath.Base(name)
+	fp := filepath.Join(p.Root, filepath.Dir(name), "_"+base)
 	b, err := ioutil.ReadFile(fp)
 	return string(b), err
 }
