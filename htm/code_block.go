@@ -22,8 +22,14 @@ func (p *Parser) NewCodeBlock(n *html.Node) (remark.Tag, error) {
 		Snippets: remark.Snippets{},
 	}
 
+	for _, x := range []string{"start", "end"} {
+		if _, ok := code.Get(x); ok {
+			return nil, fmt.Errorf("[<code start/end>] is no longer supported. Use [<code snippet>] instead [%s]. %v", p.Root, nodeString(n))
+		}
+	}
+
 	if s, ok := code.Get("section"); ok {
-		// fmt.Printf("[<code section>] is deprecated. Use [<code snippet>] instead. %s\n", s)
+		//fmt.Printf("[<code section>] is deprecated. Use [<code snippet>] instead [%s]. %s", p.Root, s)
 		code.Set("snippet", s)
 	}
 
