@@ -8,7 +8,7 @@ import (
 func (p *Parser) NewDocument(node ast.Node) (remark.Tags, error) {
 	var tags remark.Tags
 
-	sections := [][]ast.Node{[]ast.Node{}}
+	sections := [][]ast.Node{{}}
 	var ind int
 
 	for _, n := range node.GetChildren() {

@@ -8,10 +8,9 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/gopherguides/remark"
-
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/gomarkdown/markdown/parser"
+	"github.com/gopherguides/remark"
 )
 
 type Parser struct {
@@ -33,13 +32,6 @@ func ParseFile(name string) (remark.Tags, error) {
 		return nil, err
 	}
 	return Parse(root, b)
-}
-
-func (p *Parser) include(name string) (string, error) {
-	base := filepath.Base(name)
-	fp := filepath.Join(p.Root, filepath.Dir(name), "_"+base)
-	b, err := ioutil.ReadFile(fp)
-	return string(b), err
 }
 
 func (p *Parser) Parse(src []byte) (remark.Tags, error) {

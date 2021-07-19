@@ -1,6 +1,6 @@
 module github.com/gopherguides/remark
 
-go 1.15
+go 1.16
 
 require (
 	github.com/gobuffalo/flect v0.2.3

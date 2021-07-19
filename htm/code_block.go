@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/gopherguides/remark"
-
 	"golang.org/x/net/html"
 )
 
@@ -42,6 +41,9 @@ func (p *Parser) NewCodeBlock(n *html.Node) (remark.Tag, error) {
 
 	fp := filepath.Join(p.Root, src)
 	b, err := ioutil.ReadFile(fp)
+	if err != nil {
+		return nil, err
+	}
 	if err != nil {
 		// hack to ignore missing code files
 		// tag := &remark.Code{

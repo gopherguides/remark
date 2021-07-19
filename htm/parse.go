@@ -17,6 +17,12 @@ type Parser struct {
 	Root string
 }
 
+func NewParser(root string) *Parser {
+	return &Parser{
+		Root: root,
+	}
+}
+
 func (p *Parser) Parse(src []byte) (*Document, error) {
 	f := bytes.NewReader(src)
 

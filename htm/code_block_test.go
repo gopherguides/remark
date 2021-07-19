@@ -21,7 +21,7 @@ func Test_NewCodeBlock(t *testing.T) {
 		},
 	}
 
-	p := &Parser{}
+	p := NewParser("")
 	tag, err := p.NewCodeBlock(node)
 	r.NoError(err)
 
