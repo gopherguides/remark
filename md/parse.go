@@ -117,8 +117,8 @@ func (p *Parser) parseNode(node ast.Node) (remark.Tag, error) {
 		name = "del"
 	case *ast.Hardbreak:
 		return remark.NewGeneric("br"), nil
-	case *ast.Image:
-		return p.NewImage(t)
+	// case *ast.Image:
+	// 	return p.NewImage(t)
 	default:
 		return nil, fmt.Errorf("unexpected node %T (%q)", node, node)
 	}
