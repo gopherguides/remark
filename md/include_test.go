@@ -1,7 +1,6 @@
 package md
 
 import (
-	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -11,12 +10,14 @@ import (
 func Test_Parser_NewInclude(t *testing.T) {
 	r := require.New(t)
 
-	p := NewParser("")
-	src := `<include src="foo.go"></include>`
+	p := NewParser(week00)
 
-	n, err := html.Parse(strings.NewReader(src))
-	r.NoError(err)
-	r.NotNil(n)
+	n := &html.Node{
+		Data: "include",
+		Attr: []html.Attribute{
+			{Key: "src", Val: "assignments/assignment01/assignment.md"},
+		},
+	}
 
 	i, err := p.NewInclude(n)
 	r.NoError(err)

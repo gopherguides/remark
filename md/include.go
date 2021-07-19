@@ -2,7 +2,6 @@ package md
 
 import (
 	"fmt"
-	"io/ioutil"
 	"path/filepath"
 
 	"github.com/gopherguides/remark"
@@ -10,33 +9,26 @@ import (
 	"golang.org/x/net/html"
 )
 
-func (p *Parser) include(name string) (string, error) {
-	fmt.Println("TODO >> include", name)
-	base := filepath.Base(name)
-	pn := "_" + base
-	dir := filepath.Dir(name)
-	fp := filepath.Join(dir, pn)
-	fmt.Println("TODO >> include fp", fp)
+// func (p *Parser) include(name string) (string, error) {
+// 	fmt.Println("TODO >> include", name)
+// 	base := filepath.Base(name)
+// 	pn := "_" + base
+// 	dir := filepath.Dir(name)
+// 	fp := filepath.Join(dir, pn)
+// 	fmt.Println("TODO >> include fp", fp)
 
-	b, err := ioutil.ReadFile(fp)
-	return string(b), err
-}
+// 	b, err := ioutil.ReadFile(fp)
+// 	return string(b), err
+// }
 
-func (p *Parser) NewInclude(n *html.Node) (*remark.Include, error) {
-	body, err := htm.HTMLBody(n)
+func (p *Parser) NewInclude(inc *html.Node) (*remark.Include, error) {
+	g, err := htm.NewGeneric(inc)
 	if err != nil {
 		return nil, err
 	}
-	inc := body.FirstChild
-	if inc == nil {
-		return nil, fmt.Errorf("could not find include tag in node %v", n)
-	}
-	g := htm.NewGeneric(inc)
-	return &remark.Include{
-		Generic: g,
-	}, nil
-	// g := remark.NewGeneric(n)
 
+	i := &remark.Include{
+		Generic: g,
 	// i := &remark.Include{
 	// 	Generic: g,
 	// }
@@ -49,9 +41,32 @@ func (p *Parser) NewInclude(n *html.Node) (*remark.Include, error) {
 
 	// // tags, err := remark.ParseFile(src)
 	// // if err != nil {
-	// // 	return nil, err
 	// // }
 	// // i.Children = tags
-	// fmt.Println("TODO >> i", i)
-	// return i, nil
+	}
+
+	src, ok := i.Attributes["src"]
+	if !ok {
+		return nil, fmt.Errorf("no src defined for include %v", inc)
+	}
+
+	ext := filepath.Ext(src)
+	if ext != ".md" {
+		return nil, fmt.Errorf("only .md can be included %v", src)
+	}
+
+	root := p.Root
+	if len(filepath.Ext(root)) != 0 {
+		root = filepath.Dir(root)
+	}
+	fp := filepath.Join(root, src)
+
+	tags, err := ParseFile(fp)
+	if err != nil {
+		return nil, err
+	}
+
+	i.Children = tags
+	return i, nil
+
 }

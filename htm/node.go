@@ -6,7 +6,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-func nodeString(n *html.Node) string {
+func NodeString(n *html.Node) string {
 	ats := map[string]string{}
 	mm := map[string]interface{}{
 		"data":  n.Data,

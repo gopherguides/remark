@@ -3,6 +3,7 @@ package htm
 import (
 	"bytes"
 	"fmt"
+	"path/filepath"
 
 	"github.com/gopherguides/remark"
 	"golang.org/x/net/html"
@@ -18,19 +19,15 @@ type Parser struct {
 }
 
 func NewParser(root string) *Parser {
+	if len(filepath.Ext(root)) != 0 {
+		root = filepath.Dir(root)
+	}
 	return &Parser{
 		Root: root,
 	}
 }
 
-func (p *Parser) Parse(src []byte) (*Document, error) {
-	f := bytes.NewReader(src)
-
-	node, err := html.Parse(f)
-	if err != nil {
-		return nil, err
-	}
-
+func (p *Parser) ParseNode(node *html.Node) (*Document, error) {
 	t, err := p.NewTag(node)
 	if err != nil {
 		return nil, err
@@ -45,6 +42,16 @@ func (p *Parser) Parse(src []byte) (*Document, error) {
 		doc.Data = md
 	}
 	return doc, nil
+}
+
+func (p *Parser) Parse(src []byte) (*Document, error) {
+	f := bytes.NewReader(src)
+
+	node, err := html.Parse(f)
+	if err != nil {
+		return nil, err
+	}
+	return p.ParseNode(node)
 }
 
 func (p *Parser) findMetadata(tag remark.Tag) (remark.Metadata, bool) {

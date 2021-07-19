@@ -13,7 +13,7 @@ func Test_Parse(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
 
-	fp := "../internal/testdata/week00/module.md"
+	fp := week00
 	b, err := ioutil.ReadFile(fp)
 	r.NoError(err)
 
@@ -25,7 +25,11 @@ func Test_Parse(t *testing.T) {
 	}
 
 	r.Len(tags, 9)
-	r.Contains(tags[8].String(), `<include src="resources.md"></include>`)
+
+	sinc, ok := tags[8].(*Section)
+	x := sinc.String()
+	r.Contains(x, "<h2>Get On Gopher Slack</h2>")
+	r.NotContains(x, `<include src="resources.md">`)
 
 	sec, ok := tags[0].(*Section)
 	r.True(ok)

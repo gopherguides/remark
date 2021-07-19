@@ -17,8 +17,8 @@ func Test_HTMLBody(t *testing.T) {
 	r.NoError(err)
 	r.NotNil(root)
 
-	body, err := HTMLBody(root)
-	r.NoError(err)
+	body := HTMLBody(root)
+
 	r.NotNil(body)
 	r.Equal("body", body.Data)
 }

@@ -8,14 +8,14 @@ import (
 	"golang.org/x/net/html"
 )
 
-func HTMLBody(root *html.Node) (*html.Node, error) {
+func HTMLBody(root *html.Node) *html.Node {
 	if root == nil {
-		return nil, fmt.Errorf("could not find body in root %v", root)
+		return nil
 	}
 
 	switch root.Data {
 	case "body":
-		return root, nil
+		return root
 	case "html":
 		return HTMLBody(root.FirstChild)
 	case "head":
@@ -23,28 +23,8 @@ func HTMLBody(root *html.Node) (*html.Node, error) {
 	case "":
 		return HTMLBody(root.FirstChild)
 	}
-	return nil, fmt.Errorf("could not find body in root %v", root)
+	return root
 
-}
-
-func (p *Parser) NewGeneric(n *html.Node) (*remark.Generic, error) {
-	g := remark.NewGeneric(n.Data)
-
-	for _, at := range n.Attr {
-		g.Set(at.Key, at.Val)
-	}
-
-	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		tg, err := p.NewTag(c)
-		if err != nil {
-			return nil, err
-		}
-		if tg != nil {
-			g.Children = append(g.Children, tg)
-		}
-	}
-
-	return g, nil
 }
 
 func (p *Parser) NewTag(n *html.Node) (remark.Tag, error) {
@@ -73,6 +53,8 @@ func (p *Parser) NewTag(n *html.Node) (remark.Tag, error) {
 	}
 
 	switch n.Data {
+	case "img":
+		return p.NewImage(n)
 	case "hr":
 		return p.NewGeneric(n)
 	case "code":

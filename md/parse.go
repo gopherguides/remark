@@ -19,6 +19,9 @@ type Parser struct {
 }
 
 func NewParser(root string) *Parser {
+	if len(filepath.Ext(root)) != 0 {
+		root = filepath.Dir(root)
+	}
 	return &Parser{
 		Root:   root,
 		Parser: newParser(),

@@ -7,5 +7,5 @@ type Include struct {
 }
 
 func (i Include) String() string {
-	return i.Generic.String()
+	return i.Generic.Children.String()
 }

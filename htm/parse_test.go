@@ -14,7 +14,7 @@ func Test_HTML(t *testing.T) {
 
 	const in = `
 	<div class="text-center">
-			<img class="img img-fluid mb-3 mx-auto" src="legacy-site.png" title="Legacy Site"></img>
+			<img class="img img-fluid mb-3 mx-auto" src="./assets/vscode-trust.png" title="Legacy Site"></img>
 			<p>
 					<a href="https://example.com" target="_blank">hi</a>
 			</p>
@@ -22,10 +22,11 @@ func Test_HTML(t *testing.T) {
 					keyA: valueA
 					keyB: valueB
 			</details>
-			<code src="../internal/testdata/week00/assignments/assignment01/src/assignment01_test.go"></code>
+			<code src="./assignments/assignment01/src/assignment01_test.go"></code>
 	</div>`
 
-	doc, err := Parse([]byte(in))
+	parser := NewParser(week00)
+	doc, err := parser.Parse([]byte(in))
 	r.NoError(err)
 	r.NotNil(doc)
 	r.Len(doc.GetChildren(), 1)
@@ -60,7 +61,7 @@ func Test_HTML(t *testing.T) {
 	it, ok := doc.GetChildren().FindFirst("img")
 	r.True(ok)
 
-	img, ok := it.(*remark.Generic)
+	img, ok := it.(*remark.Image)
 	r.True(ok)
 
 	r.Len(img.Attributes, 3)

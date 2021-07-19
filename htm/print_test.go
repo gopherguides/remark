@@ -19,12 +19,13 @@ func Test_Printer(t *testing.T) {
 	</h1>
 	<p>
 		<a href="http://example.com">
-			<img src="/foo.png" />
+			<img src="./assets/vscode-trust.png" />
 		</a>
 		<code>foo</code>
 	</p>`
 
-	doc, err := Parse([]byte(input))
+	parser := NewParser("../internal/testdata/week00/module.md")
+	doc, err := parser.Parse([]byte(input))
 	r.NoError(err)
 	r.NotNil(doc)
 
@@ -35,7 +36,7 @@ func Test_Printer(t *testing.T) {
 
 	// fmt.Println(act)
 
-	exp := `<html><head></head> <body><h1><strong>words</strong></h1> <p><a href="http://example.com"><img src="/foo.png"></img></a> <pre><code language="plain">foo</code></pre></p></body></html>`
+	exp := `<html><head></head> <body><h1><strong>words</strong></h1> <p><a href="http://example.com"><img src="./assets/vscode-trust.png"></img></a> <pre><code language="plain">foo</code></pre></p></body></html>`
 	r.Equal(exp, act)
 
 	p.Set("img", func(tag remark.Tag) (string, error) {
@@ -74,7 +75,7 @@ func Test_Printer(t *testing.T) {
 	act, err = p.Print(doc)
 	r.NoError(err)
 
-	exp = `<html><head></head> <body><h1><strong>words</strong></h1> <p><a href="http://example.com" target="_blank"><div class="img-wrapper"><img src="https://example.com/foo.png" width="100px" /></div></a> BAR</p></body></html>`
+	exp = `<html><head></head> <body><h1><strong>words</strong></h1> <p><a href="http://example.com" target="_blank"><div class="img-wrapper"><img src="https://example.com/assets/vscode-trust.png" width="100px" /></div></a> BAR</p></body></html>`
 	r.Equal(exp, act)
 
 }
