@@ -8,6 +8,25 @@ import (
 	"golang.org/x/net/html"
 )
 
+func HTMLBody(root *html.Node) (*html.Node, error) {
+	if root == nil {
+		return nil, fmt.Errorf("could not find body in root %v", root)
+	}
+
+	switch root.Data {
+	case "body":
+		return root, nil
+	case "html":
+		return HTMLBody(root.FirstChild)
+	case "head":
+		return HTMLBody(root.NextSibling)
+	case "":
+		return HTMLBody(root.FirstChild)
+	}
+	return nil, fmt.Errorf("could not find body in root %v", root)
+
+}
+
 func (p *Parser) NewGeneric(n *html.Node) (*remark.Generic, error) {
 	g := remark.NewGeneric(n.Data)
 

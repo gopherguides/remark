@@ -1,7 +1,6 @@
 package md
 
 import (
-	"html/template"
 	"io/ioutil"
 	"path/filepath"
 	"testing"
@@ -14,7 +13,7 @@ func Test_Parse(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
 
-	fp := "../internal/testdata/buffalo/module.md"
+	fp := "../internal/testdata/week00/module.md"
 	b, err := ioutil.ReadFile(fp)
 	r.NoError(err)
 
@@ -25,29 +24,22 @@ func Test_Parse(t *testing.T) {
 		r.Equal("section", t.TagName())
 	}
 
-	r.Len(tags, 20)
-	r.Contains(tags[19].String(), `https://twitter.com/corylanou`)
+	r.Len(tags, 9)
+	r.Contains(tags[8].String(), `<include src="resources.md"></include>`)
 
 	sec, ok := tags[0].(*Section)
 	r.True(ok)
 	r.Equal("section", sec.TagName())
-	r.Len(sec.GetChildren(), 2)
-	r.Equal("Converting a Static Site to Buffalo", sec.Title)
+	r.Len(sec.GetChildren(), 5)
+	r.Equal("Intro to Go: Getting Started", sec.Title)
 
 	h1 := sec.GetChildren()[0]
 	r.Equal("h1", h1.TagName())
 	r.Len(h1.GetChildren(), 1)
-	r.Equal("<h1>Converting a Static Site to Buffalo</h1>", h1.String())
+	r.Equal("<h1>Intro to Go: Getting Started</h1>", h1.String())
 
 	p, ok := sec.GetChildren()[1].(*remark.Generic)
 	r.True(ok)
 	r.Equal("p", p.TagName())
-	r.Len(p.GetChildren(), 3)
-
-	code, ok := p.GetChildren()[1].(*remark.Code)
-	r.True(ok)
-	r.Equal("code", code.TagName())
-
-	exp := template.HTML(`<code language="plain">code</code>`)
-	r.Equal(exp, code.HTML())
+	r.Len(p.GetChildren(), 1)
 }

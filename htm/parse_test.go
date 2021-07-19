@@ -22,7 +22,7 @@ func Test_HTML(t *testing.T) {
 					keyA: valueA
 					keyB: valueB
 			</details>
-			<code src="../internal/testdata/buffalo/src/initial/actions/app.go"></code>
+			<code src="../internal/testdata/week00/assignments/assignment01/src/assignment01_test.go"></code>
 	</div>`
 
 	doc, err := Parse([]byte(in))

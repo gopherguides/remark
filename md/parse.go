@@ -36,9 +36,9 @@ func ParseFile(name string) (remark.Tags, error) {
 
 func (p *Parser) Parse(src []byte) (remark.Tags, error) {
 	t := template.New(p.Root)
-	t = t.Funcs(template.FuncMap{
-		"include": p.include,
-	})
+	// t = t.Funcs(template.FuncMap{
+	// 	"include": p.include,
+	// })
 
 	t, err := t.Parse(string(src))
 	if err != nil {

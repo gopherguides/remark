@@ -52,6 +52,10 @@ func (tags Tags) String() string {
 	return strings.Join(lines, " ")
 }
 
+func (tags Tags) Body() (Tag, bool) {
+	return tags.FindFirst("body")
+}
+
 func (tags Tags) FindFirst(name string) (Tag, bool) {
 	for _, e := range tags {
 		if e.TagName() == name {
