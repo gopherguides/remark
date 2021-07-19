@@ -29,20 +29,6 @@ func (p *Parser) NewInclude(inc *html.Node) (*remark.Include, error) {
 
 	i := &remark.Include{
 		Generic: g,
-	// i := &remark.Include{
-	// 	Generic: g,
-	// }
-
-	// src, ok := i.Attributes["src"]
-	// fmt.Println("TODO > src", src)
-	// if !ok {
-	// 	return nil, fmt.Errorf("no src found for include %v", n)
-	// }
-
-	// // tags, err := remark.ParseFile(src)
-	// // if err != nil {
-	// // }
-	// // i.Children = tags
 	}
 
 	src, ok := i.Attributes["src"]
