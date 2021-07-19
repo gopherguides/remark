@@ -27,6 +27,7 @@ func Test_Parse(t *testing.T) {
 	r.Len(tags, 9)
 
 	sinc, ok := tags[8].(*Section)
+	r.True(ok)
 	x := sinc.String()
 	r.Contains(x, "<h2>Get On Gopher Slack</h2>")
 	r.NotContains(x, `<include src="resources.md">`)
