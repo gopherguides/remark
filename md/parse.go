@@ -8,9 +8,9 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/gomarkdown/markdown/ast"
-	"github.com/gomarkdown/markdown/parser"
 	"github.com/gopherguides/remark"
+	"github.com/markbates/markdownr/ast"
+	"github.com/markbates/markdownr/parser"
 )
 
 type Parser struct {

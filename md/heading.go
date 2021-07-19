@@ -5,7 +5,7 @@ import (
 
 	"github.com/gopherguides/remark"
 
-	"github.com/gomarkdown/markdown/ast"
+	"github.com/markbates/markdownr/ast"
 )
 
 func (p *Parser) NewHeading(node *ast.Heading) (*remark.Heading, error) {

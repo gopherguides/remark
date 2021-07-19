@@ -1,9 +1,9 @@
 package md
 
 import (
-	"github.com/gomarkdown/markdown/ast"
 	"github.com/gopherguides/remark"
 	"github.com/gopherguides/remark/htm"
+	"github.com/markbates/markdownr/ast"
 )
 
 type Section struct {

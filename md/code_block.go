@@ -1,8 +1,8 @@
 package md
 
 import (
-	"github.com/gomarkdown/markdown/ast"
 	"github.com/gopherguides/remark"
+	"github.com/markbates/markdownr/ast"
 )
 
 func (p *Parser) NewCode(node *ast.Code) (*remark.Code, error) {
