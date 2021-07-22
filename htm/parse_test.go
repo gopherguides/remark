@@ -25,7 +25,9 @@ func Test_HTML(t *testing.T) {
 			<code src="./assignments/assignment01/src/assignment01_test.go"></code>
 	</div>`
 
-	parser := NewParser(week00)
+	parser, err := NewParser(week00, nil)
+	r.NoError(err)
+
 	doc, err := parser.Parse([]byte(in))
 	r.NoError(err)
 	r.NotNil(doc)

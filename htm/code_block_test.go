@@ -13,7 +13,7 @@ func Test_NewCodeBlock(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
 
-	const fp = "../internal/testdata/week00/assignments/assignment01/src/assignment01_test.go"
+	const fp = "./assignments/assignment01/src/assignment01_test.go"
 
 	node := &html.Node{
 		Data: "code",
@@ -22,7 +22,9 @@ func Test_NewCodeBlock(t *testing.T) {
 		},
 	}
 
-	p := NewParser("")
+	p, err := NewParser(week00, nil)
+	r.NoError(err)
+
 	tag, err := p.NewCodeBlock(node)
 	r.NoError(err)
 

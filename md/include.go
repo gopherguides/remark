@@ -2,7 +2,7 @@ package md
 
 import (
 	"fmt"
-	"path/filepath"
+	"io/ioutil"
 
 	"github.com/gopherguides/remark"
 	"github.com/gopherguides/remark/htm"
@@ -21,38 +21,74 @@ import (
 // 	return string(b), err
 // }
 
-func (p *Parser) NewInclude(inc *html.Node) (*remark.Include, error) {
-	g, err := htm.NewGeneric(inc)
+func (p *Parser) NewInclude(node *html.Node) (*remark.Include, error) {
+	var src string
+
+	g := remark.NewGeneric("include")
+	for _, at := range node.Attr {
+		if at.Key == "src" {
+			src = at.Val
+		}
+		g.Attributes.Add(at.Key, at.Val)
+	}
+
+	if len(src) == 0 {
+		return nil, fmt.Errorf("no src found for include %q", htm.NodeString(node))
+	}
+
+	np, err := NewParser(p.Info.Join(src), p.Client)
 	if err != nil {
 		return nil, err
 	}
 
-	i := &remark.Include{
+	b, err := ioutil.ReadFile(np.Info.Path)
+	if err != nil {
+		return nil, err
+	}
+
+	tags, err := np.Parse(b)
+	if err != nil {
+		return nil, err
+	}
+
+	g.Children = tags
+	inc := &remark.Include{
 		Generic: g,
+		Info:    info,
 	}
 
-	src, ok := i.Attributes["src"]
-	if !ok {
-		return nil, fmt.Errorf("no src defined for include %v", inc)
-	}
+	return inc, nil
+	// g, err := htm.NewGeneric(inc)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
-	ext := filepath.Ext(src)
-	if ext != ".md" {
-		return nil, fmt.Errorf("only .md can be included %v", src)
-	}
+	// i := &remark.Include{
+	// 	Generic: g,
+	// }
 
-	root := p.Root
-	if len(filepath.Ext(root)) != 0 {
-		root = filepath.Dir(root)
-	}
-	fp := filepath.Join(root, src)
+	// src, ok := i.Attributes["src"]
+	// if !ok {
+	// 	return nil, fmt.Errorf("no src defined for include %v", inc)
+	// }
 
-	tags, err := ParseFile(fp)
-	if err != nil {
-		return nil, err
-	}
+	// ext := filepath.Ext(src)
+	// if ext != ".md" {
+	// 	return nil, fmt.Errorf("only .md can be included %v", src)
+	// }
 
-	i.Children = tags
-	return i, nil
+	// root := p.Root
+	// if len(filepath.Ext(root)) != 0 {
+	// 	root = filepath.Dir(root)
+	// }
+	// fp := filepath.Join(root, src)
+
+	// tags, err := ParseFile(fp)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// i.Children = tags
+	// return i, nil
 
 }

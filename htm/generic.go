@@ -5,9 +5,9 @@ import (
 	"golang.org/x/net/html"
 )
 
-func NewGeneric(n *html.Node) (*remark.Generic, error) {
-	return NewParser("").NewGeneric(n)
-}
+// func NewGeneric(n *html.Node) (*remark.Generic, error) {
+// 	return NewParser("").NewGeneric(n)
+// }
 
 func (p *Parser) NewGeneric(n *html.Node) (*remark.Generic, error) {
 	g := remark.NewGeneric(n.Data)

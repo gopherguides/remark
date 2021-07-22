@@ -21,12 +21,16 @@ func run() error {
 		return err
 	}
 
-	pwd := os.Getenv("MARKED_ORIGIN")
-	if len(pwd) == 0 {
-		pwd, _ = os.Getwd()
+	path := os.Getenv("MARKED_PATH")
+	if len(path) == 0 {
+		args := os.Args[1:]
+		if len(args) == 0 {
+			return fmt.Errorf("file name missing")
+		}
+		path = args[0]
 	}
 
-	tags, err := md.Parse(pwd, b)
+	tags, err := md.Parse(path, b)
 	if err != nil {
 		return err
 	}

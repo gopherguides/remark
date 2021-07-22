@@ -23,7 +23,7 @@ func (p *Parser) NewCodeBlock(n *html.Node) (remark.Tag, error) {
 
 	for _, x := range []string{"start", "end"} {
 		if _, ok := code.Get(x); ok {
-			return nil, fmt.Errorf("[<code start/end>] is no longer supported. Use [<code snippet>] instead [%s]. %v", p.Root, NodeString(n))
+			return nil, fmt.Errorf("[<code start/end>] is no longer supported. Use [<code snippet>] instead [%s]. %v", p.Info.Path, NodeString(n))
 		}
 	}
 
@@ -39,7 +39,7 @@ func (p *Parser) NewCodeBlock(n *html.Node) (remark.Tag, error) {
 
 	code.Language = strings.TrimPrefix(filepath.Ext(src), ".")
 
-	fp := filepath.Join(p.Root, src)
+	fp := p.Info.Join(src)
 	b, err := ioutil.ReadFile(fp)
 	if err != nil {
 		return nil, err

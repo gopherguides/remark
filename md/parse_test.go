@@ -2,7 +2,6 @@ package md
 
 import (
 	"io/ioutil"
-	"path/filepath"
 	"testing"
 
 	"github.com/gopherguides/remark"
@@ -17,7 +16,7 @@ func Test_Parse(t *testing.T) {
 	b, err := ioutil.ReadFile(fp)
 	r.NoError(err)
 
-	tags, err := Parse(filepath.Dir(fp), b)
+	tags, err := Parse(fp, b)
 	r.NoError(err)
 	r.NotNil(tags)
 	for _, t := range tags {

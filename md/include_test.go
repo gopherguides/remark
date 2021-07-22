@@ -10,7 +10,8 @@ import (
 func Test_Parser_NewInclude(t *testing.T) {
 	r := require.New(t)
 
-	p := NewParser(week00)
+	p, err := NewParser(week00, nil)
+	r.NoError(err)
 
 	n := &html.Node{
 		Data: "include",

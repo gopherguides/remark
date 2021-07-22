@@ -3,9 +3,10 @@ package htm
 import (
 	"bytes"
 	"fmt"
-	"path/filepath"
+	"net/http"
 
 	"github.com/gopherguides/remark"
+	"github.com/gopherguides/remark/meta"
 	"golang.org/x/net/html"
 )
 
@@ -15,16 +16,17 @@ func Parse(src []byte) (*Document, error) {
 }
 
 type Parser struct {
-	Root string
+	*meta.Informer
 }
 
-func NewParser(root string) *Parser {
-	if len(filepath.Ext(root)) != 0 {
-		root = filepath.Dir(root)
+func NewParser(root string, c *http.Client) (*Parser, error) {
+	snow, err := meta.NewInformer(root, c)
+	if err != nil {
+		return nil, err
 	}
 	return &Parser{
-		Root: root,
-	}
+		Informer: snow,
+	}, nil
 }
 
 func (p *Parser) ParseNode(node *html.Node) (*Document, error) {

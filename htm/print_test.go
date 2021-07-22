@@ -24,7 +24,9 @@ func Test_Printer(t *testing.T) {
 		<code>foo</code>
 	</p>`
 
-	parser := NewParser("../internal/testdata/week00/module.md")
+	parser, err := NewParser("../internal/testdata/week00/module.md", nil)
+	r.NoError(err)
+
 	doc, err := parser.Parse([]byte(input))
 	r.NoError(err)
 	r.NotNil(doc)

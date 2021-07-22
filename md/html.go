@@ -33,7 +33,10 @@ func (p *Parser) parseHTMLNode(node *html.Node) (remark.Tag, error) {
 	// 	return p.parseHTMLNode(node.FirstChild)
 	// }
 
-	hp := htm.NewParser(p.Root)
+	hp, err := htm.NewParser(p.Info.Path, nil)
+	if err != nil {
+		return nil, err
+	}
 	return hp.ParseNode(node)
 }
 

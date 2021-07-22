@@ -4,44 +4,49 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
-	"path/filepath"
+	"net/http"
 	"strings"
 	"text/template"
 
 	"github.com/gopherguides/remark"
+	"github.com/gopherguides/remark/meta"
 	"github.com/markbates/markdownr/ast"
 	"github.com/markbates/markdownr/parser"
 )
 
 type Parser struct {
 	*parser.Parser
-	Root string
+	*meta.Informer
 }
 
-func NewParser(root string) *Parser {
-	if len(filepath.Ext(root)) != 0 {
-		root = filepath.Dir(root)
+func NewParser(root string, c *http.Client) (*Parser, error) {
+	snow, err := meta.NewInformer(root, c)
+	if err != nil {
+		return nil, err
 	}
-	return &Parser{
-		Root:   root,
-		Parser: newParser(),
+
+	p := &Parser{
+		Parser:   newParser(),
+		Informer: snow,
 	}
+	return p, nil
 }
 
 func ParseFile(name string) (remark.Tags, error) {
-	root := filepath.Dir(name)
+	p, err := NewParser(name)
+	if err != nil {
+		return nil, err
+	}
+
 	b, err := ioutil.ReadFile(name)
 	if err != nil {
 		return nil, err
 	}
-	return Parse(root, b)
+	return p.Parse(b)
 }
 
 func (p *Parser) Parse(src []byte) (remark.Tags, error) {
-	t := template.New(p.Root)
-	// t = t.Funcs(template.FuncMap{
-	// 	"include": p.include,
-	// })
+	t := template.New(p.Info.Path)
 
 	t, err := t.Parse(string(src))
 	if err != nil {
@@ -62,7 +67,10 @@ func (p *Parser) Parse(src []byte) (remark.Tags, error) {
 }
 
 func Parse(root string, src []byte) (remark.Tags, error) {
-	p := NewParser(root)
+	p, err := NewParser(root)
+	if err != nil {
+		return nil, err
+	}
 	return p.Parse(src)
 }
 
