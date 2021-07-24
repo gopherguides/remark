@@ -5,6 +5,8 @@ import (
 	"testing"
 
 	"github.com/gopherguides/remark"
+	"github.com/gopherguides/remark/internal/rpm"
+	"github.com/gopherguides/remark/px"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/net/html"
 )
@@ -22,7 +24,11 @@ func Test_NewCodeBlock(t *testing.T) {
 		},
 	}
 
-	p := NewParser("")
+	mod := &px.Module{
+		FS: rpm.ModuleFS(t),
+	}
+
+	p := NewParser(mod)
 	tag, err := p.NewCodeBlock(node)
 	r.NoError(err)
 

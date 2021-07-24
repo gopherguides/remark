@@ -2,7 +2,6 @@ package htm
 
 import (
 	"fmt"
-	"io/ioutil"
 	"path/filepath"
 	"strings"
 
@@ -23,7 +22,7 @@ func (p *Parser) NewCodeBlock(n *html.Node) (remark.Tag, error) {
 
 	for _, x := range []string{"start", "end"} {
 		if _, ok := code.Get(x); ok {
-			return nil, fmt.Errorf("[<code start/end>] is no longer supported. Use [<code snippet>] instead [%s]. %v", p.Root, NodeString(n))
+			return nil, fmt.Errorf("[<code start/end>] is no longer supported. Use [<code snippet>] instead [%s]. %v", p.ModName, NodeString(n))
 		}
 	}
 
@@ -39,8 +38,7 @@ func (p *Parser) NewCodeBlock(n *html.Node) (remark.Tag, error) {
 
 	code.Language = strings.TrimPrefix(filepath.Ext(src), ".")
 
-	fp := filepath.Join(p.Root, src)
-	b, err := ioutil.ReadFile(fp)
+	b, err := p.ReadFile(src)
 	if err != nil {
 		return nil, err
 	}

@@ -5,8 +5,10 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"testing/fstest"
 
 	"github.com/gopherguides/remark/md"
+	"github.com/gopherguides/remark/px"
 )
 
 func main() {
@@ -21,12 +23,25 @@ func run() error {
 		return err
 	}
 
-	pwd := os.Getenv("MARKED_ORIGIN")
-	if len(pwd) == 0 {
-		pwd, _ = os.Getwd()
+	// pwd := os.Getenv("MARKED_ORIGIN")
+	// if len(pwd) == 0 {
+	// 	pwd, _ = os.Getwd()
+	// }
+
+	cab := fstest.MapFS{
+		"module.md": {
+			Data: b,
+		},
 	}
 
-	tags, err := md.Parse(pwd, b)
+	mod := &px.Module{
+		FS:      cab,
+		ModName: "module.md",
+	}
+
+	p := md.NewParser(mod)
+
+	tags, err := p.Parse()
 	if err != nil {
 		return err
 	}

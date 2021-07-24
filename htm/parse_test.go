@@ -4,6 +4,8 @@ import (
 	"testing"
 
 	"github.com/gopherguides/remark"
+	"github.com/gopherguides/remark/internal/rpm"
+	"github.com/gopherguides/remark/px"
 
 	"github.com/stretchr/testify/require"
 )
@@ -22,10 +24,15 @@ func Test_HTML(t *testing.T) {
 					keyA: valueA
 					keyB: valueB
 			</details>
-			<code src="./assignments/assignment01/src/assignment01_test.go"></code>
+			<code src="assignments/assignment01/src/assignment01_test.go"></code>
 	</div>`
 
-	parser := NewParser(week00)
+	mod := &px.Module{
+		FS:      rpm.ModuleFS(t),
+		ModName: "module.md",
+	}
+
+	parser := NewParser(mod)
 	doc, err := parser.Parse([]byte(in))
 	r.NoError(err)
 	r.NotNil(doc)

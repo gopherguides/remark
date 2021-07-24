@@ -6,6 +6,8 @@ import (
 
 	"github.com/gobuffalo/tags/v3"
 	"github.com/gopherguides/remark"
+	"github.com/gopherguides/remark/internal/rpm"
+	"github.com/gopherguides/remark/px"
 	"github.com/stretchr/testify/require"
 )
 
@@ -24,7 +26,12 @@ func Test_Printer(t *testing.T) {
 		<code>foo</code>
 	</p>`
 
-	parser := NewParser("../internal/testdata/week00/module.md")
+	mod := &px.Module{
+		FS:      rpm.ModuleFS(t),
+		ModName: "module.md",
+	}
+
+	parser := NewParser(mod)
 	doc, err := parser.Parse([]byte(input))
 	r.NoError(err)
 	r.NotNil(doc)

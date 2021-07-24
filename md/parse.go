@@ -1,69 +1,39 @@
 package md
 
 import (
-	"bytes"
 	"fmt"
-	"io/ioutil"
-	"path/filepath"
 	"strings"
-	"text/template"
 
 	"github.com/gopherguides/remark"
+	"github.com/gopherguides/remark/px"
 	"github.com/markbates/markdownr/ast"
 	"github.com/markbates/markdownr/parser"
 )
 
 type Parser struct {
 	*parser.Parser
-	Root string
+	*px.Module
 }
 
-func NewParser(root string) *Parser {
-	if len(filepath.Ext(root)) != 0 {
-		root = filepath.Dir(root)
-	}
+func NewParser(mod *px.Module) *Parser {
 	return &Parser{
-		Root:   root,
+		Module: mod,
 		Parser: newParser(),
 	}
 }
 
-func ParseFile(name string) (remark.Tags, error) {
-	root := filepath.Dir(name)
-	b, err := ioutil.ReadFile(name)
+func (p *Parser) Parse() (remark.Tags, error) {
+	src, err := p.ReadFile(p.ModName)
 	if err != nil {
 		return nil, err
 	}
-	return Parse(root, b)
-}
-
-func (p *Parser) Parse(src []byte) (remark.Tags, error) {
-	t := template.New(p.Root)
-	// t = t.Funcs(template.FuncMap{
-	// 	"include": p.include,
-	// })
-
-	t, err := t.Parse(string(src))
-	if err != nil {
-		return nil, err
-	}
-
-	bb := &bytes.Buffer{}
-	if err := t.Execute(bb, nil); err != nil {
-		return nil, err
-	}
-	node := p.Parser.Parse(bb.Bytes())
+	node := p.Parser.Parse(src)
 
 	if node == nil {
 		return nil, fmt.Errorf("nil node")
 	}
 
 	return p.NewDocument(node)
-}
-
-func Parse(root string, src []byte) (remark.Tags, error) {
-	p := NewParser(root)
-	return p.Parse(src)
 }
 
 func (p *Parser) parseNode(node ast.Node) (remark.Tag, error) {

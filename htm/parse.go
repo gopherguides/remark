@@ -3,9 +3,9 @@ package htm
 import (
 	"bytes"
 	"fmt"
-	"path/filepath"
 
 	"github.com/gopherguides/remark"
+	"github.com/gopherguides/remark/px"
 	"golang.org/x/net/html"
 )
 
@@ -15,15 +15,12 @@ func Parse(src []byte) (*Document, error) {
 }
 
 type Parser struct {
-	Root string
+	*px.Module
 }
 
-func NewParser(root string) *Parser {
-	if len(filepath.Ext(root)) != 0 {
-		root = filepath.Dir(root)
-	}
+func NewParser(mod *px.Module) *Parser {
 	return &Parser{
-		Root: root,
+		Module: mod,
 	}
 }
 

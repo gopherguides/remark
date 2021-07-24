@@ -2,8 +2,7 @@ package htm
 
 import (
 	"fmt"
-	"os"
-	"path/filepath"
+	"io/fs"
 	"strings"
 
 	"github.com/gopherguides/remark"
@@ -29,8 +28,19 @@ func (p *Parser) NewImage(n *html.Node) (*remark.Image, error) {
 		return inc, nil
 	}
 
-	fp := filepath.Join(p.Root, src)
-	if _, err := os.Stat(fp); err != nil {
+	sfs, ok := p.FS.(fs.StatFS)
+	if !ok {
+		f, err := p.Open(src)
+		defer f.Close()
+
+		if err != nil {
+			return nil, err
+		}
+		fmt.Println("TODO >> image.go:35 f", f)
+		return inc, nil
+	}
+
+	if _, err := sfs.Stat(src); err != nil {
 		return nil, err
 	}
 

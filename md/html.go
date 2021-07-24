@@ -33,7 +33,7 @@ func (p *Parser) parseHTMLNode(node *html.Node) (remark.Tag, error) {
 	// 	return p.parseHTMLNode(node.FirstChild)
 	// }
 
-	hp := htm.NewParser(p.Root)
+	hp := htm.NewParser(p.Module)
 	return hp.ParseNode(node)
 }
 

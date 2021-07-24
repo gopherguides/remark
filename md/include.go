@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/gopherguides/remark"
-	"github.com/gopherguides/remark/htm"
+	"github.com/gopherguides/remark/px"
 	"golang.org/x/net/html"
 )
 
@@ -22,37 +22,71 @@ import (
 // }
 
 func (p *Parser) NewInclude(inc *html.Node) (*remark.Include, error) {
-	g, err := htm.NewGeneric(inc)
-	if err != nil {
-		return nil, err
+	g := remark.NewGeneric("include")
+
+	for _, at := range inc.Attr {
+		g.Set(at.Key, at.Val)
 	}
 
-	i := &remark.Include{
-		Generic: g,
-	}
-
-	src, ok := i.Attributes["src"]
+	src, ok := g.Get("src")
 	if !ok {
 		return nil, fmt.Errorf("no src defined for include %v", inc)
 	}
 
-	ext := filepath.Ext(src)
-	if ext != ".md" {
-		return nil, fmt.Errorf("only .md can be included %v", src)
-	}
-
-	root := p.Root
-	if len(filepath.Ext(root)) != 0 {
-		root = filepath.Dir(root)
-	}
-	fp := filepath.Join(root, src)
-
-	tags, err := ParseFile(fp)
+	cab, err := p.Sub(filepath.Dir(src))
 	if err != nil {
 		return nil, err
 	}
 
-	i.Children = tags
+	mod := &px.Module{
+		ModName: filepath.Base(src),
+		FS:      cab,
+	}
+
+	pp := NewParser(mod)
+
+	tags, err := pp.Parse()
+	if err != nil {
+		return nil, err
+	}
+
+	g.Children = tags
+	i := &remark.Include{
+		Generic: g,
+	}
 	return i, nil
+
+	// g, err := htm.NewGeneric(inc)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// i := &remark.Include{
+	// 	Generic: g,
+	// }
+
+	// src, ok := i.Attributes["src"]
+	// if !ok {
+	// 	return nil, fmt.Errorf("no src defined for include %v", inc)
+	// }
+
+	// ext := filepath.Ext(src)
+	// if ext != ".md" {
+	// 	return nil, fmt.Errorf("only .md can be included %v", src)
+	// }
+
+	// root := p.Root
+	// if len(filepath.Ext(root)) != 0 {
+	// 	root = filepath.Dir(root)
+	// }
+	// fp := filepath.Join(root, src)
+
+	// tags, err := ParseFile(fp)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// i.Children = tags
+	// return i, nil
 
 }
