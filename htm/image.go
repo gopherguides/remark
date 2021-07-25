@@ -3,6 +3,7 @@ package htm
 import (
 	"fmt"
 	"io/fs"
+	"path/filepath"
 	"strings"
 
 	"github.com/gopherguides/remark"
@@ -20,29 +21,32 @@ func (p *Parser) NewImage(n *html.Node) (*remark.Image, error) {
 		return nil, fmt.Errorf("no src for img %v", n)
 	}
 
-	inc := &remark.Image{
+	fsrc := filepath.Join(p.Root, src)
+	img := &remark.Image{
 		Generic: g,
 	}
+	defer img.Set("src", fsrc)
 
 	if strings.HasPrefix(src, "http") {
-		return inc, nil
+		return img, nil
 	}
 
 	sfs, ok := p.FS.(fs.StatFS)
-	if !ok {
-		f, err := p.Open(src)
-		defer f.Close()
 
-		if err != nil {
+	if ok {
+		if _, err := sfs.Stat(src); err != nil {
 			return nil, err
 		}
-		fmt.Println("TODO >> image.go:35 f", f)
-		return inc, nil
+
+		return img, nil
 	}
 
-	if _, err := sfs.Stat(src); err != nil {
+	f, err := p.Open(src)
+	if err != nil {
 		return nil, err
 	}
+	defer f.Close()
 
-	return inc, nil
+	return img, nil
+
 }

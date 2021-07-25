@@ -9,18 +9,6 @@ import (
 	"golang.org/x/net/html"
 )
 
-// func (p *Parser) include(name string) (string, error) {
-// 	fmt.Println("TODO >> include", name)
-// 	base := filepath.Base(name)
-// 	pn := "_" + base
-// 	dir := filepath.Dir(name)
-// 	fp := filepath.Join(dir, pn)
-// 	fmt.Println("TODO >> include fp", fp)
-
-// 	b, err := ioutil.ReadFile(fp)
-// 	return string(b), err
-// }
-
 func (p *Parser) NewInclude(inc *html.Node) (*remark.Include, error) {
 	g := remark.NewGeneric("include")
 
@@ -33,12 +21,14 @@ func (p *Parser) NewInclude(inc *html.Node) (*remark.Include, error) {
 		return nil, fmt.Errorf("no src defined for include %v", inc)
 	}
 
-	cab, err := p.Sub(filepath.Dir(src))
+	dir := filepath.Dir(src)
+	cab, err := p.Sub(dir)
 	if err != nil {
 		return nil, err
 	}
 
 	mod := &px.Module{
+		Root:    filepath.Join(p.Root, dir),
 		ModName: filepath.Base(src),
 		FS:      cab,
 	}
@@ -54,6 +44,7 @@ func (p *Parser) NewInclude(inc *html.Node) (*remark.Include, error) {
 	i := &remark.Include{
 		Generic: g,
 	}
+	// fmt.Println("TODO >> include.go:57 i", i)
 	return i, nil
 
 	// g, err := htm.NewGeneric(inc)

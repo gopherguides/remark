@@ -1,16 +1,16 @@
 package md
 
 import (
+	"fmt"
 	"testing"
 	"testing/fstest"
 
 	"github.com/gopherguides/remark/internal/rpm"
 	"github.com/gopherguides/remark/px"
 	"github.com/stretchr/testify/require"
-	"golang.org/x/net/html"
 )
 
-func Test_Parser_NewInclude(t *testing.T) {
+func Test_Parser_Include(t *testing.T) {
 	r := require.New(t)
 
 	cab := rpm.ModuleFS(t)
@@ -18,31 +18,33 @@ func Test_Parser_NewInclude(t *testing.T) {
 		FS:      cab,
 		ModName: "module.md",
 	}
-	srcKey := "assignments/01/assignment.md"
-	cab[srcKey] = &fstest.MapFile{
+
+	cab["module.md"] = &fstest.MapFile{
+		Data: []byte(`
+# Top Level
+
+<include src="assignments/01/assignment.md">
+`),
+	}
+
+	const asmd = "assignments/01/assignment.md"
+
+	cab[asmd] = &fstest.MapFile{
 		Data: []byte(`
 ## Assignment
 
 <img src="assets/foo.png">
-		`),
+`),
 	}
-	cab["assignments/01/assets/foo.png"] = rpm.File(t, "assignments/01/assets/foo.png")
+
+	const png = "assignments/01/assets/foo.png"
+	cab[png] = rpm.File(t, png)
 
 	p := NewParser(mod)
 
-	n := &html.Node{
-		Data: "include",
-		Attr: []html.Attribute{
-			{Key: "src", Val: srcKey},
-		},
-	}
-
-	i, err := p.NewInclude(n)
+	tags, err := p.Parse()
 	r.NoError(err)
-	r.NotNil(i)
 
-	r.Equal("include", i.Name)
-
-	b := i.String()
-	r.Equal(``, b)
+	s := tags.String()
+	r.Contains(s, fmt.Sprintf("<img src=%q />", png))
 }

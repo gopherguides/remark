@@ -9,6 +9,7 @@ type Modules []*Module
 
 type Module struct {
 	FS
+	Root    string
 	ModName string
 }
 
