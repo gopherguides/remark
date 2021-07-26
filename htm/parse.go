@@ -9,11 +9,6 @@ import (
 	"golang.org/x/net/html"
 )
 
-func Parse(src []byte) (*Document, error) {
-	p := Parser{}
-	return p.Parse(src)
-}
-
 type Parser struct {
 	*px.Module
 }

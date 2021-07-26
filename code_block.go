@@ -52,7 +52,7 @@ func (code *CodeBlock) HTML() template.HTML {
 		case fmt.Stringer:
 			lines = append(lines, t.String())
 		default:
-			lines = append(lines, fmt.Sprintf("%s", t))
+			lines = append(lines, t.String())
 		}
 	}
 

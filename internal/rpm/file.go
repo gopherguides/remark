@@ -31,3 +31,8 @@ func Dir(t *testing.T, name string) *fstest.MapFile {
 		Mode:    fs.ModeDir,
 	}
 }
+
+func AppendFile(t *testing.T, cab fstest.MapFS, name string) {
+	t.Helper()
+	cab[name] = File(t, name)
+}

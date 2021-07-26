@@ -11,5 +11,5 @@ func Test_ModuleFS(t *testing.T) {
 
 	cab := ModuleFS(t)
 	r.NotNil(cab)
-	r.Len(cab, 3)
+	r.Len(cab, 1)
 }

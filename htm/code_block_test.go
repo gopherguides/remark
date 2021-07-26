@@ -1,51 +1,76 @@
 package htm
 
 import (
-	"fmt"
 	"testing"
+	"testing/fstest"
 
 	"github.com/gopherguides/remark"
 	"github.com/gopherguides/remark/internal/rpm"
-	"github.com/gopherguides/remark/px"
 	"github.com/stretchr/testify/require"
-	"golang.org/x/net/html"
 )
 
 func Test_NewCodeBlock(t *testing.T) {
 	t.Parallel()
 	r := require.New(t)
 
-	const fp = "../internal/testdata/week00/assignments/assignment01/src/assignment01_test.go"
+	const gof = `package remark
 
-	node := &html.Node{
-		Data: "code",
-		Attr: []html.Attribute{
-			{Key: "src", Val: fp},
-		},
+import (
+	"fmt"
+)
+
+// section: one
+type CodeBlock struct {
+	*Generic
+	Language string
+	Snippets Snippets
+}
+// section: one
+
+// section: two
+func (code CodeBlock) Name() string {
+	return "code"
+}
+// section: two`
+
+	const top = `
+# Top Level
+
+<code src="src/foo.go"></code>`
+
+	cab := rpm.ModuleFS(t)
+	mod := NewModule(t, cab)
+
+	cab["module.md"] = &fstest.MapFile{
+		Data: []byte(top),
 	}
 
-	mod := &px.Module{
-		FS: rpm.ModuleFS(t),
+	cab["src/foo.go"] = &fstest.MapFile{
+		Data: []byte(gof),
 	}
 
 	p := NewParser(mod)
-	tag, err := p.NewCodeBlock(node)
+	tags, err := p.Parse([]byte(top))
 	r.NoError(err)
+	r.NotEmpty(tags)
 
-	code, ok := tag.(*remark.CodeBlock)
+	cbs := tags.Children.FindAll("code")
+	r.NotEmpty(cbs)
+	r.Len(cbs, 1)
+
+	code, ok := cbs[0].(*remark.CodeBlock)
 	r.True(ok)
-
 	r.Len(code.GetChildren(), 1)
 	r.Len(code.Snippets, 2)
-	fmt.Println(code.Snippets)
+
 	table := []struct {
 		Name  string
 		Start int
 		End   int
 		Exp   string
 	}{
-		{Name: "one", Start: 12, End: 17, Exp: "Your GOPATH has not been set"},
-		{Name: "two", Start: 19, End: 27, Exp: "Your PATH does not contain"},
+		{Name: "one", Start: 7, End: 13, Exp: "type CodeBlock struct"},
+		{Name: "two", Start: 15, End: 19, Exp: "(code CodeBlock) Name()"},
 	}
 
 	for _, tt := range table {
@@ -56,7 +81,7 @@ func Test_NewCodeBlock(t *testing.T) {
 			r.NotEqual(remark.Snippet{}, snip)
 			r.Equal("go", snip.Language)
 			r.Equal(tt.Name, snip.Name)
-			r.Equal(fp, snip.File)
+			r.Equal("src/foo.go", snip.File)
 			r.Equal(tt.Start, snip.Start)
 			r.Equal(tt.End, snip.End)
 			r.Contains(snip.Content, tt.Exp)

@@ -107,7 +107,7 @@ func (p *Parser) ParseLeaf(name string, node *ast.Leaf) (remark.Tag, error) {
 	l := string(node.Literal)
 	l = strings.TrimSpace(l)
 	if len(l) == 0 {
-		return remark.Noop(), nil
+		return remark.String(""), nil
 	}
 	return remark.String(l), nil
 }

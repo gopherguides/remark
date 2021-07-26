@@ -7,7 +7,6 @@ import (
 	"github.com/gobuffalo/tags/v3"
 	"github.com/gopherguides/remark"
 	"github.com/gopherguides/remark/internal/rpm"
-	"github.com/gopherguides/remark/px"
 	"github.com/stretchr/testify/require"
 )
 
@@ -21,15 +20,14 @@ func Test_Printer(t *testing.T) {
 	</h1>
 	<p>
 		<a href="http://example.com">
-			<img src="./assets/vscode-trust.png" />
+			<img src="assets/vscode-trust.png" />
 		</a>
 		<code>foo</code>
 	</p>`
 
-	mod := &px.Module{
-		FS:      rpm.ModuleFS(t),
-		ModName: "module.md",
-	}
+	cab := rpm.ModuleFS(t)
+	rpm.AppendFile(t, cab, "assets/vscode-trust.png")
+	mod := NewModule(t, cab)
 
 	parser := NewParser(mod)
 	doc, err := parser.Parse([]byte(input))
@@ -43,7 +41,7 @@ func Test_Printer(t *testing.T) {
 
 	// fmt.Println(act)
 
-	exp := `<html><head></head> <body><h1><strong>words</strong></h1> <p><a href="http://example.com"><img src="./assets/vscode-trust.png"></img></a> <pre><code language="plain">foo</code></pre></p></body></html>`
+	exp := `<html><head></head> <body><h1><strong>words</strong></h1> <p><a href="http://example.com"><img src="assets/vscode-trust.png"></img></a> <pre><code language="plain">foo</code></pre></p></body></html>`
 	r.Equal(exp, act)
 
 	p.Set("img", func(tag remark.Tag) (string, error) {

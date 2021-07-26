@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
-	"testing/fstest"
 
 	"github.com/gopherguides/remark/md"
 	"github.com/gopherguides/remark/px"
@@ -18,21 +16,18 @@ func main() {
 }
 
 func run() error {
-	b, err := ioutil.ReadAll(os.Stdin)
-	if err != nil {
-		return err
-	}
+	// b, err := ioutil.ReadAll(os.Stdin)
+	// if err != nil {
+	// 	return err
+	// }
 
-	// pwd := os.Getenv("MARKED_ORIGIN")
+	pwd := os.Getenv("MARKED_ORIGIN")
+	// panic(pwd)
 	// if len(pwd) == 0 {
 	// 	pwd, _ = os.Getwd()
 	// }
 
-	cab := fstest.MapFS{
-		"module.md": {
-			Data: b,
-		},
-	}
+	cab := os.DirFS(pwd)
 
 	mod := &px.Module{
 		FS:      cab,

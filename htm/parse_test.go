@@ -5,7 +5,6 @@ import (
 
 	"github.com/gopherguides/remark"
 	"github.com/gopherguides/remark/internal/rpm"
-	"github.com/gopherguides/remark/px"
 
 	"github.com/stretchr/testify/require"
 )
@@ -16,7 +15,7 @@ func Test_HTML(t *testing.T) {
 
 	const in = `
 	<div class="text-center">
-			<img class="img img-fluid mb-3 mx-auto" src="./assets/vscode-trust.png" title="Legacy Site"></img>
+			<img class="img img-fluid mb-3 mx-auto" src="assets/vscode-trust.png" title="Legacy Site"></img>
 			<p>
 					<a href="https://example.com" target="_blank">hi</a>
 			</p>
@@ -24,13 +23,13 @@ func Test_HTML(t *testing.T) {
 					keyA: valueA
 					keyB: valueB
 			</details>
-			<code src="assignments/assignment01/src/assignment01_test.go"></code>
+			<code src="src/foo.go"></code>
 	</div>`
 
-	mod := &px.Module{
-		FS:      rpm.ModuleFS(t),
-		ModName: "module.md",
-	}
+	cab := rpm.ModuleFS(t)
+	rpm.AppendFile(t, cab, "assets/vscode-trust.png")
+	rpm.AppendFile(t, cab, "src/foo.go")
+	mod := NewModule(t, cab)
 
 	parser := NewParser(mod)
 	doc, err := parser.Parse([]byte(in))

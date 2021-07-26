@@ -37,7 +37,7 @@ func (p *Parser) NewInclude(inc *html.Node) (*remark.Include, error) {
 
 	tags, err := pp.Parse()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("include.go:41 [%w] %v", err, cab)
 	}
 
 	g.Children = tags
