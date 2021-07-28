@@ -22,7 +22,7 @@ func (p *Parser) NewCodeBlock(n *html.Node) (remark.Tag, error) {
 
 	for _, x := range []string{"start", "end"} {
 		if _, ok := code.Get(x); ok {
-			return nil, fmt.Errorf("[<code start/end>] is no longer supported. Use [<code snippet>] instead [%s]. %v", p.ModName, NodeString(n))
+			return nil, fmt.Errorf("[<code start/end>] is no longer supported. Use [<code snippet>] instead [%s]. %v", p.Name, NodeString(n))
 		}
 	}
 
@@ -43,11 +43,6 @@ func (p *Parser) NewCodeBlock(n *html.Node) (remark.Tag, error) {
 		return nil, err
 	}
 	if err != nil {
-		// hack to ignore missing code files
-		// tag := &remark.Code{
-		// 	Generic: remark.NewGeneric("code"),
-		// }
-		// tag.Children = append(tag.Children, remark.String(err.Error()))
 		return nil, fmt.Errorf("htm/code_block: %w", err)
 	}
 

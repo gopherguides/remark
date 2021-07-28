@@ -27,11 +27,14 @@ func run() error {
 	// 	pwd, _ = os.Getwd()
 	// }
 
-	cab := os.DirFS(pwd)
+	cab, err := px.DirFS(pwd)
+	if err != nil {
+		return err
+	}
 
 	mod := &px.Module{
-		FS:      cab,
-		ModName: "module.md",
+		FS:   cab,
+		Name: "module.md",
 	}
 
 	p := md.NewParser(mod)

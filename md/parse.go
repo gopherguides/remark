@@ -23,7 +23,7 @@ func NewParser(mod *px.Module) *Parser {
 }
 
 func (p *Parser) Parse() (remark.Tags, error) {
-	src, err := p.ReadFile(p.ModName)
+	src, err := p.ReadFile(p.Name)
 	if err != nil {
 		return nil, err
 	}

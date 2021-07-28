@@ -8,20 +8,16 @@ import (
 type Modules []*Module
 
 type Module struct {
-	FS
-	Root    string
-	ModName string
+	*FS
+	Root string
+	Name string
 }
 
 func (m *Module) ReadFile(path string) ([]byte, error) {
 	return fs.ReadFile(m.FS, path)
 }
 
-func (m *Module) Sub(path string) (FS, error) {
-	return fs.Sub(m.FS, path)
-}
-
-func FindModules(cab FS) (Modules, error) {
+func FindModules(cab fs.FS) (Modules, error) {
 	var mods Modules
 	err := fs.WalkDir(cab, ".", func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
@@ -44,8 +40,8 @@ func FindModules(cab FS) (Modules, error) {
 		}
 
 		mods = append(mods, &Module{
-			FS:      bac,
-			ModName: "module.md",
+			FS:   NewFS(bac),
+			Name: "module.md",
 		})
 		return nil
 	})

@@ -13,8 +13,8 @@ func Test_Parse(t *testing.T) {
 	r := require.New(t)
 
 	mod := &px.Module{
-		FS:      rpm.ModuleFS(t),
-		ModName: "module.md",
+		FS:   px.NewFS(rpm.ModuleFS(t)),
+		Name: "module.md",
 	}
 
 	parser := NewParser(mod)

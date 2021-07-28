@@ -28,9 +28,9 @@ func (p *Parser) NewInclude(inc *html.Node) (*remark.Include, error) {
 	}
 
 	mod := &px.Module{
-		Root:    filepath.Join(p.Root, dir),
-		ModName: filepath.Base(src),
-		FS:      cab,
+		Root: filepath.Join(p.Root, dir),
+		Name: filepath.Base(src),
+		FS:   cab,
 	}
 
 	pp := NewParser(mod)

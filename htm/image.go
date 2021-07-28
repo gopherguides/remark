@@ -2,7 +2,6 @@ package htm
 
 import (
 	"fmt"
-	"io/fs"
 	"path/filepath"
 	"strings"
 
@@ -31,21 +30,9 @@ func (p *Parser) NewImage(n *html.Node) (*remark.Image, error) {
 		return img, nil
 	}
 
-	sfs, ok := p.FS.(fs.StatFS)
-
-	if ok {
-		if _, err := sfs.Stat(src); err != nil {
-			return nil, err
-		}
-
-		return img, nil
-	}
-
-	f, err := p.Open(src)
-	if err != nil {
+	if _, err := p.Stat(src); err != nil {
 		return nil, err
 	}
-	defer f.Close()
 
 	return img, nil
 

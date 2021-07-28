@@ -17,8 +17,8 @@ func Test_Parse_NewSection(t *testing.T) {
 
 	cab := rpm.ModuleFS(t)
 	mod := &px.Module{
-		FS:      cab,
-		ModName: "module.md",
+		FS:   px.NewFS(cab),
+		Name: "module.md",
 	}
 	cab["module.md"] = &fstest.MapFile{
 		Data: []byte(`# Intro to Go: Getting Started`),

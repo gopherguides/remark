@@ -15,8 +15,8 @@ func Test_Parser_Include(t *testing.T) {
 
 	cab := rpm.ModuleFS(t)
 	mod := &px.Module{
-		FS:      cab,
-		ModName: "module.md",
+		FS:   px.NewFS(cab),
+		Name: "module.md",
 	}
 
 	cab["module.md"] = &fstest.MapFile{

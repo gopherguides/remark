@@ -1,16 +1,16 @@
 package htm
 
 import (
-	"io/fs"
 	"testing"
+	"testing/fstest"
 
 	"github.com/gopherguides/remark/px"
 )
 
-func NewModule(t *testing.T, cab fs.FS) *px.Module {
+func NewModule(t *testing.T, cab fstest.MapFS) *px.Module {
 	t.Helper()
 	return &px.Module{
-		FS:      cab,
-		ModName: "module.md",
+		FS:   px.NewFS(cab),
+		Name: "module.md",
 	}
 }
