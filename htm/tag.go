@@ -55,8 +55,6 @@ func (p *Parser) NewTag(n *html.Node) (remark.Tag, error) {
 	switch n.Data {
 	case "img":
 		return p.NewImage(n)
-	case "hr":
-		return p.NewGeneric(n)
 	case "code":
 		return p.NewCodeBlock(n)
 	case "em", "i":

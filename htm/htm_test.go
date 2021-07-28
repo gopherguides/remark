@@ -22,6 +22,13 @@ func NewModule(t *testing.T, cab fstest.MapFS) *px.Module {
 	}
 }
 
+func DocNode(t *testing.T) *html.Node {
+	t.Helper()
+	return &html.Node{
+		Type: html.DocumentNode,
+	}
+}
+
 func ElementNode(t *testing.T, name string) *html.Node {
 	t.Helper()
 
