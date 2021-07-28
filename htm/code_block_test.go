@@ -39,7 +39,6 @@ func (code CodeBlock) Name() string {
 <code src="src/foo.go"></code>`
 
 	cab := rpm.ModuleFS(t)
-	mod := NewModule(t, cab)
 
 	cab["module.md"] = &fstest.MapFile{
 		Data: []byte(top),
@@ -49,7 +48,7 @@ func (code CodeBlock) Name() string {
 		Data: []byte(gof),
 	}
 
-	p := NewParser(mod)
+	p := testParser(t, cab)
 	tags, err := p.Parse([]byte(top))
 	r.NoError(err)
 	r.NotEmpty(tags)

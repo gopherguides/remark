@@ -20,15 +20,16 @@ func (p *Parser) NewImage(n *html.Node) (*remark.Image, error) {
 		return nil, fmt.Errorf("no src for img %v", n)
 	}
 
-	fsrc := filepath.Join(p.Root, src)
 	img := &remark.Image{
 		Generic: g,
 	}
-	defer img.Set("src", fsrc)
 
 	if strings.HasPrefix(src, "http") {
 		return img, nil
 	}
+
+	fsrc := filepath.Join(p.Root, src)
+	defer img.Set("src", fsrc)
 
 	if _, err := p.Stat(src); err != nil {
 		return nil, err

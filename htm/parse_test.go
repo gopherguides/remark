@@ -29,9 +29,8 @@ func Test_HTML(t *testing.T) {
 	cab := rpm.ModuleFS(t)
 	rpm.AppendFile(t, cab, "assets/vscode-trust.png")
 	rpm.AppendFile(t, cab, "src/foo.go")
-	mod := NewModule(t, cab)
 
-	parser := NewParser(mod)
+	parser := testParser(t, cab)
 	doc, err := parser.Parse([]byte(in))
 	r.NoError(err)
 	r.NotNil(doc)
