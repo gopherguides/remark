@@ -3,12 +3,14 @@ package px
 import (
 	"io/fs"
 	"path/filepath"
+
+	"github.com/markbates/fsx"
 )
 
 type Modules []*Module
 
 type Module struct {
-	*FS
+	*fsx.FS
 	Root string
 	Name string
 }
@@ -40,7 +42,7 @@ func FindModules(cab fs.FS) (Modules, error) {
 		}
 
 		mods = append(mods, &Module{
-			FS:   NewFS(bac),
+			FS:   fsx.NewFS(bac),
 			Name: "module.md",
 		})
 		return nil

@@ -7,6 +7,7 @@ import (
 
 	"github.com/gopherguides/remark/internal/rpm"
 	"github.com/gopherguides/remark/px"
+	"github.com/markbates/fsx"
 	"github.com/stretchr/testify/require"
 )
 
@@ -15,7 +16,7 @@ func Test_Parser_Include(t *testing.T) {
 
 	cab := rpm.ModuleFS(t)
 	mod := &px.Module{
-		FS:   px.NewFS(cab),
+		FS:   fsx.NewFS(cab),
 		Name: "module.md",
 	}
 

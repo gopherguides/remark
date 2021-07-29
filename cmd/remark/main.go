@@ -7,6 +7,7 @@ import (
 
 	"github.com/gopherguides/remark/md"
 	"github.com/gopherguides/remark/px"
+	"github.com/markbates/fsx"
 )
 
 func main() {
@@ -27,7 +28,7 @@ func run() error {
 	// 	pwd, _ = os.Getwd()
 	// }
 
-	cab, err := px.DirFS(pwd)
+	cab, err := fsx.DirFS(pwd)
 	if err != nil {
 		return err
 	}
