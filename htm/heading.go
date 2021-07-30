@@ -11,7 +11,7 @@ import (
 
 var HEADS Headings
 
-type Headings []string
+type Headings struct{}
 
 func (h Headings) Allowed() []string {
 	return []string{"h1", "h2", "h3", "h4", "h5"}
