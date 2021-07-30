@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/gopherguides/remark"
-	"github.com/gopherguides/remark/px"
+
 	"golang.org/x/net/html"
 )
 
@@ -27,7 +27,7 @@ func (p *Parser) NewInclude(inc *html.Node) (*remark.Include, error) {
 		return nil, err
 	}
 
-	mod := &px.Module{
+	mod := &remark.Module{
 		Root: filepath.Join(p.Root, dir),
 		Name: filepath.Base(src),
 		FS:   cab,

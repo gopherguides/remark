@@ -5,15 +5,14 @@ import (
 	"fmt"
 
 	"github.com/gopherguides/remark"
-	"github.com/gopherguides/remark/px"
 	"golang.org/x/net/html"
 )
 
 type Parser struct {
-	*px.Module
+	*remark.Module
 }
 
-func NewParser(mod *px.Module) *Parser {
+func NewParser(mod *remark.Module) *Parser {
 	return &Parser{
 		Module: mod,
 	}

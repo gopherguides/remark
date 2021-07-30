@@ -49,11 +49,6 @@ func (p *Parser) NewSection(nodes []ast.Node) (*Section, error) {
 			tag.Data = md.Metadata()
 		}
 
-		// if _, ok := tag.Data["overview"]; !ok {
-		// 	tag.Append(t)
-		// 	continue
-		// }
-
 		tag.Append(t)
 	}
 

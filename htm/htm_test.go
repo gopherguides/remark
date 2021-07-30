@@ -4,7 +4,7 @@ import (
 	"testing"
 	"testing/fstest"
 
-	"github.com/gopherguides/remark/px"
+	"github.com/gopherguides/remark"
 	"github.com/markbates/fsx"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
@@ -15,9 +15,9 @@ func testParser(t *testing.T, cab fstest.MapFS) *Parser {
 	return NewParser(NewModule(t, cab))
 }
 
-func NewModule(t *testing.T, cab fstest.MapFS) *px.Module {
+func NewModule(t *testing.T, cab fstest.MapFS) *remark.Module {
 	t.Helper()
-	return &px.Module{
+	return &remark.Module{
 		FS:   fsx.NewFS(cab),
 		Name: "module.md",
 	}

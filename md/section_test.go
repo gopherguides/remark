@@ -4,8 +4,9 @@ import (
 	"testing"
 	"testing/fstest"
 
+	"github.com/gopherguides/remark"
 	"github.com/gopherguides/remark/internal/rpm"
-	"github.com/gopherguides/remark/px"
+
 	"github.com/markbates/fsx"
 	"github.com/stretchr/testify/require"
 )
@@ -17,7 +18,7 @@ func Test_Parse_NewSection(t *testing.T) {
 	r := require.New(t)
 
 	cab := rpm.ModuleFS(t)
-	mod := &px.Module{
+	mod := &remark.Module{
 		FS:   fsx.NewFS(cab),
 		Name: "module.md",
 	}

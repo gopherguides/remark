@@ -5,8 +5,9 @@ import (
 	"log"
 	"os"
 
+	"github.com/gopherguides/remark"
 	"github.com/gopherguides/remark/md"
-	"github.com/gopherguides/remark/px"
+
 	"github.com/markbates/fsx"
 )
 
@@ -33,7 +34,7 @@ func run() error {
 		return err
 	}
 
-	mod := &px.Module{
+	mod := &remark.Module{
 		FS:   cab,
 		Name: "module.md",
 	}

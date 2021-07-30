@@ -42,7 +42,7 @@ func (p *Parser) NewTag(n *html.Node) (remark.Tag, error) {
 	}
 
 	n.Data = strings.ToLower(n.Data)
-	if len(n.Data) == 0 {
+	if len(n.Data) == 0 && n.Type == html.DocumentNode {
 		g, err := p.NewGeneric(n)
 		if err != nil {
 			return nil, err
@@ -50,6 +50,10 @@ func (p *Parser) NewTag(n *html.Node) (remark.Tag, error) {
 		return &Document{
 			Generic: g,
 		}, nil
+	}
+
+	if HEADS.Valid(n.Data) {
+		return p.NewHeading(n)
 	}
 
 	switch n.Data {
@@ -60,8 +64,6 @@ func (p *Parser) NewTag(n *html.Node) (remark.Tag, error) {
 	case "em", "i":
 		n.Data = "em"
 		return p.NewGeneric(n)
-	case "h1", "h2", "h3", "h4", "h5":
-		return p.NewHeading(n)
 	case "strong", "b":
 		n.Data = "strong"
 		return p.NewGeneric(n)

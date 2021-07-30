@@ -5,17 +5,17 @@ import (
 	"strings"
 
 	"github.com/gopherguides/remark"
-	"github.com/gopherguides/remark/px"
+
 	"github.com/markbates/markdownr/ast"
 	"github.com/markbates/markdownr/parser"
 )
 
 type Parser struct {
 	*parser.Parser
-	*px.Module
+	*remark.Module
 }
 
-func NewParser(mod *px.Module) *Parser {
+func NewParser(mod *remark.Module) *Parser {
 	return &Parser{
 		Module: mod,
 		Parser: newParser(),
