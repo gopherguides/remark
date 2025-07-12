@@ -1,6 +1,7 @@
 # 🎯 Remark - Advanced Markdown Processing & HTML Generation
 
 [![Tests](https://github.com/gopherguides/remark/workflows/Tests/badge.svg)](https://github.com/gopherguides/remark/actions)
+[![codecov](https://codecov.io/gh/gopherguides/remark/branch/main/graph/badge.svg)](https://codecov.io/gh/gopherguides/remark)
 [![GoDoc](https://godoc.org/github.com/gopherguides/remark?status.svg)](https://godoc.org/github.com/gopherguides/remark)
 [![Go Report Card](https://goreportcard.com/badge/github.com/gopherguides/remark)](https://goreportcard.com/report/github.com/gopherguides/remark)
 

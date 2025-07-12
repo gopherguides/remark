@@ -53,7 +53,7 @@ func Test_Include_String_WithNilGeneric(t *testing.T) {
 
 	// This should panic or handle gracefully
 	r.Panics(func() {
-		include.String()
+		_ = include.String()
 	})
 }
 
