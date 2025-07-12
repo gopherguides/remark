@@ -24,3 +24,5 @@ gin-bin
 .idea/
 .vscode
 cover.out
+coverage.out
+.coverage/
