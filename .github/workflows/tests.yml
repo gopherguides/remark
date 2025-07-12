@@ -35,9 +35,7 @@ jobs:
       run: go mod verify
     
     - name: Run tests
-      run: |
-        mkdir -p .coverage
-        go test -race -coverprofile=.coverage/coverage.out . ./cmd/remark ./cmd/retoc ./htm ./md
+      run: go test -race . ./cmd/remark ./cmd/retoc ./htm ./md
     
     - name: Check formatting
       run: |
@@ -50,6 +48,12 @@ jobs:
     
     - name: Run go vet
       run: go vet ./...
+    
+    - name: Generate coverage report
+      run: |
+        mkdir -p .coverage
+        go test -coverprofile=.coverage/coverage.out . ./cmd/remark ./cmd/retoc ./htm ./md
+      if: matrix.os == 'ubuntu-latest' && matrix.go-version == '1.24.x'
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
