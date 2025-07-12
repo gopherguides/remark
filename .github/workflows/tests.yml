@@ -36,7 +36,8 @@ jobs:
     
     - name: Run tests
       run: |
-        go test -race -coverprofile=coverage.out ./...
+        mkdir -p .coverage
+        go test -race -coverprofile=.coverage/coverage.out . ./cmd/remark ./cmd/retoc ./htm ./md
     
     - name: Check formatting
       run: |
@@ -53,7 +54,7 @@ jobs:
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
       with:
-        file: ./coverage.out
+        file: ./.coverage/coverage.out
         flags: unittests
         name: codecov-umbrella
       if: matrix.os == 'ubuntu-latest' && matrix.go-version == '1.24.x'
