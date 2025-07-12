@@ -48,3 +48,25 @@ func Test_Parse(t *testing.T) {
 	r.Equal("p", p.TagName())
 	r.Len(p.GetChildren(), 1)
 }
+
+func Test_Parse_LineEndings(t *testing.T) {
+	t.Parallel()
+	r := require.New(t)
+
+	// Test content with horizontal rules using different line endings
+	contentLF := "# Section 1\n\nContent 1\n\n---\n\n# Section 2\n\nContent 2"
+	contentCRLF := "# Section 1\r\n\r\nContent 1\r\n\r\n---\r\n\r\n# Section 2\r\n\r\nContent 2"
+
+	// Parse with LF line endings
+	tagsLF, err := Parse(".", []byte(contentLF))
+	r.NoError(err)
+	r.Len(tagsLF, 2)
+
+	// Parse with CRLF line endings - should produce same result
+	tagsCRLF, err := Parse(".", []byte(contentCRLF))
+	r.NoError(err)
+	r.Len(tagsCRLF, 2)
+
+	// Both should have same number of sections
+	r.Equal(len(tagsLF), len(tagsCRLF))
+}

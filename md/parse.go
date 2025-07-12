@@ -52,7 +52,11 @@ func (p *Parser) Parse(src []byte) (remark.Tags, error) {
 	if err := t.Execute(bb, nil); err != nil {
 		return nil, err
 	}
-	node := p.Parser.Parse(bb.Bytes())
+
+	// Normalize line endings to Unix-style LF to ensure consistent parsing
+	// across platforms (Windows uses CRLF, Unix uses LF)
+	normalizedContent := bytes.ReplaceAll(bb.Bytes(), []byte("\r\n"), []byte("\n"))
+	node := p.Parser.Parse(normalizedContent)
 
 	if node == nil {
 		return nil, fmt.Errorf("nil node")
