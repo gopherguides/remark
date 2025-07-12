@@ -46,7 +46,7 @@ Windows 10 or higher (Windows system requirements)
 
 ## Course-Specific Requirements
 
-* Latest version of [Go](https://golang.org) 1.16 or higher
+* Latest version of [Go](https://golang.org) 1.24 or higher
 * Code editor configured for editing Go, [VSCode](https://code.visualstudio.com) recommended
 
 ## Class Communication

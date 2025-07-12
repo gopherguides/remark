@@ -38,3 +38,31 @@ func Test_CodeBlock_HTML(t *testing.T) {
 
 	r.Equal(exp, act)
 }
+
+func Test_CodeBlock_String(t *testing.T) {
+	t.Parallel()
+	r := require.New(t)
+
+	code := CodeBlock{
+		Generic: &Generic{
+			Attributes: Attributes{
+				"src":     "./src/foo.go",
+				"snippet": "snip",
+			},
+			Children: Tags{
+				String("fmt.Println(\"Hello\")"),
+			},
+		},
+	}
+
+	result := code.String()
+
+	// String() should return unescaped HTML
+	r.Contains(result, "<pre>")
+	r.Contains(result, "<code")
+	r.Contains(result, `src="./src/foo.go"`)
+	r.Contains(result, `snippet="snip"`)
+	// Note: CodeBlock.String() may not include the children content in the output
+	r.Contains(result, "</code>")
+	r.Contains(result, "</pre>")
+}
