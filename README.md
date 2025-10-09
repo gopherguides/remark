@@ -1,5 +1,8 @@
 # 🎯 Remark - Advanced Markdown Processing & HTML Generation
 
+> **⚠️ DEPRECATION NOTICE**
+> This project is no longer maintained and has been completely replaced by a ground-up rebuild in the [Hype](https://github.com/gopherguides/hype) project. Please use Hype for all new projects.
+
 [![Tests](https://github.com/gopherguides/remark/workflows/Tests/badge.svg)](https://github.com/gopherguides/remark/actions)
 [![codecov](https://codecov.io/gh/gopherguides/remark/branch/main/graph/badge.svg)](https://codecov.io/gh/gopherguides/remark)
 [![GoDoc](https://godoc.org/github.com/gopherguides/remark?status.svg)](https://godoc.org/github.com/gopherguides/remark)
